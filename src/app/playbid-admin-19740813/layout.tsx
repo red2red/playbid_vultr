@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
@@ -45,6 +46,7 @@ export default function AdminLayout({
         { href: `${ADMIN_PATH}/challenges`, icon: "🏆", label: "챌린지/미션" },
         { href: `${ADMIN_PATH}/learning`, icon: "📚", label: "학습 콘텐츠" },
         { href: `${ADMIN_PATH}/announcements`, icon: "📢", label: "공지사항" },
+        { href: `${ADMIN_PATH}/event-popups`, icon: "🎉", label: "이벤트 팝업" },
         { href: `${ADMIN_PATH}/notifications`, icon: "🔔", label: "푸시 알림" },
         { href: `${ADMIN_PATH}/subscriptions`, icon: "💳", label: "구독 관리" },
         { href: `${ADMIN_PATH}/support`, icon: "💬", label: "고객 지원" },
@@ -56,8 +58,8 @@ export default function AdminLayout({
             <aside className="w-64 bg-slate-900 text-white flex flex-col">
                 <div className="p-4 border-b border-slate-800">
                     <Link href={ADMIN_PATH} className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                            <span className="text-white font-bold text-sm">P</span>
+                        <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center p-1 relative">
+                            <Image src="/logo.png" alt="PlayBid Logo" width={24} height={24} className="object-contain" />
                         </div>
                         <span className="text-lg font-bold">PlayBid Admin</span>
                     </Link>
@@ -131,8 +133,8 @@ function NavItem({
         <Link
             href={href}
             className={`flex items-center gap-3 px-3 py-2 rounded-lg transition ${isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                ? "bg-blue-600 text-white"
+                : "text-slate-300 hover:bg-slate-800 hover:text-white"
                 }`}
         >
             <span className="text-lg">{icon}</span>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const ADMIN_PATH = "/playbid-admin-19740813";
 
@@ -67,8 +68,8 @@ export default function AdminLoginPage() {
             <div className="w-full max-w-md">
                 {/* Logo */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl mb-4">
-                        <span className="text-white font-bold text-2xl">P</span>
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl mb-4 p-2 relative">
+                        <Image src="/logo.png" alt="PlayBid Logo" width={48} height={48} className="object-contain" />
                     </div>
                     <h1 className="text-2xl font-bold text-white">PlayBid Admin</h1>
                     <p className="text-slate-400 mt-2">관리자 계정으로 로그인하세요</p>
