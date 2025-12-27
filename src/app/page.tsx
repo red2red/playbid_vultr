@@ -264,8 +264,8 @@ export default function Home() {
         <Container>
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 relative flex items-center justify-center bg-indigo-50 rounded-lg text-indigo-600">
-                <Icon icon="solar:gavel-bold-duotone" className="w-5 h-5" />
+              <div className="w-8 h-8 relative flex items-center justify-center">
+                <Image src="/logo.png" alt="PlayBid Logo" width={32} height={32} className="object-contain" />
               </div>
               <span className="font-bold text-slate-900 text-lg">PlayBid</span>
             </div>
