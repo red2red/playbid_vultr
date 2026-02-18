@@ -1,15 +1,73 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getPushNotifications, sendPushNotification, getPushStats } from "@/lib/database";
 
-const mockNotifications = [
-    { id: "1", title: "새로운 입찰공고가 등록되었습니다", body: "관심 업종에 새 공고가 있습니다.", sentAt: "2024-12-05 14:30", recipients: 1234, openRate: 45.2 },
-    { id: "2", title: "주간 챌린지 시작!", body: "이번 주 미션을 완료하고 보상을 받으세요.", sentAt: "2024-12-04 09:00", recipients: 892, openRate: 62.1 },
-    { id: "3", title: "모의입찰 결과 발표", body: "어제 참여한 모의입찰 결과를 확인하세요.", sentAt: "2024-12-03 10:00", recipients: 456, openRate: 78.5 },
-];
+type PushHistory = {
+    id: string;
+    title: string;
+    body: string;
+    target_type: string;
+    recipient_count: number;
+    open_count: number;
+    status: string;
+    sent_at: string;
+};
 
 export default function NotificationsPage() {
+    const [history, setHistory] = useState<PushHistory[]>([]);
+    const [stats, setStats] = useState({ enabledUsers: 0, totalSentCount: 0 });
+    const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+
+    // Form state
+    const [formData, setFormData] = useState({
+        title: "",
+        body: "",
+        target_type: "all",
+    });
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = async () => {
+        setLoading(true);
+        const [historyRes, statsRes] = await Promise.all([
+            getPushNotifications(),
+            getPushStats()
+        ]);
+        setHistory(historyRes.notifications as PushHistory[]);
+        setStats(statsRes);
+        setLoading(false);
+    };
+
+    const handleSend = async () => {
+        if (!formData.title || !formData.body) {
+            alert("제목과 내용을 입력해주세요.");
+            return;
+        }
+
+        const { error } = await sendPushNotification(formData);
+        if (!error) {
+            alert("알림 발송 요청이 저장되었습니다.");
+            setShowModal(false);
+            setFormData({ title: "", body: "", target_type: "all" });
+            loadData();
+        } else {
+            alert("발송 중 오류가 발생했습니다.");
+        }
+    };
+
+    const getTargetLabel = (type: string) => {
+        const labels: Record<string, string> = {
+            all: "전체 사용자",
+            premium: "프리미엄",
+            free: "무료 사용자",
+            inactive: "비활성",
+        };
+        return labels[type] || type;
+    };
 
     return (
         <div className="p-8">
@@ -17,7 +75,7 @@ export default function NotificationsPage() {
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900">푸시 알림 관리</h1>
-                    <p className="text-slate-600">사용자에게 푸시 알림을 발송합니다.</p>
+                    <p className="text-slate-600">사용자에게 푸시 알림을 발송하고 이력을 관리합니다.</p>
                 </div>
                 <button
                     onClick={() => setShowModal(true)}
@@ -30,19 +88,23 @@ export default function NotificationsPage() {
             {/* Stats */}
             <div className="grid grid-cols-4 gap-4 mb-6">
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-                    <p className="text-2xl font-bold text-slate-900">2,582</p>
-                    <p className="text-sm text-slate-600">총 발송 건수</p>
+                    <p className="text-2xl font-bold text-slate-900">{stats.totalSentCount.toLocaleString()}</p>
+                    <p className="text-sm text-slate-600">누적 발송 건수</p>
                 </div>
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-                    <p className="text-2xl font-bold text-green-600">58.3%</p>
+                    <p className="text-2xl font-bold text-blue-600">{stats.enabledUsers.toLocaleString()}</p>
+                    <p className="text-sm text-slate-600">알림 가능 기기 (FCM)</p>
+                </div>
+                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+                    <p className="text-2xl font-bold text-green-600">
+                        {history.length > 0 ? (history.reduce((a, b) => a + b.open_count, 0) / history.reduce((a, b) => a + (b.recipient_count || 1), 0) * 100).toFixed(1) : 0}%
+                    </p>
                     <p className="text-sm text-slate-600">평균 오픈율</p>
                 </div>
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-                    <p className="text-2xl font-bold text-blue-600">1,234</p>
-                    <p className="text-sm text-slate-600">알림 허용 사용자</p>
-                </div>
-                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-                    <p className="text-2xl font-bold text-amber-600">3</p>
+                    <p className="text-2xl font-bold text-amber-600">
+                        {history.filter(h => h.status === 'scheduled').length}
+                    </p>
                     <p className="text-sm text-slate-600">예약된 알림</p>
                 </div>
             </div>
@@ -55,40 +117,50 @@ export default function NotificationsPage() {
                 <table className="w-full">
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">제목</th>
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">발송 시간</th>
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">수신자</th>
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">오픈율</th>
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">관리</th>
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">제목 / 내용</th>
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">대상</th>
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">발송 일시</th>
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">수신/오픈</th>
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">상태</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {mockNotifications.map((notif) => (
-                            <tr key={notif.id} className="border-b border-slate-100 hover:bg-slate-50">
-                                <td className="px-6 py-4">
-                                    <p className="font-medium text-slate-900">{notif.title}</p>
-                                    <p className="text-sm text-slate-500">{notif.body}</p>
-                                </td>
-                                <td className="px-6 py-4 text-sm text-slate-600">{notif.sentAt}</td>
-                                <td className="px-6 py-4 text-sm text-slate-600">{notif.recipients.toLocaleString()}명</td>
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-16 h-2 bg-slate-200 rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full bg-green-500 rounded-full"
-                                                style={{ width: `${notif.openRate}%` }}
-                                            />
+                        {loading ? (
+                            <tr><td colSpan={5} className="p-8 text-center text-slate-500">로딩 중...</td></tr>
+                        ) : history.length === 0 ? (
+                            <tr><td colSpan={5} className="p-8 text-center text-slate-500">발송 이력이 없습니다.</td></tr>
+                        ) : (
+                            history.map((notif) => (
+                                <tr key={notif.id} className="border-b border-slate-100 hover:bg-slate-50">
+                                    <td className="px-6 py-4">
+                                        <p className="font-medium text-slate-900">{notif.title}</p>
+                                        <p className="text-sm text-slate-500 truncate max-w-xs">{notif.body}</p>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">
+                                        {getTargetLabel(notif.target_type)}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">
+                                        {new Date(notif.sent_at).toLocaleString('ko-KR')}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="text-sm text-slate-900 font-medium">
+                                            {notif.recipient_count}명 수신
                                         </div>
-                                        <span className="text-sm text-slate-600">{notif.openRate}%</span>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">
-                                    <button className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition">
-                                        📋
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                                        <div className="text-xs text-slate-500">
+                                            오픈: {notif.open_count}명 ({notif.recipient_count > 0 ? (notif.open_count / notif.recipient_count * 100).toFixed(1) : 0}%)
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${notif.status === 'sent' ? 'bg-green-100 text-green-700' :
+                                                notif.status === 'sending' ? 'bg-blue-100 text-blue-700' :
+                                                    'bg-slate-100 text-slate-600'
+                                            }`}>
+                                            {notif.status === 'sent' ? '발송완료' : notif.status === 'sending' ? '발송중' : notif.status}
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>
@@ -103,38 +175,54 @@ export default function NotificationsPage() {
                         <div className="p-6 space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-2">제목</label>
-                                <input type="text" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="알림 제목" />
+                                <input
+                                    type="text"
+                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="사용자 기기에 표시될 제목"
+                                    value={formData.title}
+                                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-2">내용</label>
-                                <textarea className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-24" placeholder="알림 내용" />
+                                <textarea
+                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"
+                                    placeholder="알림 상세 내용을 입력하세요"
+                                    value={formData.body}
+                                    onChange={(e) => setFormData({ ...formData, body: e.target.value })}
+                                />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-2">대상</label>
-                                <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="all">전체 사용자</option>
-                                    <option value="premium">프리미엄 구독자</option>
-                                    <option value="free">무료 사용자</option>
-                                    <option value="inactive">비활성 사용자</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-2">발송 시간</label>
-                                <div className="flex gap-4">
-                                    <label className="flex items-center gap-2">
-                                        <input type="radio" name="sendTime" value="now" defaultChecked className="text-blue-600" />
-                                        <span className="text-sm text-slate-700">즉시 발송</span>
-                                    </label>
-                                    <label className="flex items-center gap-2">
-                                        <input type="radio" name="sendTime" value="scheduled" className="text-blue-600" />
-                                        <span className="text-sm text-slate-700">예약 발송</span>
-                                    </label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">발송 대상</label>
+                                    <select
+                                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={formData.target_type}
+                                        onChange={(e) => setFormData({ ...formData, target_type: e.target.value })}
+                                    >
+                                        <option value="all">전체 사용자 ({stats.enabledUsers}명)</option>
+                                        <option value="premium">프리미엄 구독자</option>
+                                        <option value="free">무료 사용자</option>
+                                        <option value="inactive">30일 이상 미접속자</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">발송 시점</label>
+                                    <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                                        <option value="now">즉시 발송</option>
+                                        <option value="scheduled">예약 발송 (준비 중)</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div className="p-6 border-t border-slate-200 flex justify-end gap-3">
                             <button onClick={() => setShowModal(false)} className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition">취소</button>
-                            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">발송</button>
+                            <button
+                                onClick={handleSend}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                            >
+                                발송하기
+                            </button>
                         </div>
                     </div>
                 </div>

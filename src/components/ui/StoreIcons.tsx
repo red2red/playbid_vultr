@@ -1,21 +1,14 @@
+import Image from "next/image";
+
 export const GooglePlayIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
-    <svg viewBox="0 0 512 512" className={className} xmlns="http://www.w3.org/2000/svg">
-        <path fill="#4DB6AC" d="M38.5 17.5c-4.9 3.5-7.5 9-7.5 16.2v444.6c0 6.9 2.5 12.3 7 15.6l239.1-235.8L38.5 17.5z" />
-        <path fill="#F06292" d="M344.9 306.9L277.1 242.5 38.5 17.5c9.2-8.3 23-8.8 32.9-1.2l273.5 164.2-12.7 12.9-12.7 13.5-9.6 9.1z" />
-        <path fill="#BA68C8" d="M344.9 178.1l111.4 67c13.7 8.2 13.7 30 0 38.2l-111.4 67-67.8-57.8 0- 0-5.4-5.1 73.2-110.1z" />
-        <path fill="#E0E0E0" d="M260.1 259.9l7.7 7.2 6.5 6.2 70.6-56.7L71.4 495.7c-9.9 8.3-24.5 7.8-32.9-1.2l221.6-216.6z" />
-        {/* Corrected colors for standard Google Play behavior if simple paths used, but using standard 'colors' approximate */}
-        {/* Actually, let's use the proper 4-color paths for a real look */}
-        <path fill="#2196F3" d="M37.5 17.5C32.6 21 30 26.5 30 33.7v444.6c0 6.9 2.5 12.3 7 15.6l239.1-235.8L37.5 17.5z" />
-        <path fill="#FFC107" d="M343.9 306.9L276.1 242.5 37.5 17.5c9.2-8.3 23-8.8 32.9-1.2l273.5 164.2-12.7 12.9-12.7 13.5-9.6 9.1z" />
-        <path fill="#FF3D00" d="M343.9 178.1l111.4 67c13.7 8.2 13.7 30 0 38.2l-111.4 67-67.8-57.8-7.7-7.2-6.5-6.2 73.2-110.1z" />
-        <path fill="#4CAF50" d="M259.1 259.9l67.8 55.8-67.8 57.8L37.5 495.7c-9.9 8.3-24.5 7.8-32.9-1.2l254.5-236.4z" />
-        <path fill="#2196F3" d="M30 33.7v444.6c0 6.9 2.5 12.3 7 15.6l.5-.5 238.6-235.3-6.4-5.4-239.7 209V33.7z" />
-        <path fill="#FFC107" d="M276.1 242.5L37.5 17.5c6-5.4 14.1-7.2 21.6-5.6l10 4.2 201.2 120.7 5.8 5.7z" />
-        <path fill="#4CAF50" d="M276.1 242.5l179.2 107.5c6.3 3.8 11.2 9.6 13.7 16.4l-118-70.3-68.5-48.2-6.4-5.4z" />
-        {/* Simplified accurate paths */}
-        <path d="M276.1 242.5l-239.7 209c-3.1-2.9-5.1-6.8-5.6-11.1L276.1 242.5z" fill="#4CAF50" />
-    </svg>
+    <div className={`relative ${className}`}>
+        <Image
+            src="/google-play-icon.png"
+            alt="Google Play"
+            fill
+            className="object-contain"
+        />
+    </div>
 );
 
 export const AppleLogoIcon = ({ className = "w-6 h-6" }: { className?: string }) => (

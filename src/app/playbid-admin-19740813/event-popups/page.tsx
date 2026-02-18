@@ -102,7 +102,7 @@ export default function EventPopupsPage() {
                 priority: formData.priority,
                 start_at: new Date(formData.start_at).toISOString(),
                 end_at: formData.end_at ? new Date(formData.end_at).toISOString() : null,
-                is_active: true, // 기본적으로 활성화
+                is_active: formData.is_popup_enabled, // 체크박스 상태에 따라 앱 노출 여부 결정
             };
 
             if (editingPopup) {
@@ -147,7 +147,10 @@ export default function EventPopupsPage() {
         try {
             const { error } = await supabase
                 .from('event_popups')
-                .update({ is_popup_enabled: !popup.is_popup_enabled })
+                .update({
+                    is_popup_enabled: !popup.is_popup_enabled,
+                    is_active: !popup.is_popup_enabled // 활성 상태도 함께 변경
+                })
                 .eq('id', popup.id);
 
             if (error) throw error;
@@ -244,8 +247,8 @@ export default function EventPopupsPage() {
                                             <button
                                                 onClick={() => handleToggleEnabled(item)}
                                                 className={`px-2 py-1 rounded-full text-xs font-medium transition ${item.is_popup_enabled
-                                                        ? "bg-green-100 text-green-700 hover:bg-green-200"
-                                                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                                                    ? "bg-green-100 text-green-700 hover:bg-green-200"
+                                                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                                                     }`}
                                             >
                                                 {item.is_popup_enabled ? "활성" : "비활성"}

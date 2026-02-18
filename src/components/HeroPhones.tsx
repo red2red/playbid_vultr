@@ -13,8 +13,8 @@ export function HeroPhones() {
             >
                 <div className="relative rounded-[2.5rem] overflow-hidden border-[8px] border-slate-900 shadow-2xl bg-slate-900">
                     <Image
-                        src="/hero_app_screen.png"
-                        alt="App Screen Left"
+                        src="/screens/app_list.jpg"
+                        alt="Bid List Screen"
                         width={300}
                         height={650}
                         className="w-full h-auto object-cover opacity-80"
@@ -31,8 +31,8 @@ export function HeroPhones() {
             >
                 <div className="relative rounded-[2.5rem] overflow-hidden border-[8px] border-slate-900 shadow-2xl bg-slate-900">
                     <Image
-                        src="/hero_app_screen.png"
-                        alt="App Screen Right"
+                        src="/screens/app_challenge.jpg"
+                        alt="Challenge Screen"
                         width={300}
                         height={650}
                         className="w-full h-auto object-cover opacity-80"
@@ -50,8 +50,8 @@ export function HeroPhones() {
 
                 <div className="relative rounded-[3rem] overflow-hidden border-[10px] border-slate-900 shadow-2xl bg-slate-900">
                     <Image
-                        src="/hero_app_screen.png"
-                        alt="App Screen Center"
+                        src="/screens/app_home.jpg"
+                        alt="Home Dashboard Screen"
                         width={320}
                         height={690}
                         className="w-full h-auto object-cover"

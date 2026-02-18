@@ -1,18 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  /* Slate 900 */
-  --primary: #0f172a;
-  --primary-foreground: #ffffff;
-  --accent: #3b82f6;
-  /* Blue 500 */
-  --accent-foreground: #ffffff;
-  --muted: #f1f5f9;
-  /* Slate 100 */
-  --muted-foreground: #64748b;
-  /* Slate 500 */
+  /* Backgrounds */
+  --background: #0B1121; /* Deep Navy */
+  --foreground: #F8FAFC; /* Slate 50 */
+
+  /* Primary - Vibrant Blue (Action) */
+  --primary: #3B82F6;
+  --primary-foreground: #FFFFFF;
+
+  /* Secondary - Premium Gold (Highlight) */
+  --secondary: #CA8A04;
+  --secondary-foreground: #FFFFFF;
+
+  /* Surfaces */
+  --card: #111827; /* Gray 900 */
+  --card-foreground: #F8FAFC;
+  --popover: #0B1121;
+  --popover-foreground: #F8FAFC;
+
+  /* Muted - Subtle Low Contrast */
+  --muted: #1E293B; /* Slate 800 */
+  --muted-foreground: #94A3B8; /* Slate 400 */
+
+  /* Accent - Hover/Interactive */
+  --accent: #1E293B; /* Slate 800 */
+  --accent-foreground: #F8FAFC;
+
+  /* Destructive */
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+
+  /* Border/Input */
+  --border: #1E293B; /* Slate 800 */
+  --input: #1E293B;
+  --ring: #3B82F6;
+
+  /* Radius */
+  --radius: 0.75rem;
 }
 
 @theme inline {
@@ -20,13 +45,28 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-sans: var(--font-noto-sans-kr), var(--font-inter), system-ui, sans-serif;
+  --font-mono: monospace;
+}
+
+/* Hide Unicorn Studio Badge and other potential watermarks */
+a[href*="unicorn.studio"],
+.us-badge {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 body {

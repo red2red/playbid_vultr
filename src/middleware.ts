@@ -3,39 +3,14 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 const ADMIN_PATH = '/playbid-admin-19740813';
 
-// 비밀번호 보호에서 제외할 경로
-const PUBLIC_PATHS = [
-    '/password',
-    '/api/auth/verify-password',
-    '/privacy',
-    '/terms',
-    '/_next',
-    '/favicon.ico',
-];
+// 비밀번호 보호에서 제외할 경로 (Removed)
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
-    // ===== 사이트 비밀번호 보호 =====
-    // 환경변수에 SITE_PASSWORD가 설정된 경우에만 보호 활성화
-    const sitePassword = process.env.SITE_PASSWORD;
+    // ===== 사이트 비밀번호 보호 (Removed per user request) =====
 
-    if (sitePassword) {
-        // 공개 경로는 제외
-        const isPublicPath = PUBLIC_PATHS.some(path => pathname.startsWith(path));
-        // 관리자 경로도 별도 인증이 있으므로 제외
-        const isAdminPath = pathname.startsWith(ADMIN_PATH);
-
-        if (!isPublicPath && !isAdminPath) {
-            // 인증 쿠키 확인
-            const siteAccess = request.cookies.get('site_access');
-
-            if (siteAccess?.value !== 'granted') {
-                // 비밀번호 페이지로 리다이렉트
-                return NextResponse.redirect(new URL('/password', request.url));
-            }
-        }
-    }
+    // ===== 관리자 경로 보호 (기존 로직) =====
 
     // ===== 관리자 경로 보호 (기존 로직) =====
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

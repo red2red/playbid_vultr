@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getUsers } from "@/lib/database";
+import { getUsers, updateUser, deleteUser } from "@/lib/database";
 
 interface User {
     id: string;
@@ -24,31 +24,73 @@ export default function UsersPage() {
     const [filterSubscription, setFilterSubscription] = useState("all");
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [editingUser, setEditingUser] = useState<User | null>(null);
     const limit = 20;
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            setIsLoading(true);
-            try {
-                const { users: data, total } = await getUsers({
-                    search: searchTerm || undefined,
-                    status: filterStatus,
-                    subscription: filterSubscription,
-                    page: currentPage,
-                    limit,
-                });
-                setUsers(data);
-                setTotalUsers(total);
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    const fetchUsers = async () => {
+        setIsLoading(true);
+        try {
+            const { users: data, total } = await getUsers({
+                search: searchTerm || undefined,
+                status: filterStatus,
+                subscription: filterSubscription,
+                page: currentPage,
+                limit,
+            });
+            setUsers(data);
+            setTotalUsers(total);
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    useEffect(() => {
         const debounceTimer = setTimeout(fetchUsers, 300);
         return () => clearTimeout(debounceTimer);
     }, [searchTerm, filterStatus, filterSubscription, currentPage]);
+
+    const handleToggleStatus = async (user: User) => {
+        const newStatus = user.status === 'active' ? 'inactive' : 'active';
+        if (!confirm(`사용자 상태를 ${newStatus === 'active' ? '활성' : '비활성'}으로 변경하시겠습니까?`)) return;
+
+        const { error } = await updateUser(user.id, { is_active: newStatus === 'active' });
+        if (!error) {
+            fetchUsers();
+        } else {
+            alert('상태 변경 중 오류가 발생했습니다.');
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm('정말로 이 사용자를 비활성화하시겠습니까? (DB에서 삭제되지 않고 is_active가 false로 변경됩니다)')) return;
+
+        const { error } = await deleteUser(id);
+        if (!error) {
+            fetchUsers();
+        } else {
+            alert('삭제 중 오류가 발생했습니다.');
+        }
+    };
+
+    const handleSaveEdit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingUser) return;
+
+        const { error } = await updateUser(editingUser.id, {
+            full_name: editingUser.full_name,
+            username: editingUser.username,
+            subscription: editingUser.subscription,
+        });
+
+        if (!error) {
+            setEditingUser(null);
+            fetchUsers();
+        } else {
+            alert('저장 중 오류가 발생했습니다.');
+        }
+    };
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -63,9 +105,6 @@ export default function UsersPage() {
                     <h1 className="text-2xl font-bold text-slate-900">사용자 관리</h1>
                     <p className="text-slate-600">전체 사용자: {totalUsers.toLocaleString()}명</p>
                 </div>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    + 사용자 추가
-                </button>
             </div>
 
             {/* Filters */}
@@ -80,7 +119,7 @@ export default function UsersPage() {
                                 setSearchTerm(e.target.value);
                                 setCurrentPage(1);
                             }}
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900"
                         />
                     </div>
                     <select
@@ -89,7 +128,7 @@ export default function UsersPage() {
                             setFilterStatus(e.target.value);
                             setCurrentPage(1);
                         }}
-                        className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 bg-white"
                     >
                         <option value="all">모든 상태</option>
                         <option value="active">활성</option>
@@ -101,7 +140,7 @@ export default function UsersPage() {
                             setFilterSubscription(e.target.value);
                             setCurrentPage(1);
                         }}
-                        className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 bg-white"
                     >
                         <option value="all">모든 구독</option>
                         <option value="free">무료</option>
@@ -126,7 +165,7 @@ export default function UsersPage() {
                     </div>
                 ) : (
                     <>
-                        <table className="w-full">
+                        <table className="w-full text-slate-900">
                             <thead className="bg-slate-50 border-b border-slate-200">
                                 <tr>
                                     <th className="text-left px-6 py-4 text-sm font-semibold text-slate-700">사용자</th>
@@ -157,33 +196,44 @@ export default function UsersPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-slate-900">Lv.{user.current_level || 1}</span>
-                                                <span className="text-sm text-amber-600">{user.total_xp || 0} XP</span>
+                                                <span className="font-semibold text-slate-900">Lv.{user.current_level}</span>
+                                                <span className="text-sm text-amber-600">{user.total_xp} XP</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.subscription === "premium"
-                                                    ? "bg-amber-100 text-amber-700"
-                                                    : "bg-slate-100 text-slate-600"
+                                                ? "bg-amber-100 text-amber-700"
+                                                : "bg-slate-100 text-slate-600"
                                                 }`}>
                                                 {user.subscription === "premium" ? "💎 프리미엄" : "무료"}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.status === "active" || !user.status
-                                                    ? "bg-green-100 text-green-700"
-                                                    : "bg-red-100 text-red-700"
-                                                }`}>
-                                                {user.status === "active" || !user.status ? "활성" : "비활성"}
-                                            </span>
+                                            <button
+                                                onClick={() => handleToggleStatus(user)}
+                                                className={`px-2 py-1 rounded-full text-xs font-medium transition cursor-pointer ${user.status === "active"
+                                                    ? "bg-green-100 text-green-700 hover:bg-green-200"
+                                                    : "bg-red-100 text-red-700 hover:bg-red-200"
+                                                    }`}
+                                            >
+                                                {user.status === "active" ? "활성" : "비활성"}
+                                            </button>
                                         </td>
                                         <td className="px-6 py-4 text-sm text-slate-600">{formatDate(user.created_at)}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
-                                                <button className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                                <button
+                                                    onClick={() => setEditingUser(user)}
+                                                    className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                                                    title="수정"
+                                                >
                                                     ✏️
                                                 </button>
-                                                <button className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition">
+                                                <button
+                                                    onClick={() => handleDelete(user.id)}
+                                                    className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                    title="비활성화"
+                                                >
                                                     🗑️
                                                 </button>
                                             </div>
@@ -202,15 +252,15 @@ export default function UsersPage() {
                                 <button
                                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                     disabled={currentPage === 1}
-                                    className="px-3 py-1 border border-slate-300 rounded text-sm hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="px-3 py-1 border border-slate-300 rounded text-sm hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900"
                                 >
                                     이전
                                 </button>
-                                <span className="px-3 py-1 bg-blue-600 text-white rounded text-sm">{currentPage}</span>
+                                <span className="px-3 py-1 bg-blue-600 text-white rounded text-sm font-medium">{currentPage}</span>
                                 <button
                                     onClick={() => setCurrentPage(p => p + 1)}
                                     disabled={currentPage * limit >= totalUsers}
-                                    className="px-3 py-1 border border-slate-300 rounded text-sm hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="px-3 py-1 border border-slate-300 rounded text-sm hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900"
                                 >
                                     다음
                                 </button>
@@ -220,14 +270,74 @@ export default function UsersPage() {
                 )}
             </div>
 
-            {/* Environment Check */}
-            {!process.env.NEXT_PUBLIC_SUPABASE_URL && (
-                <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                    <div className="flex items-start gap-3">
-                        <span className="text-xl">⚠️</span>
-                        <p className="text-sm text-amber-700">
-                            Supabase 환경 변수가 설정되지 않아 목업 데이터가 표시됩니다.
-                        </p>
+            {/* Edit Modal */}
+            {editingUser && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl">
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-xl font-bold text-slate-900">사용자 수정</h2>
+                            <button
+                                onClick={() => setEditingUser(null)}
+                                className="text-slate-400 hover:text-slate-600"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <form onSubmit={handleSaveEdit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">이메일</label>
+                                <input
+                                    type="text"
+                                    value={editingUser.email}
+                                    disabled
+                                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 cursor-not-allowed"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">이름 (Full Name)</label>
+                                <input
+                                    type="text"
+                                    value={editingUser.full_name || ""}
+                                    onChange={(e) => setEditingUser({ ...editingUser, full_name: e.target.value })}
+                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">닉네임 (Username)</label>
+                                <input
+                                    type="text"
+                                    value={editingUser.username || ""}
+                                    onChange={(e) => setEditingUser({ ...editingUser, username: e.target.value })}
+                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">구독 상태</label>
+                                <select
+                                    value={editingUser.subscription}
+                                    onChange={(e) => setEditingUser({ ...editingUser, subscription: e.target.value })}
+                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 bg-white"
+                                >
+                                    <option value="free">무료</option>
+                                    <option value="premium">프리미엄</option>
+                                </select>
+                            </div>
+                            <div className="pt-4 flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setEditingUser(null)}
+                                    className="flex-1 px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 transition font-medium"
+                                >
+                                    취소
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
+                                >
+                                    저장
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
