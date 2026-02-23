@@ -1,24 +1,25 @@
-# OAuth Provider Readiness (2026-02-23)
+# OAuth Provider Readiness (2026-02-24)
 
-> 참고: 이 리포트는 `/auth/v1/settings` + `/auth/v1/authorize` 기준 provider만 점검합니다.  
-> Naver는 현재 GoTrue provider 비활성 상태가 정상이며, 실제 로그인은 broker flow(`GET /functions/v1/naver-oauth`, `POST /functions/v1/naver-oauth-complete`)로 처리합니다.
+> 참고: 이 리포트는 Supabase provider + broker 방식을 함께 점검합니다.  
+> Naver는 GoTrue provider가 아닌 broker flow(`GET /functions/v1/naver-oauth`, `POST /functions/v1/naver-oauth-complete`)가 정상 경로입니다.
 
-- Checked at: 2026-02-23T20:27:11.328Z
+- Checked at: 2026-02-23T21:15:12.573Z
 - Supabase host: api.playbid.kr
 - Site URL env: https://playbid.kr
 - Provider callback URL: https://api.playbid.kr/auth/v1/callback
 - Deferred providers: apple
-- Enabled required providers: 2/3
-- Authorize-ready required providers: 2/3
+- Broker providers: naver
+- Enabled supabase-required providers: 2/2
+- Authorize-ready required providers: 3/3
 
 ## Provider Matrix
 
-| Provider | Scope | Enabled In Supabase | localhost authorize | site authorize | Notes |
-|---|---|---|---|---|---|
-| apple | Deferred | NO | 400 (FAIL) | 400 (FAIL) | Deferred by team decision |
-| google | Required | YES | 302 (OK) | 302 (OK) | Ready |
-| kakao | Required | YES | 302 (OK) | 302 (OK) | Ready |
-| naver | Required | NO | 400 (FAIL) | 400 (FAIL) | Provider disabled in Supabase Auth settings |
+| Provider | Scope | Auth Mode | Enabled In Supabase | localhost authorize | site authorize | Notes |
+|---|---|---|---|---|---|---|
+| apple | Deferred | Supabase | NO | 400 (FAIL) | 400 (FAIL) | Deferred by team decision |
+| google | Required | Supabase | YES | 302 (OK) | 302 (OK) | Ready |
+| kakao | Required | Supabase | YES | 302 (OK) | 302 (OK) | Ready |
+| naver | Required | Broker | BROKER | 302 (OK) | N/A | Broker flow ready |
 
 ## Broker Smoke Check (2026-02-24)
 
@@ -32,21 +33,25 @@
 
 ## Web Callback E2E (2026-02-24)
 
-- Synthetic exchange_code를 DB에 삽입한 뒤 다음 경로 검증:
+- Synthetic exchange_code를 DB에 삽입한 뒤 검증:
   - `https://playbid.kr/auth-callback?provider=naver&exchange_code=<synthetic>&returnTo=/dashboard`
-  - 결과: `/dashboard`로 복귀 + 세션 생성 확인
+  - 결과: `/dashboard` 복귀 + 세션 생성 확인
 - 로그인 페이지 재진입 검증:
   - `https://playbid.kr/login?returnTo=/dashboard`
-  - 결과: 이미 로그인된 세션으로 `/dashboard` 리다이렉트 확인
+  - 결과: 로그인 세션 유지 상태에서 `/dashboard` 리다이렉트 확인
 - cleanup:
   - 테스트용 user / oauth_exchange_codes 레코드 삭제 완료
 
+## Web UI Redirect Smoke After Git Deploy (2026-02-24)
+
+- `https://playbid.kr/login`에서 카카오 버튼 클릭
+  - 결과: `https://accounts.kakao.com/...` 로그인 페이지 진입 확인
+- `https://playbid.kr/login`에서 네이버 버튼 클릭
+  - 결과: `https://nid.naver.com/oauth2.0/authorize?...redirect_uri=https://api.playbid.kr/functions/v1/naver-oauth...` 진입 확인
+
 ## Next Actions
-1. Keep deferred providers out of release scope and track them in PRD.
-2. Register callback URL in each provider console:
-   - https://api.playbid.kr/auth/v1/callback
-3. Add allowed app redirect URLs in Supabase URL configuration:
-   - http://localhost:3000/auth-callback
-   - https://playbid.kr/auth-callback
-4. 실제 계정 E2E 마무리:
-   - Naver/Google/Kakao 실제 계정 승인 후 최종 복귀 및 세션 유지 확인
+1. Apple은 보류 상태 유지(릴리즈 스코프 제외) 및 PRD 추적 지속.
+2. 실계정 최종 E2E 마무리:
+   - Google/Kakao: 승인 → `/auth-callback` 복귀 → 세션 유지 확인
+   - Naver(Broker): 승인 → broker complete → `/auth-callback` 복귀 → 세션 유지 확인
+3. 릴리즈마다 broker redirect smoke(`GET /functions/v1/naver-oauth`)와 `/auth-callback` 오류 복귀(`307`)를 회귀 체크.

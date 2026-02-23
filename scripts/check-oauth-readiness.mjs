@@ -5,12 +5,14 @@ import path from 'node:path';
 
 const REQUIRED_PROVIDERS = ['apple', 'google', 'kakao', 'naver'];
 const DEFAULT_DEFERRED_PROVIDERS = ['apple'];
+const DEFAULT_BROKER_PROVIDERS = ['naver'];
 const REQUIRED_ENV_VARS = ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'];
 
 function parseCliArgs(argv) {
     const args = {
         writePath: null,
         deferredProviders: [],
+        brokerProviders: [],
     };
     for (let i = 2; i < argv.length; i += 1) {
         const current = argv[i];
@@ -21,6 +23,11 @@ function parseCliArgs(argv) {
         }
         if (current === '--defer' && argv[i + 1]) {
             args.deferredProviders.push(...parseProviderList(argv[i + 1]));
+            i += 1;
+            continue;
+        }
+        if (current === '--broker' && argv[i + 1]) {
+            args.brokerProviders.push(...parseProviderList(argv[i + 1]));
             i += 1;
         }
     }
@@ -155,14 +162,45 @@ async function probeAuthorizeEndpoint({ supabaseUrl, anonKey, provider, redirect
     };
 }
 
+async function probeBrokerEndpoint({ supabaseUrl, provider, webOrigin, returnTo }) {
+    if (provider !== 'naver') {
+        return { ok: false, status: 0, detail: `unsupported broker provider: ${provider}` };
+    }
+
+    const url = new URL(`${supabaseUrl}/functions/v1/naver-oauth`);
+    url.searchParams.set('login_type', 'web');
+    url.searchParams.set('web_origin', webOrigin);
+    url.searchParams.set('return_to', returnTo);
+
+    const response = await fetch(url.toString(), {
+        method: 'GET',
+        redirect: 'manual',
+    });
+
+    const status = response.status;
+    const ok = status >= 300 && status < 400;
+    let detail = '';
+
+    if (!ok) {
+        const text = await response.text();
+        detail = text.slice(0, 200);
+    }
+
+    return {
+        ok,
+        status,
+        detail,
+    };
+}
+
 function toMarkdownTable(rows) {
     const lines = [
-        '| Provider | Scope | Enabled In Supabase | localhost authorize | site authorize | Notes |',
-        '|---|---|---|---|---|---|',
+        '| Provider | Scope | Auth Mode | Enabled In Supabase | localhost authorize | site authorize | Notes |',
+        '|---|---|---|---|---|---|---|',
     ];
     for (const row of rows) {
         lines.push(
-            `| ${row.provider} | ${row.deferred ? 'Deferred' : 'Required'} | ${row.enabled ? 'YES' : 'NO'} | ${row.localhost.status} (${row.localhost.ok ? 'OK' : 'FAIL'}) | ${row.site ? `${row.site.status} (${row.site.ok ? 'OK' : 'FAIL'})` : 'N/A'} | ${row.note} |`
+            `| ${row.provider} | ${row.deferred ? 'Deferred' : 'Required'} | ${row.authMode} | ${row.enabledText} | ${row.localhost.status} (${row.localhost.ok ? 'OK' : 'FAIL'}) | ${row.site ? `${row.site.status} (${row.site.ok ? 'OK' : 'FAIL'})` : 'N/A'} | ${row.note} |`
         );
     }
     return lines.join('\n');
@@ -188,6 +226,11 @@ async function run() {
         ...parseProviderList(process.env.OAUTH_DEFERRED_PROVIDERS || ''),
         ...args.deferredProviders,
     ]);
+    const brokerProviders = normalizeProviders([
+        ...DEFAULT_BROKER_PROVIDERS,
+        ...parseProviderList(process.env.OAUTH_BROKER_PROVIDERS || ''),
+        ...args.brokerProviders,
+    ]);
     const authCallbackUrl = resolveAuthCallbackUrl({
         explicitCallbackUrl: process.env.SUPABASE_AUTH_CALLBACK_URL,
         supabaseUrl,
@@ -202,26 +245,47 @@ async function run() {
     const providerRows = [];
     for (const provider of REQUIRED_PROVIDERS) {
         const deferred = deferredProviders.includes(provider);
-        const enabled = externalProviders[provider] === true;
-        const localhostProbe = await probeAuthorizeEndpoint({
-            supabaseUrl,
-            anonKey,
-            provider,
-            redirectTo: `${localhostOrigin}${redirectPath}&provider=${provider}`,
-        });
-
-        const siteProbe = siteUrl
-            ? await probeAuthorizeEndpoint({
+        const brokerManaged = brokerProviders.includes(provider);
+        const enabled = brokerManaged ? false : externalProviders[provider] === true;
+        const authMode = brokerManaged ? 'Broker' : 'Supabase';
+        const localhostProbe = brokerManaged
+            ? await probeBrokerEndpoint({
+                  supabaseUrl,
+                  provider,
+                  webOrigin: siteUrl || localhostOrigin,
+                  returnTo: '/dashboard',
+              })
+            : await probeAuthorizeEndpoint({
                   supabaseUrl,
                   anonKey,
                   provider,
-                  redirectTo: `${siteUrl.replace(/\/$/, '')}${redirectPath}&provider=${provider}`,
-              })
-            : null;
+                  redirectTo: `${localhostOrigin}${redirectPath}&provider=${provider}`,
+              });
+
+        const siteProbe = brokerManaged
+            ? null
+            : siteUrl
+              ? await probeAuthorizeEndpoint({
+                    supabaseUrl,
+                    anonKey,
+                    provider,
+                    redirectTo: `${siteUrl.replace(/\/$/, '')}${redirectPath}&provider=${provider}`,
+                })
+              : null;
+
+        const ready = deferred
+            ? false
+            : brokerManaged
+              ? localhostProbe.ok
+              : enabled && localhostProbe.ok && (!siteProbe || siteProbe.ok);
 
         let note = '';
         if (deferred) {
             note = 'Deferred by team decision';
+        } else if (brokerManaged && localhostProbe.ok) {
+            note = 'Broker flow ready';
+        } else if (brokerManaged) {
+            note = (localhostProbe.detail || 'broker authorize failed').replace(/\|/g, '\\|');
         } else if (!enabled) {
             note = 'Provider disabled in Supabase Auth settings';
         } else if (!localhostProbe.ok) {
@@ -235,19 +299,24 @@ async function run() {
         providerRows.push({
             provider,
             deferred,
+            brokerManaged,
+            authMode,
             enabled,
+            enabledText: brokerManaged ? 'BROKER' : enabled ? 'YES' : 'NO',
             localhost: localhostProbe,
             site: siteProbe,
+            ready,
             note,
         });
     }
 
     const requiredRows = providerRows.filter((row) => !row.deferred);
+    const supabaseRequiredRows = requiredRows.filter((row) => !row.brokerManaged);
     const requiredCount = requiredRows.length;
-    const enabledCount = requiredRows.filter((row) => row.enabled).length;
-    const readyCount = requiredRows.filter(
-        (row) => row.enabled && row.localhost.ok && (!row.site || row.site.ok)
-    ).length;
+    const supabaseRequiredCount = supabaseRequiredRows.length;
+    const enabledCount = supabaseRequiredRows.filter((row) => row.enabled).length;
+    const readyCount = requiredRows.filter((row) => row.ready).length;
+    const missingSupabaseProviderRows = supabaseRequiredRows.filter((row) => !row.enabled);
 
     const summaryLines = [
         `# OAuth Provider Readiness (${checkedAt.slice(0, 10)})`,
@@ -257,7 +326,8 @@ async function run() {
         `- Site URL env: ${siteUrl || '(not configured)'}`,
         `- Provider callback URL: ${authCallbackUrl}`,
         `- Deferred providers: ${deferredProviders.length > 0 ? deferredProviders.join(', ') : '(none)'}`,
-        `- Enabled required providers: ${enabledCount}/${requiredCount}`,
+        `- Broker providers: ${brokerProviders.length > 0 ? brokerProviders.join(', ') : '(none)'}`,
+        `- Enabled supabase-required providers: ${enabledCount}/${supabaseRequiredCount}`,
         `- Authorize-ready required providers: ${readyCount}/${requiredCount}`,
         '',
         '## Provider Matrix',
@@ -266,12 +336,17 @@ async function run() {
         '',
         '## Next Actions',
         '1. Keep deferred providers out of release scope and track them in PRD.',
-        '2. Enable disabled required providers in Supabase Dashboard > Authentication > Providers.',
+        missingSupabaseProviderRows.length > 0
+            ? `2. Enable disabled supabase providers: ${missingSupabaseProviderRows.map((row) => row.provider).join(', ')}`
+            : '2. Supabase provider settings are ready for required(non-broker) providers.',
         '3. Register callback URL in each provider console:',
         `   - ${authCallbackUrl}`,
-        `4. Add allowed app redirect URLs in Supabase URL configuration:`,
+        '4. Add allowed app redirect URLs in Supabase URL configuration:',
         `   - ${localhostOrigin}/auth-callback`,
         siteUrl ? `   - ${siteUrl.replace(/\/$/, '')}/auth-callback` : '   - (production site URL not configured)',
+        brokerProviders.includes('naver')
+            ? '5. Keep Naver in broker flow and verify /functions/v1/naver-oauth redirect smoke on each release.'
+            : '5. Review broker provider list if provider strategy changes.',
     ];
 
     const report = `${summaryLines.join('\n')}\n`;
