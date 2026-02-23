@@ -15,21 +15,25 @@
   - `https://playbid.kr/login`에서 네이버/카카오 버튼 클릭 시 각 공급자 로그인 페이지 진입 확인
   - `/auth-callback?error=...` 호출 시 `https://playbid.kr/login?...`으로 복귀(프록시 환경 localhost 리다이렉트 문제 수정)
   - synthetic `exchange_code` 기반 `/auth-callback` 검증에서 `/dashboard` 복귀 및 세션 생성 확인
+- `2026-02-24` OAuth 자동 E2E 재검증:
+  - `returnTo=/dashboard` 기준 Google/Kakao/Naver 버튼 클릭 시 각 공급자 인증 페이지 진입 재확인
+  - Naver synthetic 성공 콜백 재검증(`/dashboard` 진입 + 로그인 페이지 재진입 시 `/dashboard` 리다이렉트)
+  - 테스트용 user / exchange_code cleanup 완료
 - `2026-02-24` Coolify Git 배포 경로 점검:
   - `queue_application_deployment(...)` 기반 배포 `finished` 확인
   - `servers.id=0.user=root`, `applications.id=1 limits_* = 0` 보정 후 배포 큐 정상 동작
   - 단, 원격 Git 소스(`red2red/playbid_vultr/main`)가 운영 최신과 불일치하여 `/login 404` 회귀 발생
   - 즉시 hot-sync(`scripts/deploy_playbid_web_vps.sh`)로 `/login 200` 복구 완료
 - `2026-02-24` Git 소스 동기화 + 재배포 리허설 완료:
-  - `playbid_web` `main` 최신 커밋 `bcdaa47`를 `origin/main`에 push 완료
-  - Coolify Git 배포(`deployment_uuid=y0k4g0008wkwcgcoccs0kws0`, commit=`bcdaa47...`) `finished`
-  - 실행 컨테이너 이미지가 `ok80g44cwg08s44c8csckogk:bcdaa47...`로 전환된 상태에서 `/login 200`, `/auth-callback(error) 307` 재확인
+  - `playbid_web` `main` 최신 커밋 `83d3b8d`를 `origin/main`에 push 완료
+  - Coolify Git 배포(`deployment_uuid=v048socw8kcww4sg8s8cckss`, commit=`83d3b8d...`) `finished`
+  - 실행 컨테이너 이미지가 `ok80g44cwg08s44c8csckogk:83d3b8d...`로 전환된 상태에서 `/login 200`, `/auth-callback(error) 307` 재확인
 
 ## V1 출고 기준 점검
 
 | 항목 | 결과 | 근거 |
 |---|---|---|
-| 인증/권한/복귀 경로 정상 동작 | 부분통과 | OAuth 로그인 UI, `/auth-callback` code/exchange_code 처리 반영 완료. Apple은 보류(릴리즈 스코프 제외). Naver는 Supabase provider가 아닌 broker 경로(`https://api.playbid.kr/functions/v1/naver-oauth`)를 사용하며 `2026-02-24`에 self-host 함수 배포/재시작 및 웹 컨텍스트 state 검증(302 redirect + `context.loginType=web`) 완료. 운영 도메인 `https://playbid.kr/login` 서빙, 공급자 로그인 페이지 진입, synthetic exchange_code 기반 세션 생성까지 검증했으나 실제 사용자 계정 E2E(승인→복귀) 확인은 아직 미검증 |
+| 인증/권한/복귀 경로 정상 동작 | 부분통과 | OAuth 로그인 UI, `/auth-callback` code/exchange_code 처리 반영 완료. Apple은 보류(릴리즈 스코프 제외). Naver는 Supabase provider가 아닌 broker 경로(`https://api.playbid.kr/functions/v1/naver-oauth`)를 사용하며 `2026-02-24`에 self-host 함수 배포/재시작 및 웹 컨텍스트 state 검증(302 redirect + `context.loginType=web`) 완료. 운영 도메인 `https://playbid.kr/login` 서빙, 공급자 로그인 페이지 진입, synthetic exchange_code 기반 세션 생성 + `/dashboard` 복귀 재검증까지 통과했으나 실제 사용자 계정 E2E(승인→복귀) 확인은 아직 미검증 |
 | 핵심 5개 화면 운영 데이터 검증 | 보류 | 화면 라우트/빌드는 확인됨(`/dashboard`, `/bid_notice`, `/bid_opening`, `/bid_history`, `/profile`). 검증 템플릿은 `PRD/production-data-validation-checklist.md`에 작성했으나, 운영 DB 실제 대조 결과는 아직 미입력 |
 | 과금 트랜잭션 원자성 + idempotency 검증 | 통과 | `src/lib/bid/paid-feature-service.test.ts`에서 롤백/보상/중복키/24시간 캐시 시나리오 통과, `src/app/api/paid/execute/route.test.ts` 통과 |
 | P0 100% 완료, P1 70% 이상 완료 | 미충족 | `PRD/Task.md`에 다수 항목의 상태가 아직 미기록/미검증이라 완료율 산정 근거가 부족 |

@@ -4,6 +4,7 @@
 > Naver는 GoTrue provider가 아닌 broker flow(`GET /functions/v1/naver-oauth`, `POST /functions/v1/naver-oauth-complete`)가 정상 경로입니다.
 
 - Checked at: 2026-02-23T21:15:12.573Z
+- Rechecked at: 2026-02-23T22:36:01Z (2026-02-24 KST)
 - Supabase host: api.playbid.kr
 - Site URL env: https://playbid.kr
 - Provider callback URL: https://api.playbid.kr/auth/v1/callback
@@ -48,6 +49,23 @@
   - 결과: `https://accounts.kakao.com/...` 로그인 페이지 진입 확인
 - `https://playbid.kr/login`에서 네이버 버튼 클릭
   - 결과: `https://nid.naver.com/oauth2.0/authorize?...redirect_uri=https://api.playbid.kr/functions/v1/naver-oauth...` 진입 확인
+
+## Automated OAuth E2E Re-Run (2026-02-24 KST)
+
+- 테스트 기준 URL:
+  - `https://playbid.kr/login?returnTo=/dashboard`
+- 공급자 진입 검증:
+  - Google 버튼 클릭 → `https://accounts.google.com/...` 진입 확인
+  - Kakao 버튼 클릭 → `https://accounts.kakao.com/...` 진입 확인
+  - Naver 버튼 클릭 → `https://nid.naver.com/oauth2.0/authorize?...redirect_uri=https://api.playbid.kr/functions/v1/naver-oauth...` 진입 확인
+- Naver synthetic 성공 콜백 검증:
+  - 임시 사용자 생성 + `oauth_exchange_codes` 1회 코드 삽입
+  - `https://playbid.kr/auth-callback?provider=naver&exchange_code=<synthetic>&returnTo=/dashboard`
+  - 결과: `/dashboard` 복귀 및 대시보드 렌더 확인
+  - `https://playbid.kr/login?returnTo=/dashboard` 재진입 시 `/dashboard` 리다이렉트 확인
+- cleanup:
+  - 임시 user 삭제 완료
+  - `oauth_exchange_codes` 잔여 레코드 `0` 확인
 
 ## Next Actions
 1. Apple은 보류 상태 유지(릴리즈 스코프 제외) 및 PRD 추적 지속.
