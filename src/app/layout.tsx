@@ -37,7 +37,10 @@ export default function RootLayout({
       <body
         className={`${notoSansKr.variable} ${inter.variable} font-sans antialiased bg-background text-foreground`}
       >
-        {children}
+        <a href="#app-content" className="skip-link">
+          본문 바로가기
+        </a>
+        <div id="app-content">{children}</div>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createApiErrorResponse } from '@/lib/api/error-response';
 
 export async function POST(request: NextRequest) {
     try {
@@ -35,14 +36,17 @@ export async function POST(request: NextRequest) {
             return response;
         }
 
-        return NextResponse.json(
-            { success: false, message: '비밀번호가 올바르지 않습니다.' },
-            { status: 401 }
-        );
+        return createApiErrorResponse({
+            status: 401,
+            code: 'AUTH_REQUIRED',
+            message: '비밀번호가 올바르지 않습니다.',
+            suggestion: '입력한 비밀번호를 확인한 뒤 다시 시도해 주세요.',
+        });
     } catch {
-        return NextResponse.json(
-            { success: false, message: '요청 처리 중 오류가 발생했습니다.' },
-            { status: 500 }
-        );
+        return createApiErrorResponse({
+            status: 500,
+            code: 'INTERNAL_ERROR',
+            message: '요청 처리 중 오류가 발생했습니다.',
+        });
     }
 }

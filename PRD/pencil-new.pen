@@ -1,0 +1,5102 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "bi8Au",
+      "x": 0,
+      "y": 0,
+      "name": "PlayBid Notice Detail Prototype",
+      "width": 5200,
+      "height": 5600,
+      "fill": "#E2E8F0",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "zJLXk",
+          "x": 80,
+          "y": 80,
+          "name": "Desktop 1440",
+          "width": 1440,
+          "height": 2500,
+          "fill": "#F8FAFC",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "DB3mH",
+              "x": 0,
+              "y": 0,
+              "name": "Sidebar",
+              "width": 240,
+              "height": 2500,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "daGek",
+                  "x": 24,
+                  "y": 24,
+                  "name": "dLogo",
+                  "content": "PlayBid",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "abcfQ",
+                  "x": 24,
+                  "y": 84,
+                  "name": "dNavTitle",
+                  "content": "NAVIGATION",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "eBD2K",
+                  "x": 16,
+                  "y": 112,
+                  "name": "Nav Dashboard",
+                  "width": 208,
+                  "height": 40,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "DZ92l",
+                      "x": 16,
+                      "y": 10,
+                      "content": "대시보드",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mDNB2",
+                  "x": 16,
+                  "y": 160,
+                  "name": "Nav Notices Active",
+                  "width": 208,
+                  "height": 40,
+                  "fill": "#EFF6FF",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "sM5Ld",
+                      "x": 16,
+                      "y": 10,
+                      "content": "입찰공고",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oMdEi",
+                  "x": 16,
+                  "y": 208,
+                  "name": "Nav Results",
+                  "width": 208,
+                  "height": 40,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "6ecLZ",
+                      "x": 16,
+                      "y": 10,
+                      "content": "개찰결과",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "gno8Z",
+                  "x": 16,
+                  "y": 256,
+                  "name": "Nav History",
+                  "width": 208,
+                  "height": 40,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "iqQ1R",
+                      "x": 16,
+                      "y": 10,
+                      "content": "입찰이력",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "YNNlw",
+              "x": 240,
+              "y": 0,
+              "name": "Main Area",
+              "width": 1200,
+              "height": 2500,
+              "fill": "#F8FAFC",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "I2LLZ",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Header",
+                  "width": 1200,
+                  "height": 88,
+                  "fill": "#FFFFFF",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Gh675",
+                      "x": 24,
+                      "y": 18,
+                      "content": "홈 > 입찰공고 > 전자정부프레임워크 유지보수 용역",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KcoGW",
+                      "x": 24,
+                      "y": 44,
+                      "name": "Back",
+                      "width": 110,
+                      "height": 32,
+                      "fill": "#F1F5F9",
+                      "cornerRadius": 6,
+                      "layout": "none"
+                    },
+                    {
+                      "type": "text",
+                      "id": "n9iQR",
+                      "x": 58,
+                      "y": 52,
+                      "content": "목록으로",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3y8ZP",
+                      "x": 860,
+                      "y": 44,
+                      "name": "Bookmark",
+                      "width": 96,
+                      "height": 32,
+                      "fill": "#EFF6FF",
+                      "cornerRadius": 6,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wyajO",
+                          "x": 26,
+                          "y": 8,
+                          "fill": "#2563EB",
+                          "content": "북마크",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FbtA1",
+                      "x": 964,
+                      "y": 44,
+                      "name": "Share",
+                      "width": 88,
+                      "height": 32,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 6,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "3JTmK",
+                          "x": 32,
+                          "y": 8,
+                          "content": "공유",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "0mLD6",
+                      "x": 1060,
+                      "y": 44,
+                      "name": "Print",
+                      "width": 88,
+                      "height": 32,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 6,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nSv3h",
+                          "x": 32,
+                          "y": 8,
+                          "content": "인쇄",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "1glnD",
+                  "x": 0,
+                  "y": 96,
+                  "name": "Title Section",
+                  "width": 1200,
+                  "height": 180,
+                  "fill": "#FFFFFF",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "NDYg2",
+                      "x": 24,
+                      "y": 24,
+                      "name": "Category Badge",
+                      "width": 96,
+                      "height": 24,
+                      "fill": "#3B82F6",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vCgat",
+                          "x": 34,
+                          "y": 5,
+                          "fill": "#FFFFFF",
+                          "content": "용역",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "8K2Yq",
+                      "x": 1080,
+                      "y": 24,
+                      "name": "Status Badge",
+                      "width": 92,
+                      "height": 24,
+                      "fill": "#10B981",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yoJE3",
+                          "x": 28,
+                          "y": 5,
+                          "fill": "#FFFFFF",
+                          "content": "진행중",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "mRA6G",
+                      "x": 24,
+                      "y": 62,
+                      "fill": "#0F172A",
+                      "content": "전자정부프레임워크 유지보수 용역",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 30,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "DjTKM",
+                      "x": 24,
+                      "y": 108,
+                      "fill": "#2563EB",
+                      "content": "조달청 디지털서비스국",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Nge4F",
+                      "x": 24,
+                      "y": 140,
+                      "fill": "#64748B",
+                      "content": "공고번호 20260223-001 | 게시일 2026.02.23 | 조회 1,234",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "frame",
+                      "id": "h5JVe",
+                      "x": 132,
+                      "y": 24,
+                      "name": "Category Mapping",
+                      "width": 340,
+                      "height": 24,
+                      "fill": "#F8FAFC",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AuyWQ",
+                          "x": 16,
+                          "y": 5,
+                          "fill": "#334155",
+                          "content": "표시 카테고리: product",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZmDHW",
+                          "x": 188,
+                          "y": 5,
+                          "fill": "#2563EB",
+                          "content": "쿼리 정규화: goods",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "3yOCu",
+                  "x": 24,
+                  "y": 300,
+                  "name": "Left Column",
+                  "width": 806,
+                  "height": 2140,
+                  "fill": "#F8FAFC",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "2IaL8",
+                      "x": 0,
+                      "y": 0,
+                      "name": "주요 정보",
+                      "width": 806,
+                      "height": 280,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qaBRx",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "주요 정보",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "jwbFR",
+                          "x": 20,
+                          "y": 62,
+                          "fill": "#475569",
+                          "content": "예산금액 150,000,000원 | 추정가격 145,000,000원 | 입찰마감 2026.02.28 15:00",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ItvIP",
+                      "x": 0,
+                      "y": 296,
+                      "name": "일정",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "hUkfe",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "일정",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "lFiJJ",
+                          "x": 20,
+                          "y": 64,
+                          "fill": "#475569",
+                          "content": "공고게시 → 입찰시작 → 입찰마감 → 개찰",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "CgAgk",
+                          "x": 26,
+                          "y": 78,
+                          "name": "Dot1",
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#10B981",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "text",
+                          "id": "nTdKa",
+                          "x": 50,
+                          "y": 74,
+                          "fill": "#0F172A",
+                          "content": "공고게시 완료",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zfGvt",
+                          "x": 206,
+                          "y": 78,
+                          "name": "Dot2",
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#3B82F6",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "text",
+                          "id": "9kDqC",
+                          "x": 230,
+                          "y": 74,
+                          "fill": "#0F172A",
+                          "content": "입찰시작 진행중",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "OSZ9K",
+                          "x": 406,
+                          "y": 78,
+                          "name": "Dot3",
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#94A3B8",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "text",
+                          "id": "eFnmk",
+                          "x": 430,
+                          "y": 74,
+                          "fill": "#0F172A",
+                          "content": "입찰마감 예정",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "clzl8",
+                          "x": 586,
+                          "y": 78,
+                          "name": "Dot4",
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#94A3B8",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "text",
+                          "id": "YAbWQ",
+                          "x": 610,
+                          "y": 74,
+                          "fill": "#0F172A",
+                          "content": "개찰 예정",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "C3vI6",
+                      "x": 0,
+                      "y": 532,
+                      "name": "상세 내용",
+                      "width": 806,
+                      "height": 420,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mI5fR",
+                          "x": 20,
+                          "y": 20,
+                          "fill": "#0F172A",
+                          "content": "상세 내용 | 사업개요 | 참가자격 | 제출서류 | 기타사항",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "povgh",
+                          "x": 20,
+                          "y": 68,
+                          "fill": "#475569",
+                          "content": "정부 디지털 전환 사업의 안정적 운영을 위한 유지보수 용역입니다.\n- 인력 구성\n- 유지보수 범위\n- 보고 체계",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "M8ORW",
+                          "x": 20,
+                          "y": 52,
+                          "name": "Tabs Bar",
+                          "width": 766,
+                          "height": 44,
+                          "fill": "#F8FAFC",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "M0y93",
+                              "x": 8,
+                              "y": 6,
+                              "name": "사업개요 active",
+                              "width": 108,
+                              "height": 32,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "w9ZU0",
+                                  "x": 28,
+                                  "y": 9,
+                                  "fill": "#2563EB",
+                                  "content": "사업개요",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "TWEU9",
+                                  "x": 14,
+                                  "y": 28,
+                                  "name": "Active Underline",
+                                  "width": 80,
+                                  "height": 2,
+                                  "fill": "#2563EB",
+                                  "layout": "none"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Bvn9V",
+                              "x": 124,
+                              "y": 6,
+                              "name": "참가자격",
+                              "width": 108,
+                              "height": 32,
+                              "fill": "#F8FAFC",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "DRowl",
+                                  "x": 28,
+                                  "y": 9,
+                                  "fill": "#475569",
+                                  "content": "참가자격",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "4zICR",
+                              "x": 240,
+                              "y": 6,
+                              "name": "제출서류",
+                              "width": 108,
+                              "height": 32,
+                              "fill": "#F8FAFC",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "P8v0R",
+                                  "x": 28,
+                                  "y": 9,
+                                  "fill": "#475569",
+                                  "content": "제출서류",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "wHgzp",
+                              "x": 356,
+                              "y": 6,
+                              "name": "기타사항",
+                              "width": 108,
+                              "height": 32,
+                              "fill": "#F8FAFC",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "WIbYD",
+                                  "x": 28,
+                                  "y": 9,
+                                  "fill": "#475569",
+                                  "content": "기타사항",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nuPQh",
+                      "x": 0,
+                      "y": 968,
+                      "name": "첨부파일",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "UDFkD",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "첨부파일 (3)",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZDk4n",
+                          "x": 20,
+                          "y": 56,
+                          "name": "file1",
+                          "width": 766,
+                          "height": 44,
+                          "fill": "#F8FAFC",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "FeqoW",
+                              "x": 16,
+                              "y": 13,
+                              "fill": "#0F172A",
+                              "content": "제안요청서.pdf",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "L8HNa",
+                              "x": 620,
+                              "y": 13,
+                              "fill": "#64748B",
+                              "content": "2.1MB",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "OiCue",
+                              "x": 692,
+                              "y": 6,
+                              "name": "down1",
+                              "width": 60,
+                              "height": 32,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 6,
+                              "layout": "none"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Vu3bT",
+                          "x": 20,
+                          "y": 108,
+                          "name": "file2",
+                          "width": 766,
+                          "height": 44,
+                          "fill": "#F8FAFC",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "3ffDe",
+                              "x": 16,
+                              "y": 13,
+                              "fill": "#0F172A",
+                              "content": "과업지시서.hwp",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "STes1",
+                              "x": 620,
+                              "y": 13,
+                              "fill": "#64748B",
+                              "content": "1.3MB",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Jzzdu",
+                          "x": 20,
+                          "y": 160,
+                          "name": "file3",
+                          "width": 766,
+                          "height": 44,
+                          "fill": "#F8FAFC",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "6KQLR",
+                              "x": 16,
+                              "y": 13,
+                              "fill": "#0F172A",
+                              "content": "계약특수조건.docx",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "eQ5vm",
+                              "x": 620,
+                              "y": 13,
+                              "fill": "#64748B",
+                              "content": "0.8MB",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fSZCx",
+                          "x": 640,
+                          "y": 18,
+                          "name": "download all",
+                          "width": 146,
+                          "height": 30,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dJt7U",
+                              "x": 34,
+                              "y": 8,
+                              "fill": "#0F172A",
+                              "content": "전체 다운로드",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kwnqY",
+                      "x": 0,
+                      "y": 1204,
+                      "name": "유사 공고",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qaSyn",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "유사 공고",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "KrArN",
+                          "x": 20,
+                          "y": 56,
+                          "name": "similar1",
+                          "width": 244,
+                          "height": 144,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "O9LOJ",
+                              "x": 14,
+                              "y": 16,
+                              "fill": "#0F172A",
+                              "content": "클라우드 인프라 유지관리\n예산 120,000,000원",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tJ8zH",
+                          "x": 280,
+                          "y": 56,
+                          "name": "similar2",
+                          "width": 244,
+                          "height": 144,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Dh7lR",
+                              "x": 14,
+                              "y": 16,
+                              "fill": "#0F172A",
+                              "content": "정보시스템 운영 지원\n예산 180,000,000원",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "wUgfT",
+                          "x": 540,
+                          "y": 56,
+                          "name": "similar3",
+                          "width": 244,
+                          "height": 144,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "h8xaJ",
+                      "x": 0,
+                      "y": 1440,
+                      "name": "Loading State",
+                      "width": 806,
+                      "height": 180,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mtCbN",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "로딩 상태",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "WjC7X",
+                          "x": 20,
+                          "y": 56,
+                          "name": "skeleton-1",
+                          "width": 520,
+                          "height": 18,
+                          "fill": "#E2E8F0",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Tybfj",
+                          "x": 20,
+                          "y": 84,
+                          "name": "skeleton-2",
+                          "width": 680,
+                          "height": 14,
+                          "fill": "#E2E8F0",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zlQHt",
+                          "x": 20,
+                          "y": 108,
+                          "name": "skeleton-3",
+                          "width": 640,
+                          "height": 14,
+                          "fill": "#E2E8F0",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "8fKDG",
+                      "x": 0,
+                      "y": 1636,
+                      "name": "Empty State",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "x1wI0",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "데이터 없음",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "TaTCs",
+                          "x": 20,
+                          "y": 58,
+                          "fill": "#64748B",
+                          "content": "조건에 맞는 유사 공고가 없습니다. 필터를 조정하거나 새로고침해 주세요.",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "BHu16",
+                          "x": 20,
+                          "y": 104,
+                          "name": "필터 초기화",
+                          "width": 112,
+                          "height": 36,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "FOxKD",
+                              "x": 24,
+                              "y": 10,
+                              "fill": "#0F172A",
+                              "content": "필터 초기화",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6bM15",
+                      "x": 0,
+                      "y": 1872,
+                      "name": "Error State",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mFpPV",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#B91C1C",
+                          "content": "오류 발생",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 17,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "4lJp2",
+                          "x": 20,
+                          "y": 58,
+                          "fill": "#64748B",
+                          "content": "데이터를 불러오지 못했습니다. 네트워크 상태를 확인한 뒤 다시 시도해 주세요.",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "0mtfv",
+                          "x": 20,
+                          "y": 104,
+                          "name": "재시도",
+                          "width": 86,
+                          "height": 36,
+                          "fill": "#2563EB",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "HbizE",
+                              "x": 27,
+                              "y": 10,
+                              "fill": "#FFFFFF",
+                              "content": "재시도",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OQ818",
+                  "x": 846,
+                  "y": 300,
+                  "name": "Right Column",
+                  "width": 330,
+                  "height": 2140,
+                  "fill": "#F8FAFC",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "H14UG",
+                      "x": 0,
+                      "y": 0,
+                      "name": "빠른 액션",
+                      "width": 330,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "V5EL7",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "빠른 액션\n모의입찰 시작하기 | 원문 보기 | 적격심사 계산",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Brx4D",
+                          "x": 20,
+                          "y": 56,
+                          "name": "모의입찰 CTA",
+                          "width": 290,
+                          "height": 48,
+                          "fill": "#2563EB",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tdjBC",
+                              "x": 96,
+                              "y": 15,
+                              "fill": "#FFFFFF",
+                              "content": "모의입찰 시작하기",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "KJExm",
+                          "x": 20,
+                          "y": 116,
+                          "name": "원문 보기",
+                          "width": 290,
+                          "height": 40,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "q5XPA",
+                              "x": 120,
+                              "y": 12,
+                              "fill": "#0F172A",
+                              "content": "원문 보기",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DCEbU",
+                          "x": 20,
+                          "y": 164,
+                          "name": "적격심사 계산",
+                          "width": 290,
+                          "height": 40,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "93pxY",
+                              "x": 108,
+                              "y": 12,
+                              "fill": "#0F172A",
+                              "content": "적격심사 계산",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "98z5r",
+                          "x": 20,
+                          "y": 186,
+                          "fill": "#64748B",
+                          "content": "로그인 후 이용 가능\n미로그인: /login?returnTo=현재경로",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N4wS5",
+                      "x": 0,
+                      "y": 236,
+                      "name": "마감 정보",
+                      "width": 330,
+                      "height": 200,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uhJHo",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "마감 정보\nD-5\n마감까지 남은 시간",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "eHXPX",
+                          "x": 128,
+                          "y": 74,
+                          "fill": "#F59E0B",
+                          "content": "D-5",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 52,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "qO7Xi",
+                          "x": 20,
+                          "y": 154,
+                          "name": "Deadline Progress BG",
+                          "width": 290,
+                          "height": 10,
+                          "fill": "#E2E8F0",
+                          "cornerRadius": 5,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "3OQNR",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Deadline Progress Fill",
+                              "width": 172,
+                              "height": 10,
+                              "fill": "#F59E0B",
+                              "cornerRadius": 5,
+                              "layout": "none"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "w44i9",
+                      "x": 0,
+                      "y": 452,
+                      "name": "프리미엄 분석",
+                      "width": 330,
+                      "height": 260,
+                      "fill": "#F59E0B",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "BnLu3",
+                          "x": 20,
+                          "y": 20,
+                          "fill": "#FFFFFF",
+                          "content": "AI 분석 보고서",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "B3VZi",
+                          "x": 20,
+                          "y": 56,
+                          "fill": "#FEF3C7",
+                          "content": "과거 데이터 기반 낙찰 예측 및 전략 제안",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "iMwp0",
+                          "x": 20,
+                          "y": 96,
+                          "fill": "#FEF3C7",
+                          "content": "✓ 낙찰가 예측\n✓ 경쟁 강도 분석\n✓ 맞춤 전략 제안",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "QKCJO",
+                          "x": 20,
+                          "y": 178,
+                          "fill": "#FFFFFF",
+                          "content": "5,000 포인트",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "O8K0D",
+                          "x": 20,
+                          "y": 204,
+                          "name": "분석 시작하기",
+                          "width": 290,
+                          "height": 40,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "XSjtY",
+                              "x": 112,
+                              "y": 12,
+                              "fill": "#0F172A",
+                              "content": "분석 시작하기",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "LuzAc",
+                      "x": 0,
+                      "y": 728,
+                      "name": "참가업체 통계",
+                      "width": 330,
+                      "height": 172,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "0Nq5Q",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "참가업체 통계",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "dB9G5",
+                          "x": 20,
+                          "y": 56,
+                          "fill": "#475569",
+                          "content": "평균 참가업체: 8.5개사\n평균 낙찰률: 87.3%",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "GIHCG",
+                          "x": 20,
+                          "y": 132,
+                          "fill": "#2563EB",
+                          "content": "전체 통계 보기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FfH0O",
+                      "x": 0,
+                      "y": 916,
+                      "name": "유사 사정율",
+                      "width": 330,
+                      "height": 196,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qTEWD",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "유사 사정율 분석",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "TGMMq",
+                          "x": 20,
+                          "y": 56,
+                          "name": "Mini Chart",
+                          "width": 290,
+                          "height": 86,
+                          "fill": "#EFF6FF",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "vX2v1",
+                              "x": 104,
+                              "y": 34,
+                              "fill": "#3B82F6",
+                              "content": "미니 차트 영역",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "VGgyY",
+                          "x": 20,
+                          "y": 160,
+                          "fill": "#2563EB",
+                          "content": "상세 분석 보기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "chlEw",
+                      "x": 0,
+                      "y": 1128,
+                      "name": "Interaction States",
+                      "width": 330,
+                      "height": 520,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "CjpO3",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "상태 미리보기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hp1dN",
+                          "x": 20,
+                          "y": 52,
+                          "name": "Bookmark OFF",
+                          "width": 136,
+                          "height": 36,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "amchW",
+                              "x": 33,
+                              "y": 10,
+                              "fill": "#475569",
+                              "content": "북마크 OFF",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DAtSD",
+                          "x": 174,
+                          "y": 52,
+                          "name": "Bookmark ON",
+                          "width": 136,
+                          "height": 36,
+                          "fill": "#EFF6FF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "njTCQ",
+                              "x": 42,
+                              "y": 10,
+                              "fill": "#2563EB",
+                              "content": "북마크 ON",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Ni9Ow",
+                          "x": 20,
+                          "y": 102,
+                          "name": "Premium Lock",
+                          "width": 290,
+                          "height": 44,
+                          "fill": "#F8FAFC",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uq5Vn",
+                              "x": 14,
+                              "y": 13,
+                              "fill": "#334155",
+                              "content": "참가업체 통계 (비유료 사용자)",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "cYFKH",
+                              "x": 236,
+                              "y": 8,
+                              "name": "LOCK",
+                              "width": 40,
+                              "height": 28,
+                              "fill": "#E2E8F0",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "j50tZ",
+                                  "x": 8,
+                                  "y": 8,
+                                  "fill": "#64748B",
+                                  "content": "LOCK",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 10,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "l4bwN",
+                          "x": 20,
+                          "y": 158,
+                          "name": "<24h Countdown",
+                          "width": 290,
+                          "height": 86,
+                          "fill": "#FEF2F2",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "1Y2VB",
+                              "x": 90,
+                              "y": 16,
+                              "fill": "#DC2626",
+                              "content": "12:34:56",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 28,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Q8oIV",
+                              "x": 96,
+                              "y": 54,
+                              "fill": "#B91C1C",
+                              "content": "마감 24시간 이내",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "4yvnz",
+                          "x": 20,
+                          "y": 256,
+                          "name": "Focus State",
+                          "width": 136,
+                          "height": 56,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ZkTfC",
+                              "x": 12,
+                              "y": 12,
+                              "name": "Button",
+                              "width": 112,
+                              "height": 32,
+                              "fill": "#2563EB",
+                              "cornerRadius": 8,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "uRR6o",
+                                  "x": 39,
+                                  "y": 9,
+                                  "fill": "#FFFFFF",
+                                  "content": "Focus",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bJD8C",
+                          "x": 174,
+                          "y": 256,
+                          "name": "Hover State",
+                          "width": 136,
+                          "height": 56,
+                          "fill": "#F1F5F9",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "PaRlA",
+                              "x": 12,
+                              "y": 12,
+                              "name": "Button",
+                              "width": 112,
+                              "height": 32,
+                              "fill": "#1D4ED8",
+                              "cornerRadius": 8,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "9qx3D",
+                                  "x": 38,
+                                  "y": 9,
+                                  "fill": "#FFFFFF",
+                                  "content": "Hover",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZAoa7",
+                          "x": 20,
+                          "y": 324,
+                          "name": "Tab Transition Spec",
+                          "width": 290,
+                          "height": 52,
+                          "fill": "#F8FAFC",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "WQ6Le",
+                              "x": 14,
+                              "y": 17,
+                              "fill": "#334155",
+                              "content": "탭 전환: fade 200ms ease-in-out",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XI7gm",
+                          "x": 20,
+                          "y": 384,
+                          "name": "Countdown Spec",
+                          "width": 290,
+                          "height": 52,
+                          "fill": "#FEF2F2",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NLbcJ",
+                              "x": 14,
+                              "y": 17,
+                              "fill": "#B91C1C",
+                              "content": "카운트다운 업데이트: 1초 주기",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UYPOu",
+                          "x": 20,
+                          "y": 444,
+                          "name": "Download Retry Spec",
+                          "width": 290,
+                          "height": 64,
+                          "fill": "#FFF7ED",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "OFDQI",
+                              "x": 14,
+                              "y": 16,
+                              "fill": "#9A3412",
+                              "content": "다운로드 실패 -> 원인 안내 -> 재시도 버튼",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "tlobt",
+                              "x": 14,
+                              "y": 36,
+                              "fill": "#C2410C",
+                              "content": "재시도 최대 3회, 이후 원문 링크 안내",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZzBwU",
+                      "x": 0,
+                      "y": 1664,
+                      "name": "Accessibility Notes",
+                      "width": 330,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yhR3b",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "접근성 규칙 (ARIA)",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "kDG0f",
+                          "x": 20,
+                          "y": 56,
+                          "fill": "#334155",
+                          "content": "bookmark 버튼: aria-label=\"북마크 토글\"",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "rRqm8",
+                          "x": 20,
+                          "y": 84,
+                          "fill": "#334155",
+                          "content": "share 버튼: aria-label=\"공유 메뉴 열기\"",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "eIwzR",
+                          "x": 20,
+                          "y": 112,
+                          "fill": "#334155",
+                          "content": "print 버튼: aria-label=\"인쇄 미리보기\"",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "4PjHI",
+                          "x": 20,
+                          "y": 146,
+                          "fill": "#334155",
+                          "content": "tabs: 키보드 좌/우 이동 + 선택 상태 읽기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TcJdn",
+                  "x": 914,
+                  "y": 96,
+                  "name": "Share Modal Preview",
+                  "width": 262,
+                  "height": 132,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SwrDC",
+                      "x": 16,
+                      "y": 14,
+                      "fill": "#0F172A",
+                      "content": "공유하기",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "8IxyM",
+                      "x": 16,
+                      "y": 46,
+                      "fill": "#2563EB",
+                      "content": "링크 복사",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "DVAB1",
+                      "x": 16,
+                      "y": 70,
+                      "fill": "#475569",
+                      "content": "카카오톡 공유",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "gGs5S",
+                      "x": 16,
+                      "y": 94,
+                      "fill": "#475569",
+                      "content": "이메일 공유",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "iK7Vg",
+                  "x": 388,
+                  "y": 540,
+                  "name": "Login Gate Modal",
+                  "width": 424,
+                  "height": 244,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "zItFB",
+                      "x": 24,
+                      "y": 20,
+                      "fill": "#0F172A",
+                      "content": "로그인이 필요합니다",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "SvsRR",
+                      "x": 24,
+                      "y": 58,
+                      "fill": "#475569",
+                      "content": "모의입찰/프리미엄 기능은 로그인 후 사용할 수 있습니다.",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6thtY",
+                      "x": 24,
+                      "y": 88,
+                      "name": "Redirect Box",
+                      "width": 376,
+                      "height": 42,
+                      "fill": "#F8FAFC",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rIwtl",
+                          "x": 12,
+                          "y": 13,
+                          "fill": "#334155",
+                          "content": "returnPath: /bid_notice/detail/20260223-001",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MA49y",
+                      "x": 24,
+                      "y": 148,
+                      "name": "로그인하기",
+                      "width": 182,
+                      "height": 40,
+                      "fill": "#2563EB",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "T2Gp3",
+                          "x": 66,
+                          "y": 12,
+                          "fill": "#FFFFFF",
+                          "content": "로그인하기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Gh8EF",
+                      "x": 218,
+                      "y": 148,
+                      "name": "취소",
+                      "width": 182,
+                      "height": 40,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "D5Ffe",
+                          "x": 84,
+                          "y": 12,
+                          "fill": "#334155",
+                          "content": "취소",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "rCmHy",
+                      "x": 24,
+                      "y": 206,
+                      "fill": "#64748B",
+                      "content": "게스트는 목록/상세 조회만 가능",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "KZesd",
+          "x": 1620,
+          "y": 80,
+          "name": "Tablet 1200",
+          "width": 1200,
+          "height": 2400,
+          "fill": "#F8FAFC",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "1l3RO",
+              "x": 0,
+              "y": 0,
+              "name": "Tablet Rail",
+              "width": 88,
+              "height": 2400,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "WW57G",
+                  "x": 28,
+                  "y": 26,
+                  "fill": "#0F172A",
+                  "content": "PB",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 24,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "SvcnR",
+                  "x": 20,
+                  "y": 120,
+                  "name": "Active",
+                  "width": 48,
+                  "height": 48,
+                  "fill": "#EFF6FF",
+                  "cornerRadius": 12,
+                  "layout": "none"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IeUJ3",
+              "x": 88,
+              "y": 0,
+              "name": "Tablet Main",
+              "width": 1112,
+              "height": 2400,
+              "fill": "#F8FAFC",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TgixA",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Tablet Header",
+                  "width": 1112,
+                  "height": 80,
+                  "fill": "#FFFFFF",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xXNu2",
+                      "x": 20,
+                      "y": 18,
+                      "fill": "#64748B",
+                      "content": "홈 > 입찰공고 > 상세",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Pd3q5",
+                      "x": 904,
+                      "y": 42,
+                      "fill": "#0F172A",
+                      "content": "북마크  공유  인쇄",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "XN1ZK",
+                  "x": 0,
+                  "y": 88,
+                  "name": "Tablet Title",
+                  "width": 1112,
+                  "height": 160,
+                  "fill": "#FFFFFF",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "KMp2B",
+                      "x": 20,
+                      "y": 28,
+                      "fill": "#0F172A",
+                      "content": "전자정부프레임워크 유지보수 용역",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 28,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "7MjJh",
+                      "x": 20,
+                      "y": 74,
+                      "fill": "#475569",
+                      "content": "조달청 디지털서비스국 | 공고번호 20260223-001",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7NWRT",
+                  "x": 20,
+                  "y": 264,
+                  "name": "Tablet Left 65",
+                  "width": 680,
+                  "height": 2060,
+                  "fill": "#F8FAFC",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "erhLu",
+                      "x": 0,
+                      "y": 0,
+                      "name": "주요 정보",
+                      "width": 680,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "6Negp",
+                          "x": 18,
+                          "y": 16,
+                          "fill": "#0F172A",
+                          "content": "주요 정보",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 19,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "pzzdc",
+                          "x": 18,
+                          "y": 56,
+                          "fill": "#475569",
+                          "content": "예산금액 150,000,000원\n입찰마감 2026.02.28 15:00",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HV9Dn",
+                      "x": 0,
+                      "y": 236,
+                      "name": "일정",
+                      "width": 680,
+                      "height": 180,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "aOvLV",
+                          "x": 18,
+                          "y": 24,
+                          "fill": "#0F172A",
+                          "content": "일정: 공고게시 → 입찰시작 → 입찰마감 → 개찰",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hfbVt",
+                      "x": 0,
+                      "y": 432,
+                      "name": "상세 내용",
+                      "width": 680,
+                      "height": 360,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "J6rgV",
+                          "x": 18,
+                          "y": 20,
+                          "fill": "#0F172A",
+                          "content": "상세 내용 탭 (사업개요/참가자격/제출서류/기타사항)",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "u33uC",
+                      "x": 0,
+                      "y": 808,
+                      "name": "첨부파일",
+                      "width": 680,
+                      "height": 200,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wo6dS",
+                          "x": 18,
+                          "y": 20,
+                          "fill": "#0F172A",
+                          "content": "첨부파일 목록",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "V6dn0",
+                      "x": 0,
+                      "y": 1024,
+                      "name": "유사 공고",
+                      "width": 680,
+                      "height": 180,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "jg1SP",
+                          "x": 18,
+                          "y": 20,
+                          "fill": "#0F172A",
+                          "content": "유사 공고 카드 스크롤",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Jcsre",
+                  "x": 716,
+                  "y": 264,
+                  "name": "Tablet Right 35",
+                  "width": 376,
+                  "height": 2060,
+                  "fill": "#F8FAFC",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "UURMy",
+                      "x": 0,
+                      "y": 0,
+                      "name": "빠른 액션",
+                      "width": 376,
+                      "height": 220,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mv5Oq",
+                          "x": 20,
+                          "y": 20,
+                          "fill": "#0F172A",
+                          "content": "모의입찰 시작하기\n원문 보기\n적격심사 계산",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "5AqW9",
+                      "x": 0,
+                      "y": 236,
+                      "name": "마감 정보",
+                      "width": 376,
+                      "height": 180,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "2CBEP",
+                          "x": 20,
+                          "y": 26,
+                          "fill": "#F59E0B",
+                          "content": "D-5 / 마감까지 남은 시간",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p68LZ",
+                      "x": 0,
+                      "y": 432,
+                      "name": "프리미엄 분석",
+                      "width": 376,
+                      "height": 240,
+                      "fill": "#F59E0B",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vPl1W",
+                          "x": 20,
+                          "y": 20,
+                          "fill": "#FFFFFF",
+                          "content": "AI 분석 보고서\n5,000 포인트",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 17,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BOfG1",
+          "x": 2920,
+          "y": 80,
+          "name": "Mobile 390",
+          "width": 390,
+          "height": 2400,
+          "fill": "#F8FAFC",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Th2XQ",
+              "x": 0,
+              "y": 0,
+              "name": "Mobile Header",
+              "width": 390,
+              "height": 72,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "6PmXe",
+                  "x": 16,
+                  "y": 14,
+                  "fill": "#64748B",
+                  "content": "홈 > 입찰공고 > 상세",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "qBotG",
+                  "x": 274,
+                  "y": 40,
+                  "fill": "#0F172A",
+                  "content": "북마크  공유",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NjaqF",
+              "x": 0,
+              "y": 80,
+              "name": "Mobile Title",
+              "width": 390,
+              "height": 136,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "WvdQq",
+                  "x": 16,
+                  "y": 20,
+                  "fill": "#0F172A",
+                  "content": "전자정부프레임워크 유지보수 용역",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 21,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "zW6Ri",
+                  "x": 16,
+                  "y": 56,
+                  "fill": "#2563EB",
+                  "content": "조달청 디지털서비스국",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "MbkBp",
+                  "x": 16,
+                  "y": 84,
+                  "fill": "#64748B",
+                  "content": "공고번호 20260223-001",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tcsh9",
+              "x": 12,
+              "y": 228,
+              "name": "주요 정보",
+              "width": 366,
+              "height": 168,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "aA1On",
+                  "x": 16,
+                  "y": 18,
+                  "fill": "#0F172A",
+                  "content": "주요 정보\n예산금액 150,000,000원\n입찰마감 2026.02.28 15:00",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Wq3j1",
+              "x": 12,
+              "y": 408,
+              "name": "일정",
+              "width": 366,
+              "height": 120,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QkU7S",
+                  "x": 16,
+                  "y": 18,
+                  "fill": "#0F172A",
+                  "content": "일정\n공고게시 → 입찰시작 → 입찰마감 → 개찰",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IRww1",
+              "x": 12,
+              "y": 540,
+              "name": "상세 내용",
+              "width": 366,
+              "height": 220,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qYp83",
+                  "x": 16,
+                  "y": 18,
+                  "fill": "#0F172A",
+                  "content": "상세 내용 탭\n사업개요 | 참가자격 | 제출서류 | 기타사항",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hqSrD",
+              "x": 12,
+              "y": 772,
+              "name": "첨부파일",
+              "width": 366,
+              "height": 120,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eBrf6",
+                  "x": 16,
+                  "y": 18,
+                  "fill": "#0F172A",
+                  "content": "첨부파일 목록",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RjJjS",
+              "x": 12,
+              "y": 904,
+              "name": "유사 공고",
+              "width": 366,
+              "height": 120,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "9foy4",
+                  "x": 16,
+                  "y": 18,
+                  "fill": "#0F172A",
+                  "content": "유사 공고 카드 스크롤",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "q43XP",
+              "x": 12,
+              "y": 1036,
+              "name": "빠른 액션",
+              "width": 366,
+              "height": 148,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kAdHf",
+                  "x": 16,
+                  "y": 18,
+                  "fill": "#0F172A",
+                  "content": "모의입찰 시작하기\n원문 보기\n적격심사 계산",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mKtkC",
+              "x": 12,
+              "y": 1196,
+              "name": "마감 정보",
+              "width": 366,
+              "height": 120,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "a6OVm",
+                  "x": 16,
+                  "y": 18,
+                  "fill": "#F59E0B",
+                  "content": "마감 정보  D-5",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nYDFW",
+              "x": 12,
+              "y": 1328,
+              "name": "프리미엄 분석",
+              "width": 366,
+              "height": 148,
+              "fill": "#F59E0B",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RApDW",
+                  "x": 16,
+                  "y": 18,
+                  "fill": "#FFFFFF",
+                  "content": "AI 분석 보고서\n5,000 포인트",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 17,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "9LqXi",
+              "x": 0,
+              "y": 2324,
+              "name": "Sticky Bottom",
+              "width": 390,
+              "height": 76,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xRKCG",
+                  "x": 110,
+                  "y": 30,
+                  "fill": "#2563EB",
+                  "content": "북마크   |   모의입찰 시작",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "O3z5M",
+          "x": 3360,
+          "y": 80,
+          "name": "Print Preview A4",
+          "width": 1240,
+          "height": 1754,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "id": "AAsGo",
+              "x": 40,
+              "y": 36,
+              "fill": "#0F172A",
+              "content": "인쇄 미리보기 (A4)",
+              "fontFamily": "Noto Sans KR",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "6jpoX",
+              "x": 40,
+              "y": 86,
+              "fill": "#0F172A",
+              "content": "전자정부프레임워크 유지보수 용역",
+              "fontFamily": "Noto Sans KR",
+              "fontSize": 20,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "rjytV",
+              "x": 40,
+              "y": 118,
+              "fill": "#64748B",
+              "content": "인쇄 모드에서는 북마크/공유/CTA 버튼을 숨기고 본문 중심으로 재배치",
+              "fontFamily": "Noto Sans KR",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "PLckm",
+              "x": 40,
+              "y": 170,
+              "name": "Print Section - 주요 정보",
+              "width": 1160,
+              "height": 260,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "6V4U0",
+                  "x": 24,
+                  "y": 24,
+                  "fill": "#0F172A",
+                  "content": "주요 정보 / 일정 / 참가자격 (인쇄용 요약)",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sZjKT",
+              "x": 40,
+              "y": 454,
+              "name": "Print Section - 상세",
+              "width": 1160,
+              "height": 860,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "wFjFA",
+                  "x": 24,
+                  "y": 24,
+                  "fill": "#0F172A",
+                  "content": "상세 내용 (탭 제거 후 단일 문서 흐름)",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "0A8q5",
+              "x": 40,
+              "y": 1338,
+              "name": "Print Section - 첨부",
+              "width": 1160,
+              "height": 220,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "roCrz",
+                  "x": 24,
+                  "y": 24,
+                  "fill": "#0F172A",
+                  "content": "첨부파일 목록 및 원문 URL",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "9thqD",
+              "x": 40,
+              "y": 1688,
+              "fill": "#94A3B8",
+              "content": "Generated at 2026-02-23",
+              "fontFamily": "Noto Sans KR",
+              "fontSize": 12,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "1Nenm",
+          "x": 80,
+          "y": 2700,
+          "name": "Desktop 1440 Dark Variant",
+          "width": 1440,
+          "height": 2500,
+          "fill": "#0B1121",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ZaZ9A",
+              "x": 0,
+              "y": 0,
+              "name": "Sidebar",
+              "width": 240,
+              "height": 2500,
+              "fill": "#151E32",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "1hncq",
+                  "x": 24,
+                  "y": 24,
+                  "name": "dLogo",
+                  "content": "PlayBid",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "g4NAp",
+                  "x": 24,
+                  "y": 84,
+                  "name": "dNavTitle",
+                  "content": "NAVIGATION",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "MdHUM",
+                  "x": 16,
+                  "y": 112,
+                  "name": "Nav Dashboard",
+                  "width": 208,
+                  "height": 40,
+                  "fill": "#151E32",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PgWWz",
+                      "x": 16,
+                      "y": 10,
+                      "content": "대시보드",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dMtCs",
+                  "x": 16,
+                  "y": 160,
+                  "name": "Nav Notices Active",
+                  "width": 208,
+                  "height": 40,
+                  "fill": "#1E293B",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "sTVOO",
+                      "x": 16,
+                      "y": 10,
+                      "content": "입찰공고",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SUQlW",
+                  "x": 16,
+                  "y": 208,
+                  "name": "Nav Results",
+                  "width": 208,
+                  "height": 40,
+                  "fill": "#151E32",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "3i4ew",
+                      "x": 16,
+                      "y": 10,
+                      "content": "개찰결과",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "IISVB",
+                  "x": 16,
+                  "y": 256,
+                  "name": "Nav History",
+                  "width": 208,
+                  "height": 40,
+                  "fill": "#151E32",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "3EnXD",
+                      "x": 16,
+                      "y": 10,
+                      "content": "입찰이력",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LNOBa",
+              "x": 240,
+              "y": 0,
+              "name": "Main Area",
+              "width": 1200,
+              "height": 2500,
+              "fill": "#0B1121",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nTJRk",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Header",
+                  "width": 1200,
+                  "height": 88,
+                  "fill": "#151E32",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "R7oGs",
+                      "x": 24,
+                      "y": 18,
+                      "content": "홈 > 입찰공고 > 전자정부프레임워크 유지보수 용역",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "frame",
+                      "id": "paB2B",
+                      "x": 24,
+                      "y": 44,
+                      "name": "Back",
+                      "width": 110,
+                      "height": 32,
+                      "fill": "#334155",
+                      "cornerRadius": 6,
+                      "layout": "none"
+                    },
+                    {
+                      "type": "text",
+                      "id": "3f9EG",
+                      "x": 58,
+                      "y": 52,
+                      "content": "목록으로",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "s5DrQ",
+                      "x": 860,
+                      "y": 44,
+                      "name": "Bookmark",
+                      "width": 96,
+                      "height": 32,
+                      "fill": "#1E293B",
+                      "cornerRadius": 6,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "5kPvE",
+                          "x": 26,
+                          "y": 8,
+                          "fill": "#2563EB",
+                          "content": "북마크",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j8pfs",
+                      "x": 964,
+                      "y": 44,
+                      "name": "Share",
+                      "width": 88,
+                      "height": 32,
+                      "fill": "#151E32",
+                      "cornerRadius": 6,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "k46Vg",
+                          "x": 32,
+                          "y": 8,
+                          "content": "공유",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3JrWS",
+                      "x": 1060,
+                      "y": 44,
+                      "name": "Print",
+                      "width": 88,
+                      "height": 32,
+                      "fill": "#151E32",
+                      "cornerRadius": 6,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oeTdr",
+                          "x": 32,
+                          "y": 8,
+                          "content": "인쇄",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ECB8N",
+                  "x": 0,
+                  "y": 96,
+                  "name": "Title Section",
+                  "width": 1200,
+                  "height": 180,
+                  "fill": "#151E32",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "5WnTR",
+                      "x": 24,
+                      "y": 24,
+                      "name": "Category Badge",
+                      "width": 96,
+                      "height": 24,
+                      "fill": "#3B82F6",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "picCH",
+                          "x": 34,
+                          "y": 5,
+                          "fill": "#FFFFFF",
+                          "content": "용역",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IIwb7",
+                      "x": 1080,
+                      "y": 24,
+                      "name": "Status Badge",
+                      "width": 92,
+                      "height": 24,
+                      "fill": "#10B981",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uf7T2",
+                          "x": 28,
+                          "y": 5,
+                          "fill": "#FFFFFF",
+                          "content": "진행중",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "0LMXt",
+                      "x": 24,
+                      "y": 62,
+                      "fill": "#0F172A",
+                      "content": "전자정부프레임워크 유지보수 용역",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 30,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "WK9zF",
+                      "x": 24,
+                      "y": 108,
+                      "fill": "#2563EB",
+                      "content": "조달청 디지털서비스국",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "m1YMn",
+                      "x": 24,
+                      "y": 140,
+                      "fill": "#64748B",
+                      "content": "공고번호 20260223-001 | 게시일 2026.02.23 | 조회 1,234",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BmYv1",
+                      "x": 132,
+                      "y": 24,
+                      "name": "Category Mapping",
+                      "width": 340,
+                      "height": 24,
+                      "fill": "#0B1121",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "4XgRt",
+                          "x": 16,
+                          "y": 5,
+                          "fill": "#334155",
+                          "content": "표시 카테고리: product",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "QROTu",
+                          "x": 188,
+                          "y": 5,
+                          "fill": "#2563EB",
+                          "content": "쿼리 정규화: goods",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "u5rBN",
+                  "x": 24,
+                  "y": 300,
+                  "name": "Left Column",
+                  "width": 806,
+                  "height": 2140,
+                  "fill": "#0B1121",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "MGwAA",
+                      "x": 0,
+                      "y": 0,
+                      "name": "주요 정보",
+                      "width": 806,
+                      "height": 280,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XYBTc",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "주요 정보",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "H5NRd",
+                          "x": 20,
+                          "y": 62,
+                          "fill": "#475569",
+                          "content": "예산금액 150,000,000원 | 추정가격 145,000,000원 | 입찰마감 2026.02.28 15:00",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IsZgd",
+                      "x": 0,
+                      "y": 296,
+                      "name": "일정",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "paL8v",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "일정",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SxXY9",
+                          "x": 20,
+                          "y": 64,
+                          "fill": "#475569",
+                          "content": "공고게시 → 입찰시작 → 입찰마감 → 개찰",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LlgUZ",
+                          "x": 26,
+                          "y": 78,
+                          "name": "Dot1",
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#10B981",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "text",
+                          "id": "uZ7w8",
+                          "x": 50,
+                          "y": 74,
+                          "fill": "#0F172A",
+                          "content": "공고게시 완료",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "b9rW4",
+                          "x": 206,
+                          "y": 78,
+                          "name": "Dot2",
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#3B82F6",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "text",
+                          "id": "zitBm",
+                          "x": 230,
+                          "y": 74,
+                          "fill": "#0F172A",
+                          "content": "입찰시작 진행중",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "A5KnY",
+                          "x": 406,
+                          "y": 78,
+                          "name": "Dot3",
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#94A3B8",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "text",
+                          "id": "aFm3h",
+                          "x": 430,
+                          "y": 74,
+                          "fill": "#0F172A",
+                          "content": "입찰마감 예정",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "lwim5",
+                          "x": 586,
+                          "y": 78,
+                          "name": "Dot4",
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#94A3B8",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "text",
+                          "id": "KUyAl",
+                          "x": 610,
+                          "y": 74,
+                          "fill": "#0F172A",
+                          "content": "개찰 예정",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "V19Ln",
+                      "x": 0,
+                      "y": 532,
+                      "name": "상세 내용",
+                      "width": 806,
+                      "height": 420,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "1o5VN",
+                          "x": 20,
+                          "y": 20,
+                          "fill": "#0F172A",
+                          "content": "상세 내용 | 사업개요 | 참가자격 | 제출서류 | 기타사항",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SRUUu",
+                          "x": 20,
+                          "y": 68,
+                          "fill": "#475569",
+                          "content": "정부 디지털 전환 사업의 안정적 운영을 위한 유지보수 용역입니다.\n- 인력 구성\n- 유지보수 범위\n- 보고 체계",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XInmd",
+                          "x": 20,
+                          "y": 52,
+                          "name": "Tabs Bar",
+                          "width": 766,
+                          "height": 44,
+                          "fill": "#0B1121",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "gsvT6",
+                              "x": 8,
+                              "y": 6,
+                              "name": "사업개요 active",
+                              "width": 108,
+                              "height": 32,
+                              "fill": "#151E32",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "BOrh4",
+                                  "x": 28,
+                                  "y": 9,
+                                  "fill": "#2563EB",
+                                  "content": "사업개요",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "BA0gX",
+                                  "x": 14,
+                                  "y": 28,
+                                  "name": "Active Underline",
+                                  "width": 80,
+                                  "height": 2,
+                                  "fill": "#2563EB",
+                                  "layout": "none"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "yrpUp",
+                              "x": 124,
+                              "y": 6,
+                              "name": "참가자격",
+                              "width": 108,
+                              "height": 32,
+                              "fill": "#0B1121",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Iind1",
+                                  "x": 28,
+                                  "y": 9,
+                                  "fill": "#475569",
+                                  "content": "참가자격",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "CqEwH",
+                              "x": 240,
+                              "y": 6,
+                              "name": "제출서류",
+                              "width": 108,
+                              "height": 32,
+                              "fill": "#0B1121",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "eP5os",
+                                  "x": 28,
+                                  "y": 9,
+                                  "fill": "#475569",
+                                  "content": "제출서류",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Z8lBh",
+                              "x": 356,
+                              "y": 6,
+                              "name": "기타사항",
+                              "width": 108,
+                              "height": 32,
+                              "fill": "#0B1121",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "BSSCy",
+                                  "x": 28,
+                                  "y": 9,
+                                  "fill": "#475569",
+                                  "content": "기타사항",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sPZbh",
+                      "x": 0,
+                      "y": 968,
+                      "name": "첨부파일",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XVXbO",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "첨부파일 (3)",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "klSvS",
+                          "x": 20,
+                          "y": 56,
+                          "name": "file1",
+                          "width": 766,
+                          "height": 44,
+                          "fill": "#0B1121",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "MvK7H",
+                              "x": 16,
+                              "y": 13,
+                              "fill": "#0F172A",
+                              "content": "제안요청서.pdf",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "UDV8E",
+                              "x": 620,
+                              "y": 13,
+                              "fill": "#64748B",
+                              "content": "2.1MB",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "eqU2V",
+                              "x": 692,
+                              "y": 6,
+                              "name": "down1",
+                              "width": 60,
+                              "height": 32,
+                              "fill": "#151E32",
+                              "cornerRadius": 6,
+                              "layout": "none"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "HD9rw",
+                          "x": 20,
+                          "y": 108,
+                          "name": "file2",
+                          "width": 766,
+                          "height": 44,
+                          "fill": "#0B1121",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "VtvbJ",
+                              "x": 16,
+                              "y": 13,
+                              "fill": "#0F172A",
+                              "content": "과업지시서.hwp",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "zzSPW",
+                              "x": 620,
+                              "y": 13,
+                              "fill": "#64748B",
+                              "content": "1.3MB",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "2vbBA",
+                          "x": 20,
+                          "y": 160,
+                          "name": "file3",
+                          "width": 766,
+                          "height": 44,
+                          "fill": "#0B1121",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "GdENr",
+                              "x": 16,
+                              "y": 13,
+                              "fill": "#0F172A",
+                              "content": "계약특수조건.docx",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "eCzM8",
+                              "x": 620,
+                              "y": 13,
+                              "fill": "#64748B",
+                              "content": "0.8MB",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "3QzDC",
+                          "x": 640,
+                          "y": 18,
+                          "name": "download all",
+                          "width": 146,
+                          "height": 30,
+                          "fill": "#151E32",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "lsLim",
+                              "x": 34,
+                              "y": 8,
+                              "fill": "#0F172A",
+                              "content": "전체 다운로드",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dpxxx",
+                      "x": 0,
+                      "y": 1204,
+                      "name": "유사 공고",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ri9wC",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "유사 공고",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "f2xq4",
+                          "x": 20,
+                          "y": 56,
+                          "name": "similar1",
+                          "width": 244,
+                          "height": 144,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "nSUSv",
+                              "x": 14,
+                              "y": 16,
+                              "fill": "#0F172A",
+                              "content": "클라우드 인프라 유지관리\n예산 120,000,000원",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "0FBsT",
+                          "x": 280,
+                          "y": 56,
+                          "name": "similar2",
+                          "width": 244,
+                          "height": 144,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Jcl2r",
+                              "x": 14,
+                              "y": 16,
+                              "fill": "#0F172A",
+                              "content": "정보시스템 운영 지원\n예산 180,000,000원",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UUe3l",
+                          "x": 540,
+                          "y": 56,
+                          "name": "similar3",
+                          "width": 244,
+                          "height": 144,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GBbhB",
+                      "x": 0,
+                      "y": 1440,
+                      "name": "Loading State",
+                      "width": 806,
+                      "height": 180,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "jBpex",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "로딩 상태",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XxxmU",
+                          "x": 20,
+                          "y": 56,
+                          "name": "skeleton-1",
+                          "width": 520,
+                          "height": 18,
+                          "fill": "#334155",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DvLiK",
+                          "x": 20,
+                          "y": 84,
+                          "name": "skeleton-2",
+                          "width": 680,
+                          "height": 14,
+                          "fill": "#334155",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "98nYz",
+                          "x": 20,
+                          "y": 108,
+                          "name": "skeleton-3",
+                          "width": 640,
+                          "height": 14,
+                          "fill": "#334155",
+                          "cornerRadius": 6,
+                          "layout": "none"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ckhZh",
+                      "x": 0,
+                      "y": 1636,
+                      "name": "Empty State",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QtFCA",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "데이터 없음",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "s88aX",
+                          "x": 20,
+                          "y": 58,
+                          "fill": "#64748B",
+                          "content": "조건에 맞는 유사 공고가 없습니다. 필터를 조정하거나 새로고침해 주세요.",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LAgGH",
+                          "x": 20,
+                          "y": 104,
+                          "name": "필터 초기화",
+                          "width": 112,
+                          "height": 36,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "sFrMq",
+                              "x": 24,
+                              "y": 10,
+                              "fill": "#0F172A",
+                              "content": "필터 초기화",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "726fu",
+                      "x": 0,
+                      "y": 1872,
+                      "name": "Error State",
+                      "width": 806,
+                      "height": 220,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iJpKC",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#B91C1C",
+                          "content": "오류 발생",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 17,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "NOxN7",
+                          "x": 20,
+                          "y": 58,
+                          "fill": "#64748B",
+                          "content": "데이터를 불러오지 못했습니다. 네트워크 상태를 확인한 뒤 다시 시도해 주세요.",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fR9jc",
+                          "x": 20,
+                          "y": 104,
+                          "name": "재시도",
+                          "width": 86,
+                          "height": 36,
+                          "fill": "#2563EB",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "CRNzd",
+                              "x": 27,
+                              "y": 10,
+                              "fill": "#FFFFFF",
+                              "content": "재시도",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fs8pp",
+                  "x": 846,
+                  "y": 300,
+                  "name": "Right Column",
+                  "width": 330,
+                  "height": 2140,
+                  "fill": "#0B1121",
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "A3az8",
+                      "x": 0,
+                      "y": 0,
+                      "name": "빠른 액션",
+                      "width": 330,
+                      "height": 220,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Tl4Wn",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "빠른 액션\n모의입찰 시작하기 | 원문 보기 | 적격심사 계산",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ofuaV",
+                          "x": 20,
+                          "y": 56,
+                          "name": "모의입찰 CTA",
+                          "width": 290,
+                          "height": 48,
+                          "fill": "#2563EB",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "MPT0H",
+                              "x": 96,
+                              "y": 15,
+                              "fill": "#FFFFFF",
+                              "content": "모의입찰 시작하기",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r5Hfg",
+                          "x": 20,
+                          "y": 116,
+                          "name": "원문 보기",
+                          "width": 290,
+                          "height": 40,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "jpKwJ",
+                              "x": 120,
+                              "y": 12,
+                              "fill": "#0F172A",
+                              "content": "원문 보기",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "3fqGp",
+                          "x": 20,
+                          "y": 164,
+                          "name": "적격심사 계산",
+                          "width": 290,
+                          "height": 40,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "0VtIH",
+                              "x": 108,
+                              "y": 12,
+                              "fill": "#0F172A",
+                              "content": "적격심사 계산",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "6kAni",
+                          "x": 20,
+                          "y": 186,
+                          "fill": "#64748B",
+                          "content": "로그인 후 이용 가능\n미로그인: /login?returnTo=현재경로",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rsAic",
+                      "x": 0,
+                      "y": 236,
+                      "name": "마감 정보",
+                      "width": 330,
+                      "height": 200,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "zTyN2",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "마감 정보\nD-5\n마감까지 남은 시간",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Df7C3",
+                          "x": 128,
+                          "y": 74,
+                          "fill": "#F59E0B",
+                          "content": "D-5",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 52,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "32sMK",
+                          "x": 20,
+                          "y": 154,
+                          "name": "Deadline Progress BG",
+                          "width": 290,
+                          "height": 10,
+                          "fill": "#334155",
+                          "cornerRadius": 5,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "v8Ffj",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Deadline Progress Fill",
+                              "width": 172,
+                              "height": 10,
+                              "fill": "#F59E0B",
+                              "cornerRadius": 5,
+                              "layout": "none"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "2Eegt",
+                      "x": 0,
+                      "y": 452,
+                      "name": "프리미엄 분석",
+                      "width": 330,
+                      "height": 260,
+                      "fill": "#F59E0B",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MaNCD",
+                          "x": 20,
+                          "y": 20,
+                          "fill": "#FFFFFF",
+                          "content": "AI 분석 보고서",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "bCYVk",
+                          "x": 20,
+                          "y": 56,
+                          "fill": "#FEF3C7",
+                          "content": "과거 데이터 기반 낙찰 예측 및 전략 제안",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "TMJ6S",
+                          "x": 20,
+                          "y": 96,
+                          "fill": "#FEF3C7",
+                          "content": "✓ 낙찰가 예측\n✓ 경쟁 강도 분석\n✓ 맞춤 전략 제안",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "wczex",
+                          "x": 20,
+                          "y": 178,
+                          "fill": "#FFFFFF",
+                          "content": "5,000 포인트",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "h0EZw",
+                          "x": 20,
+                          "y": 204,
+                          "name": "분석 시작하기",
+                          "width": 290,
+                          "height": 40,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "n6iAU",
+                              "x": 112,
+                              "y": 12,
+                              "fill": "#0F172A",
+                              "content": "분석 시작하기",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AwSAL",
+                      "x": 0,
+                      "y": 728,
+                      "name": "참가업체 통계",
+                      "width": 330,
+                      "height": 172,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "W6etd",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "참가업체 통계",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "vB0YB",
+                          "x": 20,
+                          "y": 56,
+                          "fill": "#475569",
+                          "content": "평균 참가업체: 8.5개사\n평균 낙찰률: 87.3%",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "jK5f0",
+                          "x": 20,
+                          "y": 132,
+                          "fill": "#2563EB",
+                          "content": "전체 통계 보기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "evZSp",
+                      "x": 0,
+                      "y": 916,
+                      "name": "유사 사정율",
+                      "width": 330,
+                      "height": 196,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Vh5kr",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "유사 사정율 분석",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "FXfF4",
+                          "x": 20,
+                          "y": 56,
+                          "name": "Mini Chart",
+                          "width": 290,
+                          "height": 86,
+                          "fill": "#1E293B",
+                          "cornerRadius": 6,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NhopF",
+                              "x": 104,
+                              "y": 34,
+                              "fill": "#3B82F6",
+                              "content": "미니 차트 영역",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "WtJtH",
+                          "x": 20,
+                          "y": 160,
+                          "fill": "#2563EB",
+                          "content": "상세 분석 보기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3AlId",
+                      "x": 0,
+                      "y": 1128,
+                      "name": "Interaction States",
+                      "width": 330,
+                      "height": 520,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FKzdh",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "상태 미리보기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Q24Kf",
+                          "x": 20,
+                          "y": 52,
+                          "name": "Bookmark OFF",
+                          "width": 136,
+                          "height": 36,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "eylHs",
+                              "x": 33,
+                              "y": 10,
+                              "fill": "#475569",
+                              "content": "북마크 OFF",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "dPl9o",
+                          "x": 174,
+                          "y": 52,
+                          "name": "Bookmark ON",
+                          "width": 136,
+                          "height": 36,
+                          "fill": "#1E293B",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "aip3X",
+                              "x": 42,
+                              "y": 10,
+                              "fill": "#2563EB",
+                              "content": "북마크 ON",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "FVER8",
+                          "x": 20,
+                          "y": 102,
+                          "name": "Premium Lock",
+                          "width": 290,
+                          "height": 44,
+                          "fill": "#0B1121",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "seztm",
+                              "x": 14,
+                              "y": 13,
+                              "fill": "#334155",
+                              "content": "참가업체 통계 (비유료 사용자)",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Y8JqX",
+                              "x": 236,
+                              "y": 8,
+                              "name": "LOCK",
+                              "width": 40,
+                              "height": 28,
+                              "fill": "#334155",
+                              "cornerRadius": 6,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "6S4Iv",
+                                  "x": 8,
+                                  "y": 8,
+                                  "fill": "#64748B",
+                                  "content": "LOCK",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 10,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Rzxbr",
+                          "x": 20,
+                          "y": 158,
+                          "name": "<24h Countdown",
+                          "width": 290,
+                          "height": 86,
+                          "fill": "#3F1D1D",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Qms6L",
+                              "x": 90,
+                              "y": 16,
+                              "fill": "#DC2626",
+                              "content": "12:34:56",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 28,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "tmvUA",
+                              "x": 96,
+                              "y": 54,
+                              "fill": "#B91C1C",
+                              "content": "마감 24시간 이내",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vLpOF",
+                          "x": 20,
+                          "y": 256,
+                          "name": "Focus State",
+                          "width": 136,
+                          "height": 56,
+                          "fill": "#151E32",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "k0Kgn",
+                              "x": 12,
+                              "y": 12,
+                              "name": "Button",
+                              "width": 112,
+                              "height": 32,
+                              "fill": "#2563EB",
+                              "cornerRadius": 8,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "R9TIR",
+                                  "x": 39,
+                                  "y": 9,
+                                  "fill": "#FFFFFF",
+                                  "content": "Focus",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "eHHN4",
+                          "x": 174,
+                          "y": 256,
+                          "name": "Hover State",
+                          "width": 136,
+                          "height": 56,
+                          "fill": "#334155",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "lHs1t",
+                              "x": 12,
+                              "y": 12,
+                              "name": "Button",
+                              "width": 112,
+                              "height": 32,
+                              "fill": "#1D4ED8",
+                              "cornerRadius": 8,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "rLuqL",
+                                  "x": 38,
+                                  "y": 9,
+                                  "fill": "#FFFFFF",
+                                  "content": "Hover",
+                                  "fontFamily": "Noto Sans KR",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Ug71V",
+                          "x": 20,
+                          "y": 324,
+                          "name": "Tab Transition Spec",
+                          "width": 290,
+                          "height": 52,
+                          "fill": "#0B1121",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "k7Yqn",
+                              "x": 14,
+                              "y": 17,
+                              "fill": "#334155",
+                              "content": "탭 전환: fade 200ms ease-in-out",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "lbe16",
+                          "x": 20,
+                          "y": 384,
+                          "name": "Countdown Spec",
+                          "width": 290,
+                          "height": 52,
+                          "fill": "#3F1D1D",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "JeShp",
+                              "x": 14,
+                              "y": 17,
+                              "fill": "#B91C1C",
+                              "content": "카운트다운 업데이트: 1초 주기",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hDVad",
+                          "x": 20,
+                          "y": 444,
+                          "name": "Download Retry Spec",
+                          "width": 290,
+                          "height": 64,
+                          "fill": "#422006",
+                          "cornerRadius": 8,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "G0Dlz",
+                              "x": 14,
+                              "y": 16,
+                              "fill": "#9A3412",
+                              "content": "다운로드 실패 -> 원인 안내 -> 재시도 버튼",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "suPPO",
+                              "x": 14,
+                              "y": 36,
+                              "fill": "#C2410C",
+                              "content": "재시도 최대 3회, 이후 원문 링크 안내",
+                              "fontFamily": "Noto Sans KR",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IK17X",
+                      "x": 0,
+                      "y": 1664,
+                      "name": "Accessibility Notes",
+                      "width": 330,
+                      "height": 220,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "2hdbW",
+                          "x": 20,
+                          "y": 18,
+                          "fill": "#0F172A",
+                          "content": "접근성 규칙 (ARIA)",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Pyvws",
+                          "x": 20,
+                          "y": 56,
+                          "fill": "#334155",
+                          "content": "bookmark 버튼: aria-label=\"북마크 토글\"",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "U6Wz9",
+                          "x": 20,
+                          "y": 84,
+                          "fill": "#334155",
+                          "content": "share 버튼: aria-label=\"공유 메뉴 열기\"",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "L8HaO",
+                          "x": 20,
+                          "y": 112,
+                          "fill": "#334155",
+                          "content": "print 버튼: aria-label=\"인쇄 미리보기\"",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "oDPLm",
+                          "x": 20,
+                          "y": 146,
+                          "fill": "#334155",
+                          "content": "tabs: 키보드 좌/우 이동 + 선택 상태 읽기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "UIS3n",
+                  "x": 914,
+                  "y": 96,
+                  "name": "Share Modal Preview",
+                  "width": 262,
+                  "height": 132,
+                  "fill": "#151E32",
+                  "cornerRadius": 8,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PxAoA",
+                      "x": 16,
+                      "y": 14,
+                      "fill": "#0F172A",
+                      "content": "공유하기",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "M357S",
+                      "x": 16,
+                      "y": 46,
+                      "fill": "#2563EB",
+                      "content": "링크 복사",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "sS6eJ",
+                      "x": 16,
+                      "y": 70,
+                      "fill": "#475569",
+                      "content": "카카오톡 공유",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "q5mf2",
+                      "x": 16,
+                      "y": 94,
+                      "fill": "#475569",
+                      "content": "이메일 공유",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "S8mgY",
+                  "x": 388,
+                  "y": 540,
+                  "name": "Login Gate Modal",
+                  "width": 424,
+                  "height": 244,
+                  "fill": "#151E32",
+                  "cornerRadius": 12,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RJB0q",
+                      "x": 24,
+                      "y": 20,
+                      "fill": "#0F172A",
+                      "content": "로그인이 필요합니다",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "XXIHn",
+                      "x": 24,
+                      "y": 58,
+                      "fill": "#475569",
+                      "content": "모의입찰/프리미엄 기능은 로그인 후 사용할 수 있습니다.",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "re0Zo",
+                      "x": 24,
+                      "y": 88,
+                      "name": "Redirect Box",
+                      "width": 376,
+                      "height": 42,
+                      "fill": "#0B1121",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "guu3g",
+                          "x": 12,
+                          "y": 13,
+                          "fill": "#334155",
+                          "content": "returnPath: /bid_notice/detail/20260223-001",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bsLG1",
+                      "x": 24,
+                      "y": 148,
+                      "name": "로그인하기",
+                      "width": 182,
+                      "height": 40,
+                      "fill": "#2563EB",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "9cZTm",
+                          "x": 66,
+                          "y": 12,
+                          "fill": "#FFFFFF",
+                          "content": "로그인하기",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JnKhM",
+                      "x": 218,
+                      "y": 148,
+                      "name": "취소",
+                      "width": 182,
+                      "height": 40,
+                      "fill": "#151E32",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XBZGj",
+                          "x": 84,
+                          "y": 12,
+                          "fill": "#334155",
+                          "content": "취소",
+                          "fontFamily": "Noto Sans KR",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "KIPzs",
+                      "x": 24,
+                      "y": 206,
+                      "fill": "#64748B",
+                      "content": "게스트는 목록/상세 조회만 가능",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
