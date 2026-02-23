@@ -21,9 +21,9 @@
   - 단, 원격 Git 소스(`red2red/playbid_vultr/main`)가 운영 최신과 불일치하여 `/login 404` 회귀 발생
   - 즉시 hot-sync(`scripts/deploy_playbid_web_vps.sh`)로 `/login 200` 복구 완료
 - `2026-02-24` Git 소스 동기화 + 재배포 리허설 완료:
-  - `playbid_web` `main` → `2d09757`를 `origin/main`에 push 완료
-  - Coolify Git 배포(`deployment_uuid=y440808kko0g4s88kkoosc0k`) `finished`
-  - 실행 컨테이너 이미지가 `ok80g44cwg08s44c8csckogk:2d09757...`로 전환된 상태에서 `/login 200`, `/auth-callback(error) 307` 재확인
+  - `playbid_web` `main` 최신 커밋 `bcdaa47`를 `origin/main`에 push 완료
+  - Coolify Git 배포(`deployment_uuid=y0k4g0008wkwcgcoccs0kws0`, commit=`bcdaa47...`) `finished`
+  - 실행 컨테이너 이미지가 `ok80g44cwg08s44c8csckogk:bcdaa47...`로 전환된 상태에서 `/login 200`, `/auth-callback(error) 307` 재확인
 
 ## V1 출고 기준 점검
 
