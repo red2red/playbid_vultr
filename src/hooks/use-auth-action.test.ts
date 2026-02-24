@@ -16,8 +16,8 @@ describe('use-auth-action helpers', () => {
         expect(href).toBe('/login?returnTo=%2Fbid_history%3Fstatus%3Dsuccess%26category%3Dgoods');
     });
 
-    it('pathname이 비어 있으면 루트 경로를 returnTo로 사용한다', () => {
+    it('pathname이 비어 있으면 /dashboard를 returnTo로 사용한다', () => {
         const href = buildLoginRedirectHref(undefined, '');
-        expect(href).toBe('/login?returnTo=%2F');
+        expect(href).toBe('/login?returnTo=%2Fdashboard');
     });
 });
