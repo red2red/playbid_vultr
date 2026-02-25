@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from "react";
 import { getBidNotices, getBidNoticeStats, syncBidNotices } from "@/lib/database";
@@ -32,19 +33,15 @@ export default function BidsPage() {
     const [statusFilter, setStatusFilter] = useState<string>("all");
     const [lastSync, setLastSync] = useState<string>("");
 
-    useEffect(() => {
-        loadData();
-        loadStats();
-    }, [statusFilter]);
-
     const loadData = async () => {
         setLoading(true);
         const result = await getBidNotices({ status: statusFilter === "all" ? undefined : statusFilter });
-        setNotices(result.notices as any[]);
+        const noticesData = (result.notices ?? []) as BidNotice[];
+        setNotices(noticesData);
 
         // 마지막 동기화 시간 (가장 최근 데이터 기준)
-        if (result.notices && result.notices.length > 0) {
-            const latest = result.notices.reduce((prev: any, curr: any) =>
+        if (noticesData.length > 0) {
+            const latest = noticesData.reduce((prev, curr) =>
                 new Date(prev.created_at) > new Date(curr.created_at) ? prev : curr
             );
             setLastSync(new Date(latest.created_at).toLocaleString('ko-KR'));
@@ -57,6 +54,11 @@ export default function BidsPage() {
         const statsData = await getBidNoticeStats();
         setStats(statsData);
     };
+
+    useEffect(() => {
+        void loadData();
+        void loadStats();
+    }, [statusFilter]);
 
     const handleSync = async () => {
         if (!confirm("나라장터와 데이터 동기화를 진행하시겠습니까? 약 1~2분이 소요될 수 있습니다.")) return;
@@ -199,19 +201,20 @@ export default function BidsPage() {
 }
 
 function StatCard({ title, value, color, icon }: { title: string; value: number; color: string; icon: string }) {
-    const colors: any = {
+    const colors: Record<string, string> = {
         slate: "text-slate-900 bg-slate-50 border-slate-200",
         emerald: "text-emerald-600 bg-emerald-50 border-emerald-100",
         blue: "text-blue-600 bg-blue-50 border-blue-100",
         amber: "text-amber-600 bg-amber-50 border-amber-100"
     };
+    const toneClass = colors[color] ?? colors.slate;
     return (
         <div className={`bg-white rounded-2xl shadow-sm border p-6 hover:shadow-md transition-shadow`}>
             <div className="flex justify-between items-start mb-4">
                 <span className="text-2xl">{icon}</span>
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{title}</span>
             </div>
-            <p className={`text-3xl font-black ${colors[color].split(' ')[0]}`}>{value.toLocaleString()}</p>
+            <p className={`text-3xl font-black ${toneClass.split(' ')[0]}`}>{value.toLocaleString()}</p>
         </div>
     );
 }

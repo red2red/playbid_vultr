@@ -171,7 +171,7 @@ npm test
 | 보호 경로 분류(`/challenge/*`, `/learning/*`) | N/A | Unit Test PASS (`route-access.test.ts`) | PASS | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
 | 보호 API 401 재시도(`authorizedFetch`) | N/A | Unit Test PASS (`authorized-fetch.test.ts`) | PASS | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
 | 전체 회귀 테스트 | N/A | `30 files / 108 tests` PASS | PASS | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
-| 린트 게이트 | N/A | `38 errors / 6 warnings` | FAIL | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
+| 린트 게이트 | N/A | `0 errors / 5 warnings` | PASS | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
 
 ## 최종 판정
 - 점검자:

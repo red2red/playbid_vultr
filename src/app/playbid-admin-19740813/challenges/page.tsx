@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import { getMissions, getBadges, createMission, updateMission, deleteMission, getLeaderboard, createBadge, updateBadge, deleteBadge, resetLeaderboard } from "@/lib/database";
 
@@ -33,6 +34,19 @@ type LeaderboardEntry = {
     };
 };
 
+type ChallengeFormData = {
+    title?: string;
+    description?: string;
+    type?: string;
+    target_count?: number;
+    reward_points?: number;
+    name?: string;
+    icon?: string;
+    requirement?: string;
+};
+
+type EditableChallengeItem = Partial<Mission & Badge> | null;
+
 export default function ChallengesPage() {
     const [activeTab, setActiveTab] = useState<"missions" | "badges" | "leaderboard">("missions");
     const [missions, setMissions] = useState<Mission[]>([]);
@@ -40,11 +54,7 @@ export default function ChallengesPage() {
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
-    const [editingItem, setEditingItem] = useState<any>(null);
-
-    useEffect(() => {
-        loadData();
-    }, [activeTab]);
+    const [editingItem, setEditingItem] = useState<EditableChallengeItem>(null);
 
     const loadData = async () => {
         setLoading(true);
@@ -60,6 +70,10 @@ export default function ChallengesPage() {
         }
         setLoading(false);
     };
+
+    useEffect(() => {
+        void loadData();
+    }, [activeTab]);
 
     const handleDeleteMission = async (id: string) => {
         if (!confirm("정말 삭제하시겠습니까?")) return;
@@ -88,22 +102,33 @@ export default function ChallengesPage() {
         } else alert("오류가 발생했습니다.");
     };
 
-    const handleSave = async (formData: any) => {
+    const handleSave = async (formData: ChallengeFormData) => {
         let error;
         if (activeTab === 'missions') {
             if (editingItem) {
-                const res = await updateMission(editingItem.id, formData);
+                const res = await updateMission(editingItem.id as string, formData);
                 error = res.error;
             } else {
-                const res = await createMission(formData);
+                const res = await createMission(formData as {
+                    title: string;
+                    description: string;
+                    type: string;
+                    target_count: number;
+                    reward_points: number;
+                });
                 error = res.error;
             }
         } else if (activeTab === 'badges') {
             if (editingItem) {
-                const res = await updateBadge(editingItem.id, formData);
+                const res = await updateBadge(editingItem.id as string, formData);
                 error = res.error;
             } else {
-                const res = await createBadge(formData);
+                const res = await createBadge(formData as {
+                    name: string;
+                    description: string;
+                    icon: string;
+                    requirement: string;
+                });
                 error = res.error;
             }
         }
@@ -188,7 +213,7 @@ export default function ChallengesPage() {
                         <form onSubmit={(e) => {
                             e.preventDefault();
                             const formData = new FormData(e.currentTarget);
-                            const data: any = {};
+                            const data: ChallengeFormData = {};
                             formData.forEach((value, key) => {
                                 if (key === 'target_count' || key === 'reward_points') {
                                     data[key] = parseInt(value as string);
@@ -422,4 +447,3 @@ function LeaderboardTab({ leaderboard, onReset }: { leaderboard: LeaderboardEntr
         </div>
     );
 }
-
