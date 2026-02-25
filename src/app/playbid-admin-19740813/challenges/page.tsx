@@ -43,6 +43,7 @@ type ChallengeFormData = {
     name?: string;
     icon?: string;
     requirement?: string;
+    [key: string]: string | number | undefined;
 };
 
 type EditableChallengeItem = Partial<Mission & Badge> | null;
@@ -218,7 +219,7 @@ export default function ChallengesPage() {
                                 if (key === 'target_count' || key === 'reward_points') {
                                     data[key] = parseInt(value as string);
                                 } else {
-                                    data[key] = value;
+                                    data[key] = String(value);
                                 }
                             });
                             handleSave(data);
