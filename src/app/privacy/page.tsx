@@ -33,7 +33,7 @@ export default function PrivacyPage() {
                     <section>
                         <h2 className="text-xl font-bold text-white mb-4">1. 개인정보 수집 항목</h2>
                         <p className="text-muted-foreground leading-relaxed mb-4">
-                            PlayBid(이하 "회사")는 서비스 제공을 위해 다음과 같은 개인정보를 수집합니다.
+                            PlayBid(이하 &quot;회사&quot;)는 서비스 제공을 위해 다음과 같은 개인정보를 수집합니다.
                         </p>
                         <ul className="list-disc list-inside text-muted-foreground space-y-2 marker:text-primary">
                             <li><strong className="text-white">필수 항목:</strong> 이메일 주소, 소셜 로그인 식별자(Google, Kakao, Naver, Apple)</li>

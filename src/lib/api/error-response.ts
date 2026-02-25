@@ -31,6 +31,9 @@ const DEFAULT_SUGGESTION = '잠시 후 다시 시도해 주세요.';
 
 const SUGGESTION_BY_CODE: Record<string, string> = {
     AUTH_REQUIRED: '로그인 후 다시 시도해 주세요.',
+    AUTH_SESSION_EXPIRED: '세션이 만료되었습니다. 다시 로그인해 주세요.',
+    AUTH_REFRESH_FAILED: '세션 갱신에 실패했습니다. 다시 로그인해 주세요.',
+    AUTH_FORBIDDEN: '접근 권한이 없습니다. 관리자에게 문의해 주세요.',
     INVALID_REQUEST: '입력값을 확인한 뒤 다시 시도해 주세요.',
     FEATURE_UNAVAILABLE: '기능이 준비된 뒤 다시 시도해 주세요.',
     INTERNAL_ERROR: '일시적인 오류일 수 있습니다. 잠시 후 다시 시도해 주세요.',

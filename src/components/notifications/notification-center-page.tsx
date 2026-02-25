@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { useAuthAction } from '@/hooks/use-auth-action';
+import { buildLoginRedirectHref, useAuthAction } from '@/hooks/use-auth-action';
+import { AuthorizedFetchAuthError, authorizedFetch } from '@/lib/api/authorized-fetch';
 import {
     publishNotificationChange,
     subscribeNotificationChange,
 } from '@/lib/bid/notification-client-sync';
+import { createClient } from '@/lib/supabase/client';
 import type {
     NotificationListData,
     NotificationListFilters,
@@ -280,6 +282,7 @@ function renderPagination(filters: NotificationListFilters, page: number, totalP
 
 export function NotificationCenterPage({ data }: NotificationCenterPageProps) {
     const { runWithAuth } = useAuthAction();
+    const supabase = useMemo(() => createClient(), []);
     const [viewState, setViewState] = useState<LocalNotificationState>(() => createInitialState(data));
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [activeItem, setActiveItem] = useState<NotificationListItem | null>(null);
@@ -356,12 +359,18 @@ export function NotificationCenterPage({ data }: NotificationCenterPageProps) {
             setViewState((prev) => applyReadByIds(prev, ids));
 
             try {
-                const response = await fetch('/api/notifications/read', {
+                const response = await authorizedFetch('/api/notifications/read', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ notificationIds: ids }),
+                }, {
+                    refreshSession: async () => supabase.auth.refreshSession(),
+                    onAuthFailure: () => {
+                        const search = window.location.search.replace(/^\?/, '');
+                        window.location.assign(buildLoginRedirectHref(window.location.pathname, search));
+                    },
                 });
 
                 const payload = (await response.json()) as NotificationActionResponse;
@@ -379,7 +388,10 @@ export function NotificationCenterPage({ data }: NotificationCenterPageProps) {
                     notificationIds: ids,
                     unreadCount: payload.unreadCount,
                 });
-            } catch {
+            } catch (error) {
+                if (error instanceof AuthorizedFetchAuthError) {
+                    return;
+                }
                 setActionError('네트워크 오류로 읽음 처리에 실패했습니다.');
             } finally {
                 setPendingIds([]);
@@ -398,8 +410,14 @@ export function NotificationCenterPage({ data }: NotificationCenterPageProps) {
             setPendingAllRead(true);
 
             try {
-                const response = await fetch('/api/notifications/read-all', {
+                const response = await authorizedFetch('/api/notifications/read-all', {
                     method: 'POST',
+                }, {
+                    refreshSession: async () => supabase.auth.refreshSession(),
+                    onAuthFailure: () => {
+                        const search = window.location.search.replace(/^\?/, '');
+                        window.location.assign(buildLoginRedirectHref(window.location.pathname, search));
+                    },
                 });
                 const payload = (await response.json()) as NotificationActionResponse;
 
@@ -420,7 +438,10 @@ export function NotificationCenterPage({ data }: NotificationCenterPageProps) {
                     action: 'read_all',
                     unreadCount: payload.unreadCount,
                 });
-            } catch {
+            } catch (error) {
+                if (error instanceof AuthorizedFetchAuthError) {
+                    return;
+                }
                 setActionError('네트워크 오류로 전체 읽음 처리에 실패했습니다.');
             } finally {
                 setPendingAllRead(false);
@@ -447,12 +468,18 @@ export function NotificationCenterPage({ data }: NotificationCenterPageProps) {
             setPendingIds(ids);
 
             try {
-                const response = await fetch('/api/notifications/delete', {
+                const response = await authorizedFetch('/api/notifications/delete', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ notificationIds: ids }),
+                }, {
+                    refreshSession: async () => supabase.auth.refreshSession(),
+                    onAuthFailure: () => {
+                        const search = window.location.search.replace(/^\?/, '');
+                        window.location.assign(buildLoginRedirectHref(window.location.pathname, search));
+                    },
                 });
                 const payload = (await response.json()) as NotificationActionResponse;
 
@@ -477,7 +504,10 @@ export function NotificationCenterPage({ data }: NotificationCenterPageProps) {
                     notificationIds: ids,
                     unreadCount: payload.unreadCount,
                 });
-            } catch {
+            } catch (error) {
+                if (error instanceof AuthorizedFetchAuthError) {
+                    return;
+                }
                 setActionError('네트워크 오류로 알림을 삭제하지 못했습니다.');
             } finally {
                 setPendingIds([]);

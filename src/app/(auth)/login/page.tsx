@@ -1,9 +1,7 @@
 import { redirect } from 'next/navigation';
 import { OAuthLoginCard } from '@/components/auth/oauth-login-card';
-import {
-    asSingleParamValue,
-    sanitizeReturnTo,
-} from '@/lib/auth/oauth-flow';
+import { asSingleParamValue } from '@/lib/auth/oauth-flow';
+import { resolveLoginReturnTo } from '@/lib/auth/login-return';
 import { createClient } from '@/lib/supabase/server';
 
 interface LoginPageProps {
@@ -12,7 +10,7 @@ interface LoginPageProps {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
     const resolvedSearchParams = (await searchParams) ?? {};
-    const returnTo = sanitizeReturnTo(asSingleParamValue(resolvedSearchParams.returnTo), '/bid_notice');
+    const returnTo = resolveLoginReturnTo(asSingleParamValue(resolvedSearchParams.returnTo));
     const errorCode = asSingleParamValue(resolvedSearchParams.error);
     const provider = asSingleParamValue(resolvedSearchParams.provider);
 

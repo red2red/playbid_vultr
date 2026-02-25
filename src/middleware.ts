@@ -1,9 +1,46 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { buildLoginHref } from '@/lib/auth/oauth-flow';
+import {
+    buildReturnToFromPath,
+    isProtectedApiPath,
+    isProtectedPagePath,
+} from '@/lib/auth/route-access';
 
 const ADMIN_PATH = '/playbid-admin-19740813';
 
 // 비밀번호 보호에서 제외할 경로 (Removed)
+
+function createRequestId(): string {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    return `req_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function createAuthRequiredApiResponse() {
+    const requestId = createRequestId();
+    return NextResponse.json(
+        {
+            ok: false,
+            code: 'AUTH_REQUIRED',
+            message: '로그인이 필요합니다.',
+            error: {
+                code: 'AUTH_REQUIRED',
+                message: '로그인이 필요합니다.',
+                requestId,
+                timestamp: new Date().toISOString(),
+                suggestion: '로그인 후 다시 시도해 주세요.',
+            },
+        },
+        {
+            status: 401,
+            headers: {
+                'x-request-id': requestId,
+            },
+        }
+    );
+}
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -47,6 +84,16 @@ export async function middleware(request: NextRequest) {
     const {
         data: { user },
     } = await supabase.auth.getUser();
+
+    if (!user && isProtectedApiPath(pathname)) {
+        return createAuthRequiredApiResponse();
+    }
+
+    if (!user && isProtectedPagePath(pathname)) {
+        const returnTo = buildReturnToFromPath(pathname, request.nextUrl.search);
+        const loginHref = buildLoginHref({ returnTo });
+        return NextResponse.redirect(new URL(loginHref, request.url));
+    }
 
     // 관리자 경로 보호
     if (request.nextUrl.pathname.startsWith(ADMIN_PATH)) {

@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from "react";
 import {
@@ -42,7 +43,7 @@ type Quiz = {
     category_id: string;
     question: string;
     question_type: string;
-    options: any;
+    options: unknown;
     correct_answer: string;
     explanation?: string;
     difficulty: string;
@@ -51,6 +52,69 @@ type Quiz = {
     learning_categories?: { name: string };
 };
 
+type QuizOption = {
+    text: string;
+    isCorrect: boolean;
+};
+
+type LearningFormData = {
+    name?: string;
+    icon?: string;
+    display_order?: number;
+    category_id?: string;
+    type?: string;
+    title?: string;
+    description?: string;
+    example?: string;
+    difficulty?: string;
+    tags?: string[];
+    question?: string;
+    question_type?: string;
+    options?: QuizOption[];
+    correct_answer?: string;
+    explanation?: string;
+    xp_reward?: number;
+};
+
+type EditableLearningItem = Partial<Category & LearningContent & Quiz> | null;
+
+const DEFAULT_QUIZ_OPTIONS: QuizOption[] = [
+    { text: "", isCorrect: false },
+    { text: "", isCorrect: false },
+    { text: "", isCorrect: false },
+    { text: "", isCorrect: false },
+];
+
+function normalizeQuizOptions(options: unknown): QuizOption[] {
+    if (!Array.isArray(options)) {
+        return DEFAULT_QUIZ_OPTIONS;
+    }
+
+    const mapped = options
+        .map((item) => {
+            if (typeof item !== "object" || item === null) {
+                return null;
+            }
+
+            const raw = item as { text?: unknown; isCorrect?: unknown };
+            if (typeof raw.text !== "string") {
+                return null;
+            }
+
+            return {
+                text: raw.text,
+                isCorrect: Boolean(raw.isCorrect),
+            };
+        })
+        .filter((item): item is QuizOption => item !== null);
+
+    if (mapped.length === 0) {
+        return DEFAULT_QUIZ_OPTIONS;
+    }
+
+    return mapped;
+}
+
 export default function LearningPage() {
     const [activeTab, setActiveTab] = useState<"categories" | "contents" | "quizzes">("categories");
     const [categories, setCategories] = useState<Category[]>([]);
@@ -58,11 +122,7 @@ export default function LearningPage() {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
-    const [editingItem, setEditingItem] = useState<any>(null);
-
-    useEffect(() => {
-        loadData();
-    }, [activeTab]);
+    const [editingItem, setEditingItem] = useState<EditableLearningItem>(null);
 
     const loadData = async () => {
         setLoading(true);
@@ -79,30 +139,55 @@ export default function LearningPage() {
         setLoading(false);
     };
 
-    const handleSave = async (data: any) => {
+    useEffect(() => {
+        void loadData();
+    }, [activeTab]);
+
+    const handleSave = async (data: LearningFormData) => {
         let error;
         if (activeTab === "categories") {
             if (editingItem) {
-                const res = await updateLearningCategory(editingItem.id, data);
+                const res = await updateLearningCategory(editingItem.id as string, data);
                 error = res.error;
             } else {
-                const res = await createLearningCategory(data);
+                const res = await createLearningCategory(data as {
+                    name: string;
+                    icon: string;
+                    display_order: number;
+                });
                 error = res.error;
             }
         } else if (activeTab === "contents") {
             if (editingItem) {
-                const res = await updateLearningContent(editingItem.id, data);
+                const res = await updateLearningContent(editingItem.id as string, data);
                 error = res.error;
             } else {
-                const res = await createLearningContent(data);
+                const res = await createLearningContent(data as {
+                    category_id: string;
+                    type: string;
+                    title: string;
+                    description: string;
+                    example?: string;
+                    difficulty: string;
+                    tags: string[];
+                });
                 error = res.error;
             }
         } else if (activeTab === "quizzes") {
             if (editingItem) {
-                const res = await updateLearningQuiz(editingItem.id, data);
+                const res = await updateLearningQuiz(editingItem.id as string, data);
                 error = res.error;
             } else {
-                const res = await createLearningQuiz(data);
+                const res = await createLearningQuiz(data as {
+                    category_id: string;
+                    question: string;
+                    question_type: string;
+                    options: QuizOption[];
+                    correct_answer: string;
+                    explanation?: string;
+                    difficulty: string;
+                    xp_reward: number;
+                });
                 error = res.error;
             }
         }
@@ -377,18 +462,25 @@ function QuizzesTab({ quizzes, categories, onRefresh, onAdd, onEdit }: { quizzes
     );
 }
 
-function LearningModal({ type, editingItem, categories, onClose, onSave }: { type: string, editingItem: any, categories: Category[], onClose: () => void, onSave: (data: any) => void }) {
-    const [options, setOptions] = useState<any[]>(editingItem?.options || [
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false }
-    ]);
+function LearningModal({
+    type,
+    editingItem,
+    categories,
+    onClose,
+    onSave,
+}: {
+    type: string;
+    editingItem: EditableLearningItem;
+    categories: Category[];
+    onClose: () => void;
+    onSave: (data: LearningFormData) => void;
+}) {
+    const [options, setOptions] = useState<QuizOption[]>(normalizeQuizOptions(editingItem?.options));
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const data: any = {};
+        const data: LearningFormData = {};
         formData.forEach((value, key) => {
             if (key === 'display_order' || key === 'xp_reward') {
                 data[key] = parseInt(value as string);

@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from "react";
 import { getPushNotifications, sendPushNotification, getPushStats } from "@/lib/database";
@@ -27,10 +28,6 @@ export default function NotificationsPage() {
         target_type: "all",
     });
 
-    useEffect(() => {
-        loadData();
-    }, []);
-
     const loadData = async () => {
         setLoading(true);
         const [historyRes, statsRes] = await Promise.all([
@@ -41,6 +38,10 @@ export default function NotificationsPage() {
         setStats(statsRes);
         setLoading(false);
     };
+
+    useEffect(() => {
+        void loadData();
+    }, []);
 
     const handleSend = async () => {
         if (!formData.title || !formData.body) {

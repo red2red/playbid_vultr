@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from "react";
 import { getAnnouncements, createAnnouncement, updateAnnouncement, deleteAnnouncement } from "@/lib/database";
@@ -37,10 +38,6 @@ export default function AnnouncementsPage() {
         is_popup: false,
     });
 
-    useEffect(() => {
-        loadAnnouncements();
-    }, []);
-
     const loadAnnouncements = async () => {
         setLoading(true);
         const result = await getAnnouncements();
@@ -48,6 +45,10 @@ export default function AnnouncementsPage() {
         setTotal(result.total);
         setLoading(false);
     };
+
+    useEffect(() => {
+        void loadAnnouncements();
+    }, []);
 
     const handleSubmit = async () => {
         if (!formData.title || !formData.content) {
