@@ -1,6 +1,6 @@
 # Auth/Authorization V1 Validation Evidence (2026-02-24)
 
-- Executed at: 2026-02-25 09:10:59 KST
+- Executed at: 2026-02-25 09:14 KST
 - Scope: `playbid_web` auth/authorization v1 hardening
 - Branch: `codex/auth-authorization-v1`
 
@@ -46,16 +46,23 @@ Created SQL files:
 Committed in parent repo:
 
 - Branch: `codex/auth-authorization-v1-sql`
-- Commit: `98a93be` (`feat(db): harden auth/authorization rls policies`)
+- Commits:
+  - `98a93be` (`feat(db): harden auth/authorization rls policies`)
+  - `0726647` (`fix(db): keep validation temp table across psql autocommit`)
+  - `7fd9595` (`fix(db): robustly detect auth.uid user-owned policies`)
 
-Intended runbook:
+Executed runbook (self-hosted VPS over `ssh playbid`):
 
 ```bash
 psql "$SUPABASE_DB_URL" -f ../supabase/migrations/20260224120000_auth_authorization_v1_hardening.sql
 psql "$SUPABASE_DB_URL" -f ../supabase/migrations/20260224121000_auth_authorization_v1_validation.sql
 ```
 
-- Status in this session: Not executed (no DB connection string provided in this workspace session).
+- Execution detail:
+  - Target DB container: `supabase-db-n8c00g8owg8kwc0g0gw08ww8`
+  - Hardening SQL: PASS
+  - Validation SQL: PASS (`FAIL 0`, `SKIP 4`, `PASS 14`)
+  - SKIP tables: `bookmarks`, `point_transactions` (optional table, not present in current schema)
 
 ## 4) Manual Scenario Notes
 
@@ -64,5 +71,4 @@ psql "$SUPABASE_DB_URL" -f ../supabase/migrations/20260224121000_auth_authorizat
 
 ## 5) Residual Risks
 
-1. Production/staging DB에서 Task 9 SQL 적용 및 validation SQL 실행 결과를 아직 확보하지 못함.
-2. Lint는 통과했지만 `react-hooks/exhaustive-deps` 경고 5건이 남아 있음.
+1. Lint는 통과했지만 `react-hooks/exhaustive-deps` 경고 5건이 남아 있음.
