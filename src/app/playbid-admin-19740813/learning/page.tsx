@@ -74,6 +74,7 @@ type LearningFormData = {
     correct_answer?: string;
     explanation?: string;
     xp_reward?: number;
+    [key: string]: string | number | string[] | QuizOption[] | undefined;
 };
 
 type EditableLearningItem = Partial<Category & LearningContent & Quiz> | null;
@@ -489,7 +490,7 @@ function LearningModal({
             } else if (key === 'correct_option') {
                 // Skip radio value
             } else {
-                data[key] = value;
+                data[key] = String(value);
             }
         });
 
