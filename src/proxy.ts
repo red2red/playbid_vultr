@@ -5,7 +5,7 @@ const ADMIN_PATH = '/playbid-admin-19740813';
 
 // 비밀번호 보호에서 제외할 경로 (Removed)
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // ===== 사이트 비밀번호 보호 (Removed per user request) =====
@@ -16,9 +16,14 @@ export async function middleware(request: NextRequest) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    // 환경 변수가 없으면 모든 요청 허용 (개발 모드)
+    // 환경 변수가 없으면 인증 우회를 방지하기 위해 에러를 발생시키거나 관리자 경로 접근을 완전히 차단합니다.
     if (!supabaseUrl || !supabaseAnonKey) {
-        console.warn('Supabase 환경 변수가 설정되지 않았습니다. 인증 없이 접근을 허용합니다.');
+        console.error('CRITICAL: Supabase 환경 변수가 설정되지 않았습니다.');
+        if (request.nextUrl.pathname.startsWith(ADMIN_PATH)) {
+            // 관리자 경로는 환경 변수 없이는 절대 접근 불가
+            return new NextResponse('Internal Server Error: Missing Database Configuration', { status: 500 });
+        }
+        // 일반 경로는 일단 진행하되, 타입 에러를 방지하기 위해 여기서 리턴합니다.
         return NextResponse.next();
     }
 
@@ -70,13 +75,15 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL(`${ADMIN_PATH}/login`, request.url));
         }
 
-        // 허용된 관리자 이메일 체크 (환경 변수에 설정된 경우)
-        const allowedEmails = process.env.ADMIN_ALLOWED_EMAILS?.split(',') || [];
-        if (allowedEmails.length > 0 && user.email) {
-            if (!allowedEmails.includes(user.email)) {
-                // 허용되지 않은 이메일인 경우 권한 없음 페이지로
-                return NextResponse.redirect(new URL(`${ADMIN_PATH}/unauthorized`, request.url));
-            }
+        // 허용된 관리자 이메일 체크
+        const allowedEmails = (process.env.ADMIN_ALLOWED_EMAILS || '')
+            .split(',')
+            .map(e => e.trim())
+            .filter(Boolean);
+
+        // 설정된 관리자 이메일이 아예 없거나, 현재 사용자의 이메일이 목록에 없으면 차단
+        if (allowedEmails.length === 0 || !user.email || !allowedEmails.includes(user.email)) {
+            return NextResponse.redirect(new URL(`${ADMIN_PATH}/unauthorized`, request.url));
         }
     }
 

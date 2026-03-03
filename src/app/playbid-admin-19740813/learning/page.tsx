@@ -42,7 +42,7 @@ type Quiz = {
     category_id: string;
     question: string;
     question_type: string;
-    options: any;
+    options: QuizOption[];
     correct_answer: string;
     explanation?: string;
     difficulty: string;
@@ -51,6 +51,18 @@ type Quiz = {
     learning_categories?: { name: string };
 };
 
+type QuizOption = {
+    text: string;
+    isCorrect: boolean;
+};
+
+type LearningModalType = "categories" | "contents" | "quizzes";
+type LearningEditItem = Category | LearningContent | Quiz | null;
+type CategoryPayload = Parameters<typeof createLearningCategory>[0];
+type ContentPayload = Parameters<typeof createLearningContent>[0];
+type QuizPayload = Parameters<typeof createLearningQuiz>[0];
+type LearningSaveData = CategoryPayload | ContentPayload | QuizPayload;
+
 export default function LearningPage() {
     const [activeTab, setActiveTab] = useState<"categories" | "contents" | "quizzes">("categories");
     const [categories, setCategories] = useState<Category[]>([]);
@@ -58,13 +70,9 @@ export default function LearningPage() {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
-    const [editingItem, setEditingItem] = useState<any>(null);
+    const [editingItem, setEditingItem] = useState<LearningEditItem>(null);
 
-    useEffect(() => {
-        loadData();
-    }, [activeTab]);
-
-    const loadData = async () => {
+    async function loadData() {
         setLoading(true);
         if (activeTab === "categories") {
             const cats = await getLearningCategories();
@@ -77,32 +85,37 @@ export default function LearningPage() {
             setQuizzes(qzs as Quiz[]);
         }
         setLoading(false);
-    };
+    }
 
-    const handleSave = async (data: any) => {
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
+        loadData();
+    }, [activeTab]);
+
+    const handleSave = async (data: LearningSaveData) => {
         let error;
         if (activeTab === "categories") {
             if (editingItem) {
-                const res = await updateLearningCategory(editingItem.id, data);
+                const res = await updateLearningCategory(editingItem.id, data as CategoryPayload);
                 error = res.error;
             } else {
-                const res = await createLearningCategory(data);
+                const res = await createLearningCategory(data as CategoryPayload);
                 error = res.error;
             }
         } else if (activeTab === "contents") {
             if (editingItem) {
-                const res = await updateLearningContent(editingItem.id, data);
+                const res = await updateLearningContent(editingItem.id, data as ContentPayload);
                 error = res.error;
             } else {
-                const res = await createLearningContent(data);
+                const res = await createLearningContent(data as ContentPayload);
                 error = res.error;
             }
         } else if (activeTab === "quizzes") {
             if (editingItem) {
-                const res = await updateLearningQuiz(editingItem.id, data);
+                const res = await updateLearningQuiz(editingItem.id, data as QuizPayload);
                 error = res.error;
             } else {
-                const res = await createLearningQuiz(data);
+                const res = await createLearningQuiz(data as QuizPayload);
                 error = res.error;
             }
         }
@@ -377,18 +390,48 @@ function QuizzesTab({ quizzes, categories, onRefresh, onAdd, onEdit }: { quizzes
     );
 }
 
-function LearningModal({ type, editingItem, categories, onClose, onSave }: { type: string, editingItem: any, categories: Category[], onClose: () => void, onSave: (data: any) => void }) {
-    const [options, setOptions] = useState<any[]>(editingItem?.options || [
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false }
-    ]);
+function isQuizOptionArray(value: unknown): value is QuizOption[] {
+    if (!Array.isArray(value)) {
+        return false;
+    }
+
+    return value.every((item) => {
+        if (!item || typeof item !== "object") {
+            return false;
+        }
+        const option = item as Record<string, unknown>;
+        return typeof option.text === "string" && typeof option.isCorrect === "boolean";
+    });
+}
+
+function LearningModal({
+    type,
+    editingItem,
+    categories,
+    onClose,
+    onSave,
+}: {
+    type: LearningModalType;
+    editingItem: LearningEditItem;
+    categories: Category[];
+    onClose: () => void;
+    onSave: (data: LearningSaveData) => void;
+}) {
+    const initialOptions = isQuizOptionArray((editingItem as Partial<Quiz> | null)?.options)
+        ? (editingItem as Quiz).options
+        : [
+            { text: "", isCorrect: false },
+            { text: "", isCorrect: false },
+            { text: "", isCorrect: false },
+            { text: "", isCorrect: false }
+        ];
+
+    const [options, setOptions] = useState<QuizOption[]>(initialOptions);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const data: any = {};
+        const data: Record<string, unknown> = {};
         formData.forEach((value, key) => {
             if (key === 'display_order' || key === 'xp_reward') {
                 data[key] = parseInt(value as string);
@@ -397,7 +440,7 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
             } else if (key === 'correct_option') {
                 // Skip radio value
             } else {
-                data[key] = value;
+                data[key] = String(value);
             }
         });
 
@@ -405,8 +448,12 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
             data.options = options;
         }
 
-        onSave(data);
+        onSave(data as LearningSaveData);
     };
+
+    const categoryItem = type === "categories" ? (editingItem as Category | null) : null;
+    const contentItem = type === "contents" ? (editingItem as LearningContent | null) : null;
+    const quizItem = type === "quizzes" ? (editingItem as Quiz | null) : null;
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
@@ -419,16 +466,16 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
                         <>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">카테고리명</label>
-                                <input name="name" defaultValue={editingItem?.name} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
+                                <input name="name" defaultValue={categoryItem?.name} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">아이콘 (이모지)</label>
-                                    <input name="icon" defaultValue={editingItem?.icon || '📚'} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
+                                    <input name="icon" defaultValue={categoryItem?.icon || '📚'} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">정렬 순서</label>
-                                    <input type="number" name="display_order" defaultValue={editingItem?.display_order || 0} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
+                                    <input type="number" name="display_order" defaultValue={categoryItem?.display_order || 0} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
                                 </div>
                             </div>
                         </>
@@ -439,14 +486,14 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">카테고리</label>
-                                    <select name="category_id" defaultValue={editingItem?.category_id} required className="w-full px-4 py-2 border border-slate-200 rounded-lg">
+                                    <select name="category_id" defaultValue={contentItem?.category_id} required className="w-full px-4 py-2 border border-slate-200 rounded-lg">
                                         <option value="">선택하세요</option>
                                         {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                     </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">유형</label>
-                                    <select name="type" defaultValue={editingItem?.type || 'term'} className="w-full px-4 py-2 border border-slate-200 rounded-lg">
+                                    <select name="type" defaultValue={contentItem?.type || 'term'} className="w-full px-4 py-2 border border-slate-200 rounded-lg">
                                         <option value="term">용어</option>
                                         <option value="concept">개념</option>
                                         <option value="law">법령</option>
@@ -456,20 +503,20 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">제목</label>
-                                <input name="title" defaultValue={editingItem?.title} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
+                                <input name="title" defaultValue={contentItem?.title} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">설명</label>
-                                <textarea name="description" defaultValue={editingItem?.description} required className="w-full px-4 py-2 border border-slate-200 rounded-lg h-32" />
+                                <textarea name="description" defaultValue={contentItem?.description} required className="w-full px-4 py-2 border border-slate-200 rounded-lg h-32" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">예시/사례 (선택사항)</label>
-                                <textarea name="example" defaultValue={editingItem?.example} className="w-full px-4 py-2 border border-slate-200 rounded-lg h-24" />
+                                <textarea name="example" defaultValue={contentItem?.example} className="w-full px-4 py-2 border border-slate-200 rounded-lg h-24" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">난이도</label>
-                                    <select name="difficulty" defaultValue={editingItem?.difficulty || 'easy'} className="w-full px-4 py-2 border border-slate-200 rounded-lg">
+                                    <select name="difficulty" defaultValue={contentItem?.difficulty || 'easy'} className="w-full px-4 py-2 border border-slate-200 rounded-lg">
                                         <option value="easy">쉬움</option>
                                         <option value="medium">보통</option>
                                         <option value="hard">어려움</option>
@@ -477,7 +524,7 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">태그 (쉼표 구분)</label>
-                                    <input name="tags" defaultValue={editingItem?.tags?.join(', ')} placeholder="입찰, 기획, 조달" className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
+                                    <input name="tags" defaultValue={contentItem?.tags?.join(', ')} placeholder="입찰, 기획, 조달" className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
                                 </div>
                             </div>
                         </>
@@ -488,14 +535,14 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">카테고리</label>
-                                    <select name="category_id" defaultValue={editingItem?.category_id} required className="w-full px-4 py-2 border border-slate-200 rounded-lg">
+                                    <select name="category_id" defaultValue={quizItem?.category_id} required className="w-full px-4 py-2 border border-slate-200 rounded-lg">
                                         <option value="">선택하세요</option>
                                         {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                     </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">유형</label>
-                                    <select name="question_type" defaultValue={editingItem?.question_type || 'multipleChoice'} className="w-full px-4 py-2 border border-slate-200 rounded-lg">
+                                    <select name="question_type" defaultValue={quizItem?.question_type || 'multipleChoice'} className="w-full px-4 py-2 border border-slate-200 rounded-lg">
                                         <option value="multipleChoice">객관식</option>
                                         <option value="trueFalse">O/X</option>
                                         <option value="fillBlank">빈칸 채우기</option>
@@ -504,7 +551,7 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">질문</label>
-                                <textarea name="question" defaultValue={editingItem?.question} required className="w-full px-4 py-2 border border-slate-200 rounded-lg h-20" />
+                                <textarea name="question" defaultValue={quizItem?.question} required className="w-full px-4 py-2 border border-slate-200 rounded-lg h-20" />
                             </div>
 
                             <div className="space-y-2">
@@ -539,16 +586,16 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">정답 텍스트 (UI 표시용)</label>
-                                <input name="correct_answer" defaultValue={editingItem?.correct_answer} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
+                                <input name="correct_answer" defaultValue={quizItem?.correct_answer} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1">해설</label>
-                                <textarea name="explanation" defaultValue={editingItem?.explanation} className="w-full px-4 py-2 border border-slate-200 rounded-lg h-20" />
+                                <textarea name="explanation" defaultValue={quizItem?.explanation} className="w-full px-4 py-2 border border-slate-200 rounded-lg h-20" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">난이도</label>
-                                    <select name="difficulty" defaultValue={editingItem?.difficulty || 'easy'} className="w-full px-4 py-2 border border-slate-200 rounded-lg">
+                                    <select name="difficulty" defaultValue={quizItem?.difficulty || 'easy'} className="w-full px-4 py-2 border border-slate-200 rounded-lg">
                                         <option value="easy">쉬움</option>
                                         <option value="medium">보통</option>
                                         <option value="hard">어려움</option>
@@ -556,7 +603,7 @@ function LearningModal({ type, editingItem, categories, onClose, onSave }: { typ
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1">보상 (XP)</label>
-                                    <input type="number" name="xp_reward" defaultValue={editingItem?.xp_reward || 10} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
+                                    <input type="number" name="xp_reward" defaultValue={quizItem?.xp_reward || 10} required className="w-full px-4 py-2 border border-slate-200 rounded-lg" />
                                 </div>
                             </div>
                         </>

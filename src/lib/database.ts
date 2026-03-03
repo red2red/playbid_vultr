@@ -1,5 +1,23 @@
 import { createClient } from './supabase/client';
 
+type UserLevelRow = {
+    current_level?: number | null;
+    total_xp?: number | null;
+};
+
+type ProfileWithLevel = {
+    id: string;
+    email: string;
+    username: string;
+    full_name: string;
+    provider: string;
+    subscription: string;
+    created_at: string;
+    is_active: boolean;
+} & Record<string, unknown> & {
+    user_levels?: UserLevelRow | UserLevelRow[] | null;
+};
+
 // 통계 데이터 가져오기
 export async function getDashboardStats() {
     const supabase = createClient();
@@ -86,7 +104,8 @@ export async function getUsers(options?: {
 
         // 데이터 가공 (중첩된 객체 평탄화)
         // 1:1 관계인 경우 Supabase(PostgREST) 버전/설정에 따라 객체({}) 또는 배열([])로 반환될 수 있음
-        const formattedUsers = (data ?? []).map((u: any) => {
+        const rows = (data as ProfileWithLevel[] | null) ?? [];
+        const formattedUsers = rows.map((u) => {
             const levelInfo = Array.isArray(u.user_levels) ? u.user_levels[0] : u.user_levels;
             return {
                 ...u,
@@ -110,7 +129,7 @@ export async function getUsers(options?: {
 }
 
 // 사용자 정보 수정
-export async function updateUser(id: string, updates: any) {
+export async function updateUser(id: string, updates: Record<string, unknown>) {
     const supabase = createClient();
     try {
         const { data, error } = await supabase
@@ -472,7 +491,7 @@ export async function createLearningQuiz(quiz: {
     category_id: string;
     question: string;
     question_type: string;
-    options: any;
+    options: unknown;
     correct_answer: string;
     explanation?: string;
     difficulty: string;
@@ -498,7 +517,7 @@ export async function updateLearningQuiz(id: string, quiz: {
     category_id?: string;
     question?: string;
     question_type?: string;
-    options?: any;
+    options?: unknown;
     correct_answer?: string;
     explanation?: string;
     difficulty?: string;

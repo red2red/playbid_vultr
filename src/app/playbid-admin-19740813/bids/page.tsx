@@ -20,6 +20,8 @@ type BidStats = {
     mockBidActive: number;
 };
 
+type StatCardColor = "slate" | "emerald" | "blue" | "amber";
+
 export default function BidsPage() {
     const [notices, setNotices] = useState<BidNotice[]>([]);
     const [stats, setStats] = useState<BidStats>({
@@ -32,31 +34,34 @@ export default function BidsPage() {
     const [statusFilter, setStatusFilter] = useState<string>("all");
     const [lastSync, setLastSync] = useState<string>("");
 
-    useEffect(() => {
-        loadData();
-        loadStats();
-    }, [statusFilter]);
-
-    const loadData = async () => {
+    async function loadData() {
         setLoading(true);
         const result = await getBidNotices({ status: statusFilter === "all" ? undefined : statusFilter });
-        setNotices(result.notices as any[]);
+        const fetchedNotices = result.notices as BidNotice[];
+        setNotices(fetchedNotices);
 
         // 마지막 동기화 시간 (가장 최근 데이터 기준)
-        if (result.notices && result.notices.length > 0) {
-            const latest = result.notices.reduce((prev: any, curr: any) =>
+        if (fetchedNotices.length > 0) {
+            const latest = fetchedNotices.reduce((prev, curr) =>
                 new Date(prev.created_at) > new Date(curr.created_at) ? prev : curr
             );
             setLastSync(new Date(latest.created_at).toLocaleString('ko-KR'));
         }
 
         setLoading(false);
-    };
+    }
 
-    const loadStats = async () => {
+    async function loadStats() {
         const statsData = await getBidNoticeStats();
         setStats(statsData);
-    };
+    }
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
+        loadData();
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
+        loadStats();
+    }, [statusFilter]);
 
     const handleSync = async () => {
         if (!confirm("나라장터와 데이터 동기화를 진행하시겠습니까? 약 1~2분이 소요될 수 있습니다.")) return;
@@ -198,8 +203,8 @@ export default function BidsPage() {
     );
 }
 
-function StatCard({ title, value, color, icon }: { title: string; value: number; color: string; icon: string }) {
-    const colors: any = {
+function StatCard({ title, value, color, icon }: { title: string; value: number; color: StatCardColor; icon: string }) {
+    const colors: Record<StatCardColor, string> = {
         slate: "text-slate-900 bg-slate-50 border-slate-200",
         emerald: "text-emerald-600 bg-emerald-50 border-emerald-100",
         blue: "text-blue-600 bg-blue-50 border-blue-100",

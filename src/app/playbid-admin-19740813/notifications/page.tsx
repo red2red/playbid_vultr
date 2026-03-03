@@ -27,11 +27,7 @@ export default function NotificationsPage() {
         target_type: "all",
     });
 
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const loadData = async () => {
+    async function loadData() {
         setLoading(true);
         const [historyRes, statsRes] = await Promise.all([
             getPushNotifications(),
@@ -40,7 +36,12 @@ export default function NotificationsPage() {
         setHistory(historyRes.notifications as PushHistory[]);
         setStats(statsRes);
         setLoading(false);
-    };
+    }
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
+        loadData();
+    }, []);
 
     const handleSend = async () => {
         if (!formData.title || !formData.body) {

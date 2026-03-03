@@ -37,17 +37,18 @@ export default function AnnouncementsPage() {
         is_popup: false,
     });
 
-    useEffect(() => {
-        loadAnnouncements();
-    }, []);
-
-    const loadAnnouncements = async () => {
+    async function loadAnnouncements() {
         setLoading(true);
         const result = await getAnnouncements();
         setAnnouncements(result.announcements as Announcement[]);
         setTotal(result.total);
         setLoading(false);
-    };
+    }
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
+        loadAnnouncements();
+    }, []);
 
     const handleSubmit = async () => {
         if (!formData.title || !formData.content) {
