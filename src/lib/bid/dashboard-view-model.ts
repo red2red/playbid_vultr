@@ -48,6 +48,9 @@ export interface DashboardOverviewViewModel {
 interface BuildDashboardOverviewOptions {
     userDisplayName?: string;
     levelProgressPercent?: number;
+    todayMissionItems?: DashboardMissionItem[];
+    winRateChangeLabel?: string;
+    recentBidRows?: DashboardRecentBidRow[];
 }
 
 const FALLBACK_RECENT_BID_ROWS: DashboardRecentBidRow[] = [
@@ -99,24 +102,14 @@ export function buildDashboardOverviewViewModel(
 ): DashboardOverviewViewModel {
     const userDisplayName = options.userDisplayName ?? '사용자';
     const levelProgressPercent = clampPercent(options.levelProgressPercent ?? 78);
-    const completedCount = data.counts.mockBidCount > 0 ? 1 : 0;
-
-    return {
-        userDisplayName,
-        levelProgressPercent,
-        weeklySummary: {
-            participationCount: data.counts.mockBidCount,
-            closingTodayCount: data.counts.closingTodayCount,
-            unreadNotificationCount: data.counts.unreadNotificationCount,
-        },
-        todayMission: {
-            completedCount,
-            totalCount: 3,
-            items: [
+    const missionItems =
+        options.todayMissionItems && options.todayMissionItems.length > 0
+            ? options.todayMissionItems
+            : [
                 {
                     id: 'mission-mock-bid',
                     label: '모의입찰 3회 실시',
-                    completed: completedCount >= 1,
+                    completed: data.counts.mockBidCount > 0,
                 },
                 {
                     id: 'mission-quiz',
@@ -128,12 +121,30 @@ export function buildDashboardOverviewViewModel(
                     label: '오늘의 학습 1건 열람',
                     completed: false,
                 },
-            ],
+            ];
+    const completedCount = missionItems.filter((item) => item.completed).length;
+    const recentBidRows =
+        options.recentBidRows && options.recentBidRows.length > 0
+            ? options.recentBidRows
+            : FALLBACK_RECENT_BID_ROWS;
+
+    return {
+        userDisplayName,
+        levelProgressPercent,
+        weeklySummary: {
+            participationCount: data.counts.mockBidCount,
+            closingTodayCount: data.counts.closingTodayCount,
+            unreadNotificationCount: data.counts.unreadNotificationCount,
+        },
+        todayMission: {
+            completedCount,
+            totalCount: missionItems.length,
+            items: missionItems,
         },
         winRateTrend: {
-            changeLabel: '+12.4%',
+            changeLabel: options.winRateChangeLabel ?? '+12.4%',
         },
-        recentBidRows: FALLBACK_RECENT_BID_ROWS,
+        recentBidRows,
         authError: data.error,
     };
 }
