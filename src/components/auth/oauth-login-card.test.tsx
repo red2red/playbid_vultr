@@ -31,26 +31,26 @@ describe('OAuthLoginCard', () => {
         process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://api.playbid.kr';
     });
 
-    it('Apple 로그인 버튼을 활성화하여 표시한다', () => {
+    it('Apple 로그인 버튼은 보류 상태로 비활성화되어 표시된다', () => {
         render(<OAuthLoginCard returnTo="/dashboard" />);
 
-        const button = screen.getByRole('button', { name: 'Apple로 계속하기' });
-        expect(button).toBeEnabled();
+        const button = screen.getByRole('button', { name: 'Apple로 계속하기 (보류)' });
+        expect(button).toBeDisabled();
     });
 
-    it('Apple 버튼 클릭 시 Supabase OAuth를 호출한다', async () => {
+    it('Google 버튼 클릭 시 Supabase OAuth를 호출한다', async () => {
         render(<OAuthLoginCard returnTo="/dashboard" />);
 
-        fireEvent.click(screen.getByRole('button', { name: 'Apple로 계속하기' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Google로 계속하기' }));
 
         await waitFor(() => {
             expect(signInWithOAuthMock).toHaveBeenCalledTimes(1);
         });
 
         expect(signInWithOAuthMock).toHaveBeenCalledWith({
-            provider: 'apple',
+            provider: 'google',
             options: {
-                redirectTo: 'http://localhost:3000/auth-callback?returnTo=%2Fdashboard&provider=apple',
+                redirectTo: 'http://localhost:3000/auth-callback?returnTo=%2Fdashboard&provider=google',
             },
         });
     });
@@ -67,6 +67,24 @@ describe('OAuthLoginCard', () => {
         expect(buildOAuthBrokerStartUrlMock).toHaveBeenCalledWith({
             supabaseUrl: 'https://api.playbid.kr',
             provider: 'naver',
+            webOrigin: 'http://localhost:3000',
+            returnTo: '/dashboard',
+        });
+        expect(signInWithOAuthMock).not.toHaveBeenCalled();
+    });
+
+    it('카카오 버튼 클릭 시 브로커 OAuth 시작 URL로 이동한다', async () => {
+        render(<OAuthLoginCard returnTo="/dashboard" />);
+
+        fireEvent.click(screen.getByRole('button', { name: '카카오로 계속하기' }));
+
+        await waitFor(() => {
+            expect(buildOAuthBrokerStartUrlMock).toHaveBeenCalledTimes(1);
+        });
+
+        expect(buildOAuthBrokerStartUrlMock).toHaveBeenCalledWith({
+            supabaseUrl: 'https://api.playbid.kr',
+            provider: 'kakao',
             webOrigin: 'http://localhost:3000',
             returnTo: '/dashboard',
         });

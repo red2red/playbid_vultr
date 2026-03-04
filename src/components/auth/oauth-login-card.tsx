@@ -67,19 +67,22 @@ export function OAuthLoginCard({ returnTo, initialErrorCode, initialProvider }: 
     const deferredProviders = OAUTH_BUTTONS.filter((provider) => provider.deferred).map((provider) =>
         getOAuthProviderLabel(provider.id)
     );
+    const isBrokerProvider = (providerId: OAuthProviderId) =>
+        providerId === 'naver' || providerId === 'kakao';
 
     const startOAuth = (providerId: OAuthProviderId) => {
         setErrorMessage(null);
         setCurrentProvider(providerId);
 
         startTransition(async () => {
-            if (providerId === 'naver') {
+            if (isBrokerProvider(providerId)) {
                 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+                const providerLabel = getOAuthProviderLabel(providerId);
 
                 if (!supabaseUrl) {
                     setCurrentProvider(null);
                     setErrorMessage(
-                        '네이버 로그인 설정이 올바르지 않습니다. 관리자에게 문의해 주세요.'
+                        `${providerLabel} 로그인 설정이 올바르지 않습니다. 관리자에게 문의해 주세요.`
                     );
                     return;
                 }
@@ -87,7 +90,7 @@ export function OAuthLoginCard({ returnTo, initialErrorCode, initialProvider }: 
                 try {
                     const brokerStartUrl = buildOAuthBrokerStartUrl({
                         supabaseUrl,
-                        provider: 'naver',
+                        provider: providerId,
                         webOrigin: window.location.origin,
                         returnTo,
                     });
@@ -98,7 +101,7 @@ export function OAuthLoginCard({ returnTo, initialErrorCode, initialProvider }: 
                     const message = error instanceof Error ? error.message : String(error);
                     setCurrentProvider(null);
                     setErrorMessage(
-                        `네이버 로그인 연결에 실패했습니다. ${message}`
+                        `${providerLabel} 로그인 연결에 실패했습니다. ${message}`
                     );
                     return;
                 }

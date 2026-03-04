@@ -17,6 +17,19 @@ describe('oauth-broker helpers', () => {
         );
     });
 
+    it('카카오 브로커 시작 URL을 생성한다', () => {
+        const result = buildOAuthBrokerStartUrl({
+            supabaseUrl: 'https://api.playbid.kr/',
+            provider: 'kakao',
+            webOrigin: 'https://playbid.kr/login',
+            returnTo: '/dashboard',
+        });
+
+        expect(result).toBe(
+            'https://api.playbid.kr/functions/v1/kakao-oauth?login_type=web&web_origin=https%3A%2F%2Fplaybid.kr&return_to=%2Fdashboard'
+        );
+    });
+
     it('브로커 시작 URL은 returnTo를 내부 경로로 강제한다', () => {
         const result = buildOAuthBrokerStartUrl({
             supabaseUrl: 'https://api.playbid.kr',
