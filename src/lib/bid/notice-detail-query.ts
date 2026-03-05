@@ -5,6 +5,7 @@ import {
     getDisplayCategory,
     normalizeCategory,
 } from './category-normalize';
+import { buildNoticeSourceUrl } from './notice-source-url';
 import type {
     NoticeAttachment,
     NoticeDetail,
@@ -30,7 +31,9 @@ const NOTICE_SELECT = `
   openg_dt,
   presmpt_prce,
   cntrct_cncls_mthd_nm,
-  bid_methd_nm
+  bid_methd_nm,
+  bid_ntce_dtl_url,
+  raw_data
 `;
 const dateTimeFormatter = new Intl.DateTimeFormat('ko-KR', {
     year: 'numeric',
@@ -86,6 +89,28 @@ function formatCurrency(value: number): string {
     return currencyFormatter.format(value);
 }
 
+function asRecord(value: unknown): Record<string, unknown> | null {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+        return null;
+    }
+    return value as Record<string, unknown>;
+}
+
+function resolveRawNoticeUrls(row: Record<string, unknown>): {
+    noticeUrl?: unknown;
+    detailUrl?: unknown;
+} {
+    const rawData = asRecord(row.raw_data);
+    if (!rawData) {
+        return {};
+    }
+
+    return {
+        noticeUrl: rawData.bidNtceUrl ?? rawData.bid_ntce_url,
+        detailUrl: rawData.bidNtceDtlUrl ?? rawData.bid_ntce_dtl_url,
+    };
+}
+
 function createMockNotice(id: string): NoticeDetail {
     const normalizedId = id || DEFAULT_NOTICE_ID;
     const bidStart = new Date();
@@ -119,7 +144,10 @@ function createMockNotice(id: string): NoticeDetail {
         contractMethod: '총액계약',
         qualificationSummary: '중소기업 및 소프트웨어사업자 신고 업체',
         views: 1234,
-        sourceUrl: 'https://www.g2b.go.kr',
+        sourceUrl: buildNoticeSourceUrl({
+            bidPbancNo: normalizedId,
+            bidPbancOrd: '001',
+        }),
         qualificationRequired: true,
         timeline: [
             {
@@ -230,6 +258,7 @@ function mapNoticeRow(row: Record<string, unknown>, id: string): NoticeDetail {
     const bidDeadlineRaw = String(row.bid_clse_dt ?? new Date().toISOString());
     const bidStartRaw = String(row.bid_ntce_dt ?? new Date().toISOString());
     const openingRaw = String(row.openg_dt ?? new Date().toISOString());
+    const rawNoticeUrls = resolveRawNoticeUrls(row);
 
     const displayCategory = getDisplayCategory(String(row.api_category ?? 'unknown'));
     const queryCategory = normalizeCategory(String(row.api_category ?? 'unknown'));
@@ -258,7 +287,14 @@ function mapNoticeRow(row: Record<string, unknown>, id: string): NoticeDetail {
         contractMethod: String(row.cntrct_cncls_mthd_nm ?? '총액계약'),
         qualificationSummary: '중소기업 및 소프트웨어사업자 신고 업체',
         views: 0,
-        sourceUrl: 'https://www.g2b.go.kr',
+        sourceUrl: buildNoticeSourceUrl({
+            bidPbancNo: row.bid_ntce_no,
+            bidPbancOrd: row.bid_ntce_ord,
+            bidNoticeUrl: row.bid_ntce_url,
+            bidNoticeDetailUrl: row.bid_ntce_dtl_url,
+            bidNoticeUrlFromRawData: rawNoticeUrls.noticeUrl,
+            bidNoticeDetailUrlFromRawData: rawNoticeUrls.detailUrl,
+        }),
         qualificationRequired: true,
         timeline: [
             {
