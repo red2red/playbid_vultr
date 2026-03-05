@@ -24,7 +24,7 @@ export function NoticeQuickActionsCard({
     const handleMockBid = async () => {
         await runWithAuth(async () => {
             setPendingAction('mockBid');
-            router.push(`/bid_history?from=mock-bid&noticeId=${encodeURIComponent(noticeId)}`);
+            router.push(`/mock_bid/${encodeURIComponent(noticeId)}`);
         });
     };
 
@@ -37,7 +37,7 @@ export function NoticeQuickActionsCard({
 
     return (
         <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-[#151E32]">
-            <h2 className="mb-4 text-xl font-semibold text-slate-900 dark:text-slate-100">빠른 액션</h2>
+            <h2 className="mb-4 text-xl font-semibold text-foreground">빠른 액션</h2>
             <div className="space-y-2">
                 <button
                     type="button"
@@ -68,7 +68,7 @@ export function NoticeQuickActionsCard({
                     </button>
                 )}
             </div>
-            <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-3 text-xs text-muted-foreground">
                 로그인 후 이용 가능 · 미로그인 클릭 시 <span className="font-semibold">/login?returnTo={returnPath}</span>
             </p>
         </section>
