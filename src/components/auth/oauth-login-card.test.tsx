@@ -31,27 +31,20 @@ describe('OAuthLoginCard', () => {
         process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://api.playbid.kr';
     });
 
-    it('Apple 로그인 버튼을 활성화하여 표시한다', () => {
+    it('Apple 로그인 버튼을 보류 상태로 비활성화하여 표시한다', () => {
         render(<OAuthLoginCard returnTo="/dashboard" />);
 
-        const button = screen.getByRole('button', { name: 'Apple로 계속하기' });
-        expect(button).toBeEnabled();
+        const button = screen.getByRole('button', { name: 'Apple로 계속하기 (보류)' });
+        expect(button).toBeDisabled();
     });
 
-    it('Apple 버튼 클릭 시 Supabase OAuth를 호출한다', async () => {
+    it('Apple 버튼 클릭 시 Supabase OAuth를 호출하지 않는다', async () => {
         render(<OAuthLoginCard returnTo="/dashboard" />);
 
-        fireEvent.click(screen.getByRole('button', { name: 'Apple로 계속하기' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Apple로 계속하기 (보류)' }));
 
         await waitFor(() => {
-            expect(signInWithOAuthMock).toHaveBeenCalledTimes(1);
-        });
-
-        expect(signInWithOAuthMock).toHaveBeenCalledWith({
-            provider: 'apple',
-            options: {
-                redirectTo: 'http://localhost:3000/auth-callback?returnTo=%2Fdashboard&provider=apple',
-            },
+            expect(signInWithOAuthMock).not.toHaveBeenCalled();
         });
     });
 
