@@ -2,10 +2,12 @@
 
 import { useMemo, useState } from 'react';
 import type { KeyboardEvent } from 'react';
-import type { NoticeDetailSections } from '@/lib/bid/notice-detail-types';
+import { NoticeQualificationCard } from './notice-qualification-card';
+import type { NoticeDetailSections, NoticeQualificationDetail } from '@/lib/bid/notice-detail-types';
 
 interface NoticeTabsContentCardProps {
     sections: NoticeDetailSections;
+    qualificationDetail?: NoticeQualificationDetail;
 }
 
 const TAB_ITEMS = [
@@ -18,7 +20,7 @@ const TAB_ITEMS = [
 type TabKey = (typeof TAB_ITEMS)[number]['key'];
 const TAB_KEYS = TAB_ITEMS.map((tab) => tab.key);
 
-export function NoticeTabsContentCard({ sections }: NoticeTabsContentCardProps) {
+export function NoticeTabsContentCard({ sections, qualificationDetail }: NoticeTabsContentCardProps) {
     const [activeTab, setActiveTab] = useState<TabKey>('overview');
 
     const content = useMemo(() => sections[activeTab], [activeTab, sections]);
@@ -110,7 +112,11 @@ export function NoticeTabsContentCard({ sections }: NoticeTabsContentCardProps) 
                 aria-labelledby={`notice-detail-tab-${activeTab}`}
                 className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-700 transition-opacity duration-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
             >
-                {content}
+                {activeTab === 'qualification' && qualificationDetail ? (
+                    <NoticeQualificationCard detail={qualificationDetail} />
+                ) : (
+                    content
+                )}
             </div>
         </section>
     );

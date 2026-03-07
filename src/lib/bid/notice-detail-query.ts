@@ -5,6 +5,7 @@ import {
     getDisplayCategory,
     normalizeCategory,
 } from './category-normalize';
+import { buildQualificationDetail, buildQualificationSummary } from './notice-qualification';
 import { buildNoticeSourceUrl } from './notice-source-url';
 import type {
     NoticeAttachment,
@@ -32,6 +33,17 @@ const NOTICE_SELECT = `
   presmpt_prce,
   sucsfbid_lwlt_rate,
   sucsfbid_lwlt_rate_db,
+  prtcpt_lmt_rgn_cd,
+  prtcpt_lmt_rgn_nm,
+  rgn_lmt_bid_locplc_jdgm_bss_nm,
+  indstryty_lmt_yn,
+  arslt_cmpt_yn,
+  arslt_appl_doc_rcpt_mthd_nm,
+  arslt_appl_doc_rcpt_dt,
+  rgn_duty_jntcontrct_yn,
+  rgn_duty_jntcontrct_rt,
+  jntcontrct_duty_rgn_nms,
+  qualification_raw_summary,
   cntrct_cncls_mthd_nm,
   bid_methd_nm,
   bid_ntce_dtl_url,
@@ -152,6 +164,23 @@ function createMockNotice(id: string): NoticeDetail {
     const opening = new Date();
     opening.setDate(opening.getDate() + 6);
 
+    const qualificationDetail = buildQualificationDetail({
+        noticeRow: {
+            prtcpt_lmt_rgn_nm: '강원특별자치도',
+            rgn_lmt_bid_locplc_jdgm_bss_nm: '본사또는참여지사소재지',
+            indstryty_lmt_yn: 'Y',
+            arslt_cmpt_yn: 'Y',
+            arslt_appl_doc_rcpt_mthd_nm: '직접제출',
+            arslt_appl_doc_rcpt_dt: new Date().toISOString(),
+            rgn_duty_jntcontrct_yn: 'Y',
+            rgn_duty_jntcontrct_rt: 49,
+            jntcontrct_duty_rgn_nms: ['강원특별자치도'],
+        },
+        regionRows: [{ region_name: '강원특별자치도' }],
+        licenseRows: [{ license_name: '소프트웨어사업자', permitted_industries: [], major_fields: [] }],
+        statusRow: { region_status: 'collected', license_status: 'collected' },
+    });
+
     return {
         id: normalizedId,
         noticeNumber: normalizedId,
@@ -176,7 +205,8 @@ function createMockNotice(id: string): NoticeDetail {
         mockBidReady: false,
         bidMethod: '일반경쟁입찰',
         contractMethod: '총액계약',
-        qualificationSummary: '중소기업 및 소프트웨어사업자 신고 업체',
+        qualificationSummary: buildQualificationSummary(qualificationDetail),
+        qualificationDetail,
         views: 1234,
         sourceUrl: buildNoticeSourceUrl({
             bidPbancNo: normalizedId,
@@ -313,7 +343,62 @@ async function readMockBidReady(
     );
 }
 
-function mapNoticeRow(row: Record<string, unknown>, id: string, mockBidReady: boolean): NoticeDetail {
+async function readQualificationDetail(
+    supabase: Awaited<ReturnType<typeof createClient>>,
+    noticeRow: Record<string, unknown>,
+    noticeNumber: string,
+    noticeOrder?: string
+) {
+    const order = noticeOrder && noticeOrder.trim().length > 0 ? noticeOrder : '000';
+
+    try {
+        const [regionResult, licenseResult, statusResult] = await Promise.all([
+            supabase
+                .from('bid_notice_regions')
+                .select('region_name,lmt_sno,business_division_name')
+                .eq('bid_ntce_no', noticeNumber)
+                .eq('bid_ntce_ord', order)
+                .order('lmt_sno', { ascending: true }),
+            supabase
+                .from('bid_notice_license_limits')
+                .select(
+                    'lmt_grp_no,lmt_sno,license_name,permitted_industries,major_fields,business_division_name'
+                )
+                .eq('bid_ntce_no', noticeNumber)
+                .eq('bid_ntce_ord', order)
+                .order('lmt_grp_no', { ascending: true })
+                .order('lmt_sno', { ascending: true }),
+            supabase
+                .from('bid_notice_qualification_status')
+                .select('region_status,license_status')
+                .eq('bid_ntce_no', noticeNumber)
+                .eq('bid_ntce_ord', order)
+                .maybeSingle(),
+        ]);
+
+        return buildQualificationDetail({
+            noticeRow,
+            regionRows: (regionResult.data as Record<string, unknown>[] | null) ?? [],
+            licenseRows: (licenseResult.data as Record<string, unknown>[] | null) ?? [],
+            statusRow: (statusResult.data as Record<string, unknown> | null) ?? null,
+        });
+    } catch {
+        return buildQualificationDetail({
+            noticeRow,
+            regionRows: [],
+            licenseRows: [],
+            statusRow: null,
+        });
+    }
+}
+
+function mapNoticeRow(
+    row: Record<string, unknown>,
+    id: string,
+    mockBidReady: boolean,
+    qualificationSummary: string,
+    qualificationDetail: NoticeDetail['qualificationDetail']
+): NoticeDetail {
     const bidDeadlineRaw = String(row.bid_clse_dt ?? new Date().toISOString());
     const bidStartRaw = String(row.bid_ntce_dt ?? new Date().toISOString());
     const openingRaw = String(row.openg_dt ?? new Date().toISOString());
@@ -346,7 +431,8 @@ function mapNoticeRow(row: Record<string, unknown>, id: string, mockBidReady: bo
         mockBidReady,
         bidMethod: String(row.bid_methd_nm ?? '일반경쟁입찰'),
         contractMethod: String(row.cntrct_cncls_mthd_nm ?? '총액계약'),
-        qualificationSummary: '중소기업 및 소프트웨어사업자 신고 업체',
+        qualificationSummary,
+        qualificationDetail,
         views: 0,
         sourceUrl: buildNoticeSourceUrl({
             bidPbancNo: row.bid_ntce_no,
@@ -356,7 +442,7 @@ function mapNoticeRow(row: Record<string, unknown>, id: string, mockBidReady: bo
             bidNoticeUrlFromRawData: rawNoticeUrls.noticeUrl,
             bidNoticeDetailUrlFromRawData: rawNoticeUrls.detailUrl,
         }),
-        qualificationRequired: true,
+        qualificationRequired: qualificationSummary !== '제한 없음',
         timeline: [
             {
                 key: 'published',
@@ -385,7 +471,7 @@ function mapNoticeRow(row: Record<string, unknown>, id: string, mockBidReady: bo
         ],
         detailSections: {
             overview: '공고 상세 내용이 아직 동기화되지 않았습니다.',
-            qualification: '참가자격 항목을 원문에서 확인해 주세요.',
+            qualification: qualificationSummary,
             documents: '제출서류 목록을 확인 중입니다.',
             etc: '추가 안내사항이 없습니다.',
         },
@@ -420,9 +506,15 @@ export async function getNoticeDetailById(id: string): Promise<NoticeDetail> {
         const row = data[0] as Record<string, unknown>;
         const noticeNumber = String(row.bid_ntce_no ?? id);
         const noticeOrder = row.bid_ntce_ord ? String(row.bid_ntce_ord) : undefined;
-        const mockBidReady = await readMockBidReady(supabase, noticeNumber, noticeOrder);
+        const [mockBidReady, qualificationDetail] = await Promise.all([
+            readMockBidReady(supabase, noticeNumber, noticeOrder),
+            readQualificationDetail(supabase, row, noticeNumber, noticeOrder),
+        ]);
+        const qualificationSummary =
+            buildQualificationSummary(qualificationDetail) ||
+            String(row.qualification_raw_summary ?? '원문 확인 필요');
 
-        return mapNoticeRow(row, id, mockBidReady);
+        return mapNoticeRow(row, id, mockBidReady, qualificationSummary, qualificationDetail);
     } catch {
         return fallback;
     }

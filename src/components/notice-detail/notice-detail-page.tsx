@@ -89,7 +89,10 @@ export function NoticeDetailPage({ noticeId, data, showPrintPreview = false }: N
                             <div className="space-y-4">
                                 <NoticeMainInfoCard notice={notice} />
                                 <NoticeTimelineCard timeline={notice.timeline} />
-                                <NoticeTabsContentCard sections={notice.detailSections} />
+                                <NoticeTabsContentCard
+                                    sections={notice.detailSections}
+                                    qualificationDetail={notice.qualificationDetail}
+                                />
                                 <NoticeAttachmentsCard attachments={attachments} />
                                 <NoticeSimilarListCard notices={similarNotices} />
                             </div>
