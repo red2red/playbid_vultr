@@ -8,23 +8,32 @@ interface NoticeQuickActionsCardProps {
     noticeId: string;
     sourceUrl: string;
     qualificationRequired: boolean;
+    lowerLimitRate?: number | null;
+    mockBidReady: boolean;
 }
 
 export function NoticeQuickActionsCard({
     noticeId,
     sourceUrl,
     qualificationRequired,
+    lowerLimitRate,
+    mockBidReady,
 }: NoticeQuickActionsCardProps) {
     const returnPath = `/bid_notice/detail/${noticeId}`;
     const { runWithAuth } = useAuthAction();
     const router = useRouter();
     const [pendingAction, setPendingAction] = useState<'mockBid' | 'qualification' | null>(null);
     const isPending = pendingAction !== null;
+    const canStartMockBid = Number.isFinite(lowerLimitRate) && (lowerLimitRate ?? 0) > 0 && mockBidReady;
 
     const handleMockBid = async () => {
+        if (!canStartMockBid) {
+            return;
+        }
+
         await runWithAuth(async () => {
             setPendingAction('mockBid');
-            router.push(`/bid_history?from=mock-bid&noticeId=${encodeURIComponent(noticeId)}`);
+            router.push(`/mock_bid/${encodeURIComponent(noticeId)}`);
         });
     };
 
@@ -37,17 +46,22 @@ export function NoticeQuickActionsCard({
 
     return (
         <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-[#151E32]">
-            <h2 className="mb-4 text-xl font-semibold text-slate-900 dark:text-slate-100">빠른 액션</h2>
+            <h2 className="mb-4 text-xl font-semibold text-foreground">빠른 액션</h2>
             <div className="space-y-2">
                 <button
                     type="button"
                     onClick={handleMockBid}
-                    disabled={isPending}
+                    disabled={isPending || !canStartMockBid}
                     aria-busy={pendingAction === 'mockBid'}
                     className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-blue-400 dark:focus-visible:ring-offset-[#151E32]"
                 >
                     {pendingAction === 'mockBid' ? '이동중...' : '모의입찰 시작하기'}
                 </button>
+                {!canStartMockBid ? (
+                    <p className="text-xs text-amber-600 dark:text-amber-300">
+                        공식 예가범위 정보가 없어 모의입찰을 제공하지 않습니다.
+                    </p>
+                ) : null}
                 <a
                     href={sourceUrl}
                     target="_blank"
@@ -68,7 +82,7 @@ export function NoticeQuickActionsCard({
                     </button>
                 )}
             </div>
-            <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-3 text-xs text-muted-foreground">
                 로그인 후 이용 가능 · 미로그인 클릭 시 <span className="font-semibold">/login?returnTo={returnPath}</span>
             </p>
         </section>

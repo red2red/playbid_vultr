@@ -38,6 +38,8 @@ export interface NoticeDetail {
     openingAtIso: string;
     budget: number;
     estimatedPrice: number;
+    lowerLimitRate?: number | null;
+    mockBidReady: boolean;
     bidMethod: string;
     contractMethod: string;
     qualificationSummary: string;

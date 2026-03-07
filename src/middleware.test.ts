@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createServerClient } from '@supabase/ssr';
-import { middleware } from './middleware';
+import { proxy } from './proxy';
 
 vi.mock('@supabase/ssr', () => ({
     createServerClient: vi.fn(),
@@ -21,7 +21,7 @@ function createAuthClient(user: { email?: string } | null = null) {
     };
 }
 
-describe('middleware auth enforcement', () => {
+describe('proxy auth enforcement', () => {
     beforeEach(() => {
         vi.clearAllMocks();
 
@@ -35,7 +35,7 @@ describe('middleware auth enforcement', () => {
     it('비로그인 사용자가 보호 페이지 접근 시 로그인으로 리다이렉트한다', async () => {
         const request = new NextRequest('https://playbid.kr/challenge/ranking?tab=weekly');
 
-        const response = await middleware(request);
+        const response = await proxy(request);
 
         expect(response.status).toBe(307);
         expect(response.headers.get('location')).toBe(
@@ -46,7 +46,7 @@ describe('middleware auth enforcement', () => {
     it('비로그인 사용자가 보호 API 접근 시 401 JSON 응답을 반환한다', async () => {
         const request = new NextRequest('https://playbid.kr/api/bookmarks/toggle');
 
-        const response = await middleware(request);
+        const response = await proxy(request);
         const payload = (await response.json()) as {
             code: string;
             error: {
@@ -62,7 +62,7 @@ describe('middleware auth enforcement', () => {
     it('공개 페이지는 비로그인 상태에서도 통과한다', async () => {
         const request = new NextRequest('https://playbid.kr/bid_notice');
 
-        const response = await middleware(request);
+        const response = await proxy(request);
 
         expect(response.status).toBe(200);
         expect(response.headers.get('location')).toBeNull();

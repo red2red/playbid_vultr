@@ -5,6 +5,7 @@ import {
     getDisplayCategory,
     normalizeCategory,
 } from './category-normalize';
+import { buildNoticeSourceUrl } from './notice-source-url';
 import type {
     NoticeAttachment,
     NoticeDetail,
@@ -29,8 +30,12 @@ const NOTICE_SELECT = `
   bid_clse_dt,
   openg_dt,
   presmpt_prce,
+  sucsfbid_lwlt_rate,
+  sucsfbid_lwlt_rate_db,
   cntrct_cncls_mthd_nm,
-  bid_methd_nm
+  bid_methd_nm,
+  bid_ntce_dtl_url,
+  raw_data
 `;
 const dateTimeFormatter = new Intl.DateTimeFormat('ko-KR', {
     year: 'numeric',
@@ -86,6 +91,58 @@ function formatCurrency(value: number): string {
     return currencyFormatter.format(value);
 }
 
+function asRecord(value: unknown): Record<string, unknown> | null {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+        return null;
+    }
+    return value as Record<string, unknown>;
+}
+
+function asNumber(value: unknown): number | null {
+    if (typeof value === 'number' && Number.isFinite(value)) {
+        return value;
+    }
+    if (typeof value === 'string') {
+        const normalized = value.replace(/,/g, '').trim();
+        if (!normalized) {
+            return null;
+        }
+        const parsed = Number(normalized);
+        if (Number.isFinite(parsed)) {
+            return parsed;
+        }
+    }
+    return null;
+}
+
+function resolveLowerLimitRate(value: Record<string, unknown> | null): number | null {
+    if (!value) {
+        return null;
+    }
+    return (
+        asNumber(value.sucsfbid_lwlt_rate) ??
+        asNumber(value.sucsfbid_lwlt_rate_db) ??
+        asNumber(value.sucsfbidLwltRate) ??
+        asNumber(value.sucsfbidLwltRateDb) ??
+        asNumber(value.lowerLimitRate)
+    );
+}
+
+function resolveRawNoticeUrls(row: Record<string, unknown>): {
+    noticeUrl?: unknown;
+    detailUrl?: unknown;
+} {
+    const rawData = asRecord(row.raw_data);
+    if (!rawData) {
+        return {};
+    }
+
+    return {
+        noticeUrl: rawData.bidNtceUrl ?? rawData.bid_ntce_url,
+        detailUrl: rawData.bidNtceDtlUrl ?? rawData.bid_ntce_dtl_url,
+    };
+}
+
 function createMockNotice(id: string): NoticeDetail {
     const normalizedId = id || DEFAULT_NOTICE_ID;
     const bidStart = new Date();
@@ -115,11 +172,16 @@ function createMockNotice(id: string): NoticeDetail {
         openingAtIso: opening.toISOString(),
         budget: 150000000,
         estimatedPrice: 145000000,
+        lowerLimitRate: 87.745,
+        mockBidReady: false,
         bidMethod: '일반경쟁입찰',
         contractMethod: '총액계약',
         qualificationSummary: '중소기업 및 소프트웨어사업자 신고 업체',
         views: 1234,
-        sourceUrl: 'https://www.g2b.go.kr',
+        sourceUrl: buildNoticeSourceUrl({
+            bidPbancNo: normalizedId,
+            bidPbancOrd: '001',
+        }),
         qualificationRequired: true,
         timeline: [
             {
@@ -226,10 +288,36 @@ function createMockPremiumPreview(): PremiumPreviewStats {
     };
 }
 
-function mapNoticeRow(row: Record<string, unknown>, id: string): NoticeDetail {
+async function readMockBidReady(
+    supabase: Awaited<ReturnType<typeof createClient>>,
+    noticeNumber: string,
+    noticeOrder?: string
+): Promise<boolean> {
+    const order = noticeOrder && noticeOrder.trim().length > 0 ? noticeOrder : '000';
+    const { data, error } = await supabase
+        .from('bid_basic_amounts')
+        .select('bssamt,rsrvtn_prce_rng_bgn_rate,rsrvtn_prce_rng_end_rate')
+        .eq('bid_ntce_no', noticeNumber)
+        .eq('bid_ntce_ord', order)
+        .maybeSingle();
+
+    if (error || !data) {
+        return false;
+    }
+
+    const row = data as Record<string, unknown>;
+    return (
+        (asNumber(row.bssamt) ?? 0) > 0 &&
+        asNumber(row.rsrvtn_prce_rng_bgn_rate) !== null &&
+        asNumber(row.rsrvtn_prce_rng_end_rate) !== null
+    );
+}
+
+function mapNoticeRow(row: Record<string, unknown>, id: string, mockBidReady: boolean): NoticeDetail {
     const bidDeadlineRaw = String(row.bid_clse_dt ?? new Date().toISOString());
     const bidStartRaw = String(row.bid_ntce_dt ?? new Date().toISOString());
     const openingRaw = String(row.openg_dt ?? new Date().toISOString());
+    const rawNoticeUrls = resolveRawNoticeUrls(row);
 
     const displayCategory = getDisplayCategory(String(row.api_category ?? 'unknown'));
     const queryCategory = normalizeCategory(String(row.api_category ?? 'unknown'));
@@ -254,11 +342,20 @@ function mapNoticeRow(row: Record<string, unknown>, id: string): NoticeDetail {
         openingAtIso: openingRaw,
         budget: Number(row.presmpt_prce ?? 0),
         estimatedPrice: Number(row.presmpt_prce ?? 0),
+        lowerLimitRate: resolveLowerLimitRate(row) ?? resolveLowerLimitRate(asRecord(row.raw_data)),
+        mockBidReady,
         bidMethod: String(row.bid_methd_nm ?? '일반경쟁입찰'),
         contractMethod: String(row.cntrct_cncls_mthd_nm ?? '총액계약'),
         qualificationSummary: '중소기업 및 소프트웨어사업자 신고 업체',
         views: 0,
-        sourceUrl: 'https://www.g2b.go.kr',
+        sourceUrl: buildNoticeSourceUrl({
+            bidPbancNo: row.bid_ntce_no,
+            bidPbancOrd: row.bid_ntce_ord,
+            bidNoticeUrl: row.bid_ntce_url,
+            bidNoticeDetailUrl: row.bid_ntce_dtl_url,
+            bidNoticeUrlFromRawData: rawNoticeUrls.noticeUrl,
+            bidNoticeDetailUrlFromRawData: rawNoticeUrls.detailUrl,
+        }),
         qualificationRequired: true,
         timeline: [
             {
@@ -320,7 +417,12 @@ export async function getNoticeDetailById(id: string): Promise<NoticeDetail> {
             return fallback;
         }
 
-        return mapNoticeRow(data[0] as Record<string, unknown>, id);
+        const row = data[0] as Record<string, unknown>;
+        const noticeNumber = String(row.bid_ntce_no ?? id);
+        const noticeOrder = row.bid_ntce_ord ? String(row.bid_ntce_ord) : undefined;
+        const mockBidReady = await readMockBidReady(supabase, noticeNumber, noticeOrder);
+
+        return mapNoticeRow(row, id, mockBidReady);
     } catch {
         return fallback;
     }
