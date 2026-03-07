@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from "react";
 import { getAnnouncements, createAnnouncement, updateAnnouncement, deleteAnnouncement } from "@/lib/database";
@@ -37,17 +38,16 @@ export default function AnnouncementsPage() {
         is_popup: false,
     });
 
-    async function loadAnnouncements() {
+    const loadAnnouncements = async () => {
         setLoading(true);
         const result = await getAnnouncements();
         setAnnouncements(result.announcements as Announcement[]);
         setTotal(result.total);
         setLoading(false);
-    }
+    };
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
-        loadAnnouncements();
+        void loadAnnouncements();
     }, []);
 
     const handleSubmit = async () => {

@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from "react";
 import { getBidNotices, getBidNoticeStats, syncBidNotices } from "@/lib/database";
@@ -20,8 +21,6 @@ type BidStats = {
     mockBidActive: number;
 };
 
-type StatCardColor = "slate" | "emerald" | "blue" | "amber";
-
 export default function BidsPage() {
     const [notices, setNotices] = useState<BidNotice[]>([]);
     const [stats, setStats] = useState<BidStats>({
@@ -34,33 +33,31 @@ export default function BidsPage() {
     const [statusFilter, setStatusFilter] = useState<string>("all");
     const [lastSync, setLastSync] = useState<string>("");
 
-    async function loadData() {
+    const loadData = async () => {
         setLoading(true);
         const result = await getBidNotices({ status: statusFilter === "all" ? undefined : statusFilter });
-        const fetchedNotices = result.notices as BidNotice[];
-        setNotices(fetchedNotices);
+        const noticesData = (result.notices ?? []) as BidNotice[];
+        setNotices(noticesData);
 
         // 마지막 동기화 시간 (가장 최근 데이터 기준)
-        if (fetchedNotices.length > 0) {
-            const latest = fetchedNotices.reduce((prev, curr) =>
+        if (noticesData.length > 0) {
+            const latest = noticesData.reduce((prev, curr) =>
                 new Date(prev.created_at) > new Date(curr.created_at) ? prev : curr
             );
             setLastSync(new Date(latest.created_at).toLocaleString('ko-KR'));
         }
 
         setLoading(false);
-    }
+    };
 
-    async function loadStats() {
+    const loadStats = async () => {
         const statsData = await getBidNoticeStats();
         setStats(statsData);
-    }
+    };
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
-        loadData();
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
-        loadStats();
+        void loadData();
+        void loadStats();
     }, [statusFilter]);
 
     const handleSync = async () => {
@@ -203,20 +200,21 @@ export default function BidsPage() {
     );
 }
 
-function StatCard({ title, value, color, icon }: { title: string; value: number; color: StatCardColor; icon: string }) {
-    const colors: Record<StatCardColor, string> = {
+function StatCard({ title, value, color, icon }: { title: string; value: number; color: string; icon: string }) {
+    const colors: Record<string, string> = {
         slate: "text-slate-900 bg-slate-50 border-slate-200",
         emerald: "text-emerald-600 bg-emerald-50 border-emerald-100",
         blue: "text-blue-600 bg-blue-50 border-blue-100",
         amber: "text-amber-600 bg-amber-50 border-amber-100"
     };
+    const toneClass = colors[color] ?? colors.slate;
     return (
         <div className={`bg-white rounded-2xl shadow-sm border p-6 hover:shadow-md transition-shadow`}>
             <div className="flex justify-between items-start mb-4">
                 <span className="text-2xl">{icon}</span>
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{title}</span>
             </div>
-            <p className={`text-3xl font-black ${colors[color].split(' ')[0]}`}>{value.toLocaleString()}</p>
+            <p className={`text-3xl font-black ${toneClass.split(' ')[0]}`}>{value.toLocaleString()}</p>
         </div>
     );
 }

@@ -1,21 +1,22 @@
 import { createClient } from './supabase/client';
 
-type UserLevelRow = {
-    current_level?: number | null;
-    total_xp?: number | null;
+type JsonValue =
+    | string
+    | number
+    | boolean
+    | null
+    | { [key: string]: JsonValue }
+    | JsonValue[];
+
+type UserLevelInfo = {
+    current_level?: number;
+    total_xp?: number;
 };
 
-type ProfileWithLevel = {
-    id: string;
-    email: string;
-    username: string;
-    full_name: string;
-    provider: string;
-    subscription: string;
-    created_at: string;
-    is_active: boolean;
-} & Record<string, unknown> & {
-    user_levels?: UserLevelRow | UserLevelRow[] | null;
+type ProfileRow = {
+    user_levels?: UserLevelInfo | UserLevelInfo[];
+    is_active?: boolean;
+    [key: string]: unknown;
 };
 
 // 통계 데이터 가져오기
@@ -104,8 +105,7 @@ export async function getUsers(options?: {
 
         // 데이터 가공 (중첩된 객체 평탄화)
         // 1:1 관계인 경우 Supabase(PostgREST) 버전/설정에 따라 객체({}) 또는 배열([])로 반환될 수 있음
-        const rows = (data as ProfileWithLevel[] | null) ?? [];
-        const formattedUsers = rows.map((u) => {
+        const formattedUsers = (data ?? []).map((u: ProfileRow) => {
             const levelInfo = Array.isArray(u.user_levels) ? u.user_levels[0] : u.user_levels;
             return {
                 ...u,
@@ -491,7 +491,7 @@ export async function createLearningQuiz(quiz: {
     category_id: string;
     question: string;
     question_type: string;
-    options: unknown;
+    options: JsonValue;
     correct_answer: string;
     explanation?: string;
     difficulty: string;
@@ -517,7 +517,7 @@ export async function updateLearningQuiz(id: string, quiz: {
     category_id?: string;
     question?: string;
     question_type?: string;
-    options?: unknown;
+    options?: JsonValue;
     correct_answer?: string;
     explanation?: string;
     difficulty?: string;
@@ -926,7 +926,7 @@ export async function sendPushNotification(notification: {
         if (historyError) throw historyError;
 
         // 2. 실제 푸시 발송 Edge Function 호출
-        const { data, error } = await supabase.functions.invoke('send-admin-push', {
+        const { error } = await supabase.functions.invoke('send-admin-push', {
             body: {
                 title: notification.title,
                 body: notification.body,

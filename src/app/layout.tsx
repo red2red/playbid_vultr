@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR, Inter } from "next/font/google";
+import { AuthSessionProvider } from "@/components/providers/auth-session-provider";
 import "./globals.css";
 
 const notoSansKr = Noto_Sans_KR({
@@ -37,10 +38,12 @@ export default function RootLayout({
       <body
         className={`${notoSansKr.variable} ${inter.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <a href="#app-content" className="skip-link">
-          본문 바로가기
-        </a>
-        <div id="app-content">{children}</div>
+        <AuthSessionProvider>
+          <a href="#app-content" className="skip-link">
+            본문 바로가기
+          </a>
+          <div id="app-content">{children}</div>
+        </AuthSessionProvider>
       </body>
     </html>
   );

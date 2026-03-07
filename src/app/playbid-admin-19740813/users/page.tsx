@@ -37,7 +37,7 @@ export default function UsersPage() {
                 page: currentPage,
                 limit,
             });
-            setUsers(data);
+            setUsers(data as User[]);
             setTotalUsers(total);
         } catch (error) {
             console.error("Error fetching users:", error);

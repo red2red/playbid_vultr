@@ -33,7 +33,7 @@ export default function TermsPage() {
                     <section>
                         <h2 className="text-xl font-bold text-white mb-4">제1조 (목적)</h2>
                         <p className="text-muted-foreground leading-relaxed">
-                            본 약관은 PlayBid(이하 "회사")가 제공하는 공공입찰 정보 서비스(이하 "서비스")의
+                            본 약관은 PlayBid(이하 &quot;회사&quot;)가 제공하는 공공입찰 정보 서비스(이하 &quot;서비스&quot;)의
                             이용조건 및 절차, 회사와 이용자의 권리, 의무 및 책임사항과 기타 필요한 사항을
                             규정함을 목적으로 합니다.
                         </p>
@@ -42,10 +42,10 @@ export default function TermsPage() {
                     <section>
                         <h2 className="text-xl font-bold text-white mb-4">제2조 (정의)</h2>
                         <ul className="list-disc list-inside text-muted-foreground space-y-2 marker:text-primary">
-                            <li>"서비스"란 회사가 제공하는 공공입찰 정보 분석 및 예측 서비스를 말합니다.</li>
-                            <li>"이용자"란 본 약관에 동의하고 서비스를 이용하는 자를 말합니다.</li>
-                            <li>"회원"이란 서비스에 가입하여 계정을 부여받은 이용자를 말합니다.</li>
-                            <li>"콘텐츠"란 서비스에서 제공하는 입찰 정보, 분석 데이터, 학습 자료 등을 말합니다.</li>
+                            <li>&quot;서비스&quot;란 회사가 제공하는 공공입찰 정보 분석 및 예측 서비스를 말합니다.</li>
+                            <li>&quot;이용자&quot;란 본 약관에 동의하고 서비스를 이용하는 자를 말합니다.</li>
+                            <li>&quot;회원&quot;이란 서비스에 가입하여 계정을 부여받은 이용자를 말합니다.</li>
+                            <li>&quot;콘텐츠&quot;란 서비스에서 제공하는 입찰 정보, 분석 데이터, 학습 자료 등을 말합니다.</li>
                         </ul>
                     </section>
 

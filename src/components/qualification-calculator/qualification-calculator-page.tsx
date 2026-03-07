@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useAuthAction } from '@/hooks/use-auth-action';
+import { buildLoginRedirectHref, useAuthAction } from '@/hooks/use-auth-action';
+import { AuthorizedFetchAuthError, authorizedFetch } from '@/lib/api/authorized-fetch';
 import {
     calculateQualificationResult,
     createDefaultRuleConfig,
     DEFAULT_SIGNAL_FLAGS,
     QUALIFICATION_CREDIT_RATINGS,
 } from '@/lib/bid/qualification-calculator-core';
+import { createClient } from '@/lib/supabase/client';
 import type {
     QualificationCalculationInput,
     QualificationCalculationResult,
@@ -204,6 +206,7 @@ function writeLocalHistory(items: HistoryItem[]) {
 
 export function QualificationCalculatorPage({ data }: QualificationCalculatorPageProps) {
     const { runWithAuth } = useAuthAction();
+    const supabase = useMemo(() => createClient(), []);
     const [selectedCategory, setSelectedCategory] = useState<QualificationCategory>(data.prefill.category);
     const [selectedRuleId, setSelectedRuleId] = useState<string | null>(data.selectedRuleId);
     const [baseAmountInput, setBaseAmountInput] = useState(
@@ -334,9 +337,15 @@ export function QualificationCalculatorPage({ data }: QualificationCalculatorPag
         setHistoryInfoMessage(null);
 
         try {
-            const response = await fetch('/api/qualification-calculations', {
+            const response = await authorizedFetch('/api/qualification-calculations', {
                 method: 'GET',
                 cache: 'no-store',
+            }, {
+                refreshSession: async () => supabase.auth.refreshSession(),
+                onAuthFailure: () => {
+                    const search = window.location.search.replace(/^\?/, '');
+                    window.location.assign(buildLoginRedirectHref(window.location.pathname, search));
+                },
             });
 
             const payload = (await response.json()) as CalculationHistoryApiResponse;
@@ -354,7 +363,10 @@ export function QualificationCalculatorPage({ data }: QualificationCalculatorPag
             const history = Array.isArray(payload.history) ? payload.history.map(mapHistoryItem) : [];
             setServerHistory(history);
             setHistoryInfoMessage(history.length === 0 ? '저장된 서버 이력이 없습니다.' : null);
-        } catch {
+        } catch (error) {
+            if (error instanceof AuthorizedFetchAuthError) {
+                return;
+            }
             setHistoryInfoMessage('네트워크 오류로 저장 이력을 확인하지 못했습니다.');
         } finally {
             setIsHistoryLoading(false);
@@ -382,12 +394,18 @@ export function QualificationCalculatorPage({ data }: QualificationCalculatorPag
                     result: calculationResult,
                 };
 
-                const response = await fetch('/api/qualification-calculations', {
+                const response = await authorizedFetch('/api/qualification-calculations', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(payload),
+                }, {
+                    refreshSession: async () => supabase.auth.refreshSession(),
+                    onAuthFailure: () => {
+                        const search = window.location.search.replace(/^\?/, '');
+                        window.location.assign(buildLoginRedirectHref(window.location.pathname, search));
+                    },
                 });
 
                 const responsePayload = (await response.json()) as CalculationApiResponse;
@@ -404,7 +422,10 @@ export function QualificationCalculatorPage({ data }: QualificationCalculatorPag
 
                 setSaveMessage('계산 결과를 저장했습니다.');
                 await loadServerHistory();
-            } catch {
+            } catch (error) {
+                if (error instanceof AuthorizedFetchAuthError) {
+                    return;
+                }
                 pushLocalHistory(calculationResult);
                 setSaveError('네트워크 오류로 서버 저장에 실패했습니다. 브라우저에 임시 저장했습니다.');
             } finally {

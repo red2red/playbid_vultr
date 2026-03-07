@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import { getMissions, getBadges, createMission, updateMission, deleteMission, getLeaderboard, createBadge, updateBadge, deleteBadge, resetLeaderboard } from "@/lib/database";
 
@@ -33,9 +34,19 @@ type LeaderboardEntry = {
     };
 };
 
-type MissionPayload = Parameters<typeof createMission>[0];
-type BadgePayload = Parameters<typeof createBadge>[0];
-type ChallengeFormData = MissionPayload | BadgePayload;
+type ChallengeFormData = {
+    title?: string;
+    description?: string;
+    type?: string;
+    target_count?: number;
+    reward_points?: number;
+    name?: string;
+    icon?: string;
+    requirement?: string;
+    [key: string]: string | number | undefined;
+};
+
+type EditableChallengeItem = Partial<Mission & Badge> | null;
 
 export default function ChallengesPage() {
     const [activeTab, setActiveTab] = useState<"missions" | "badges" | "leaderboard">("missions");
@@ -44,9 +55,9 @@ export default function ChallengesPage() {
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
-    const [editingItem, setEditingItem] = useState<Mission | Badge | null>(null);
+    const [editingItem, setEditingItem] = useState<EditableChallengeItem>(null);
 
-    async function loadData() {
+    const loadData = async () => {
         setLoading(true);
         if (activeTab === "missions") {
             const data = await getMissions();
@@ -59,11 +70,10 @@ export default function ChallengesPage() {
             setLeaderboard(data as LeaderboardEntry[]);
         }
         setLoading(false);
-    }
+    };
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
-        loadData();
+        void loadData();
     }, [activeTab]);
 
     const handleDeleteMission = async (id: string) => {
@@ -97,18 +107,29 @@ export default function ChallengesPage() {
         let error;
         if (activeTab === 'missions') {
             if (editingItem) {
-                const res = await updateMission(editingItem.id, formData as MissionPayload);
+                const res = await updateMission(editingItem.id as string, formData);
                 error = res.error;
             } else {
-                const res = await createMission(formData as MissionPayload);
+                const res = await createMission(formData as {
+                    title: string;
+                    description: string;
+                    type: string;
+                    target_count: number;
+                    reward_points: number;
+                });
                 error = res.error;
             }
         } else if (activeTab === 'badges') {
             if (editingItem) {
-                const res = await updateBadge(editingItem.id, formData as BadgePayload);
+                const res = await updateBadge(editingItem.id as string, formData);
                 error = res.error;
             } else {
-                const res = await createBadge(formData as BadgePayload);
+                const res = await createBadge(formData as {
+                    name: string;
+                    description: string;
+                    icon: string;
+                    requirement: string;
+                });
                 error = res.error;
             }
         }
@@ -122,9 +143,6 @@ export default function ChallengesPage() {
             alert("저장 중 오류가 발생했습니다.");
         }
     };
-
-    const editingMission = activeTab === "missions" ? (editingItem as Mission | null) : null;
-    const editingBadge = activeTab === "badges" ? (editingItem as Badge | null) : null;
 
     return (
         <div className="p-8">
@@ -196,7 +214,7 @@ export default function ChallengesPage() {
                         <form onSubmit={(e) => {
                             e.preventDefault();
                             const formData = new FormData(e.currentTarget);
-                            const data: Record<string, string | number> = {};
+                            const data: ChallengeFormData = {};
                             formData.forEach((value, key) => {
                                 if (key === 'target_count' || key === 'reward_points') {
                                     data[key] = parseInt(value as string);
@@ -204,22 +222,22 @@ export default function ChallengesPage() {
                                     data[key] = String(value);
                                 }
                             });
-                            handleSave(data as ChallengeFormData);
+                            handleSave(data);
                         }} className="space-y-4">
                             {activeTab === 'missions' ? (
                                 <>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-1">제목</label>
-                                        <input name="title" defaultValue={editingMission?.title} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input name="title" defaultValue={editingItem?.title} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-1">설명</label>
-                                        <textarea name="description" defaultValue={editingMission?.description} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 h-24" />
+                                        <textarea name="description" defaultValue={editingItem?.description} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 h-24" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-slate-700 mb-1">유형</label>
-                                            <select name="type" defaultValue={editingMission?.type || 'daily'} className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+                                            <select name="type" defaultValue={editingItem?.type || 'daily'} className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
                                                 <option value="daily">일일</option>
                                                 <option value="weekly">주간</option>
                                                 <option value="achievement">업적</option>
@@ -227,32 +245,32 @@ export default function ChallengesPage() {
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-slate-700 mb-1">목표 횟수</label>
-                                            <input type="number" name="target_count" defaultValue={editingMission?.target_count || 1} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
+                                            <input type="number" name="target_count" defaultValue={editingItem?.target_count || 1} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
                                         </div>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-1">보상 포인트 (XP)</label>
-                                        <input type="number" name="reward_points" defaultValue={editingMission?.reward_points || 10} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input type="number" name="reward_points" defaultValue={editingItem?.reward_points || 10} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
                                     </div>
                                 </>
                             ) : (
                                 <>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-1">이름</label>
-                                        <input name="name" defaultValue={editingBadge?.name} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <input name="name" defaultValue={editingItem?.name} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-1">설명</label>
-                                        <textarea name="description" defaultValue={editingBadge?.description} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 h-24" />
+                                        <textarea name="description" defaultValue={editingItem?.description} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 h-24" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-slate-700 mb-1">아이콘 (이모지)</label>
-                                            <input name="icon" defaultValue={editingBadge?.icon || '🏅'} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
+                                            <input name="icon" defaultValue={editingItem?.icon || '🏅'} required className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-slate-700 mb-1">획득 조건</label>
-                                            <input name="requirement" defaultValue={editingBadge?.requirement} required placeholder="예: 첫 입찰 1회" className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
+                                            <input name="requirement" defaultValue={editingItem?.requirement} required placeholder="예: 첫 입찰 1회" className="w-full px-4 py-2 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
                                         </div>
                                     </div>
                                 </>

@@ -152,6 +152,27 @@ where user_id = :user_id;
 | 포인트/포인트 이력 |  |  |  |  |
 | 알림 설정 저장/재조회 |  |  |  |  |
 
+## 6) 인증/권한 V1 (`/challenge/*`, `/learning/*`, 보호 API 401 복구)
+
+### 자동 검증 명령
+```bash
+npm run test -- src/lib/auth/route-access.test.ts src/lib/api/authorized-fetch.test.ts
+npm test
+```
+
+### 수동 검증 체크리스트
+- [ ] 비로그인 사용자가 `/challenge/ranking?tab=weekly` 접근 시 `/login?returnTo=...`로 이동
+- [ ] 비로그인 사용자가 `/learning/quiz` 접근 시 `/login?returnTo=...`로 이동
+- [ ] 만료 세션으로 보호 API 호출 시 `refreshSession` 1회 후 재시도
+- [ ] refresh 실패 시 로그인 이동 및 `returnTo` 보존
+
+| 점검 항목 | SQL 값 | UI 값 | 결과(PASS/FAIL) | 증빙 링크 |
+|---|---|---|---|---|
+| 보호 경로 분류(`/challenge/*`, `/learning/*`) | N/A | Unit Test PASS (`route-access.test.ts`) | PASS | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
+| 보호 API 401 재시도(`authorizedFetch`) | N/A | Unit Test PASS (`authorized-fetch.test.ts`) | PASS | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
+| 전체 회귀 테스트 | N/A | `30 files / 108 tests` PASS | PASS | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
+| 린트 게이트 | N/A | `0 errors / 5 warnings` | PASS | `PRD/evidence/auth-authorization-v1-validation-20260224.md` |
+
 ## 최종 판정
 - 점검자:
 - 점검 일시:

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Badge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { GooglePlayIcon, AppleLogoIcon } from "@/components/ui/StoreIcons";
 import { MeshGradientBackground } from "@/components/MeshGradientBackground";
 import { HeroPhones } from "@/components/HeroPhones";

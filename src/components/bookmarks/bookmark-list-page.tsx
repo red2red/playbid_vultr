@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { useAuthAction } from '@/hooks/use-auth-action';
+import { buildLoginRedirectHref, useAuthAction } from '@/hooks/use-auth-action';
 import { publishBookmarkChange, subscribeBookmarkChange } from '@/lib/bid/bookmark-client-sync';
+import { AuthorizedFetchAuthError, authorizedFetch } from '@/lib/api/authorized-fetch';
 import type { BookmarkListData, BookmarkListFilters, BookmarkListItem } from '@/lib/bid/bookmark-list-types';
+import { createClient } from '@/lib/supabase/client';
 
 interface BookmarkListPageProps {
     data: BookmarkListData;
@@ -140,6 +142,7 @@ function renderPagination(filters: BookmarkListFilters, page: number, totalPages
 
 export function BookmarkListPage({ data }: BookmarkListPageProps) {
     const { runWithAuth } = useAuthAction();
+    const supabase = useMemo(() => createClient(), []);
     const [items, setItems] = useState<BookmarkListItem[]>(data.items);
     const [summary, setSummary] = useState(data.summary);
     const [totalCount, setTotalCount] = useState(data.totalCount);
@@ -210,7 +213,7 @@ export function BookmarkListPage({ data }: BookmarkListPageProps) {
 
             setPendingNoticeId(item.noticeId);
             try {
-                const response = await fetch('/api/bookmarks/toggle', {
+                const response = await authorizedFetch('/api/bookmarks/toggle', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -219,6 +222,12 @@ export function BookmarkListPage({ data }: BookmarkListPageProps) {
                         noticeId: item.noticeId,
                         noticeNumber: item.noticeNumber,
                     }),
+                }, {
+                    refreshSession: async () => supabase.auth.refreshSession(),
+                    onAuthFailure: () => {
+                        const search = window.location.search.replace(/^\?/, '');
+                        window.location.assign(buildLoginRedirectHref(window.location.pathname, search));
+                    },
                 });
 
                 const payload = (await response.json()) as {
@@ -244,7 +253,10 @@ export function BookmarkListPage({ data }: BookmarkListPageProps) {
                 }
 
                 publishBookmarkChange(item.noticeId, false);
-            } catch {
+            } catch (error) {
+                if (error instanceof AuthorizedFetchAuthError) {
+                    return;
+                }
                 setItems(previousItems);
                 setSummary(previousSummary);
                 setTotalCount(previousTotalCount);

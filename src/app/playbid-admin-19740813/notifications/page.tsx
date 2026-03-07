@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from "react";
 import { getPushNotifications, sendPushNotification, getPushStats } from "@/lib/database";
@@ -27,7 +28,7 @@ export default function NotificationsPage() {
         target_type: "all",
     });
 
-    async function loadData() {
+    const loadData = async () => {
         setLoading(true);
         const [historyRes, statsRes] = await Promise.all([
             getPushNotifications(),
@@ -36,11 +37,10 @@ export default function NotificationsPage() {
         setHistory(historyRes.notifications as PushHistory[]);
         setStats(statsRes);
         setLoading(false);
-    }
+    };
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- fetches remote data then updates component state
-        loadData();
+        void loadData();
     }, []);
 
     const handleSend = async () => {

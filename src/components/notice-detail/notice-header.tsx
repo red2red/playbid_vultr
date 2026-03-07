@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useAuthAction } from '@/hooks/use-auth-action';
+import { useEffect, useMemo, useState } from 'react';
+import { buildLoginRedirectHref, useAuthAction } from '@/hooks/use-auth-action';
 import { publishBookmarkChange, subscribeBookmarkChange } from '@/lib/bid/bookmark-client-sync';
+import { AuthorizedFetchAuthError, authorizedFetch } from '@/lib/api/authorized-fetch';
+import { createClient } from '@/lib/supabase/client';
 
 interface NoticeHeaderProps {
     noticeId: string;
@@ -21,6 +23,7 @@ export function NoticeHeader({
     const shareLabel = encodeURIComponent(`[PlayBid] ${title}`);
     const returnPath = `/bid_notice/detail/${noticeId}`;
     const { runWithAuth } = useAuthAction();
+    const supabase = useMemo(() => createClient(), []);
     const [isBookmarked, setIsBookmarked] = useState(initialBookmarked);
     const [bookmarkPending, setBookmarkPending] = useState(false);
     const [bookmarkError, setBookmarkError] = useState<string | null>(null);
@@ -49,7 +52,7 @@ export function NoticeHeader({
             setIsBookmarked(optimisticNext);
 
             try {
-                const response = await fetch('/api/bookmarks/toggle', {
+                const response = await authorizedFetch('/api/bookmarks/toggle', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -58,6 +61,12 @@ export function NoticeHeader({
                         noticeId,
                         noticeNumber,
                     }),
+                }, {
+                    refreshSession: async () => supabase.auth.refreshSession(),
+                    onAuthFailure: () => {
+                        const search = window.location.search.replace(/^\?/, '');
+                        window.location.assign(buildLoginRedirectHref(window.location.pathname, search));
+                    },
                 });
 
                 const payload = (await response.json()) as {
@@ -75,7 +84,10 @@ export function NoticeHeader({
                 const nextState = Boolean(payload.isBookmarked);
                 setIsBookmarked(nextState);
                 publishBookmarkChange(noticeId, nextState);
-            } catch {
+            } catch (error) {
+                if (error instanceof AuthorizedFetchAuthError) {
+                    return;
+                }
                 setIsBookmarked(!optimisticNext);
                 setBookmarkError('네트워크 오류로 북마크를 저장하지 못했습니다.');
             } finally {

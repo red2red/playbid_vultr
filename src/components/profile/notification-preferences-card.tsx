@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useAuthAction } from '@/hooks/use-auth-action';
+import { useEffect, useMemo, useState } from 'react';
+import { buildLoginRedirectHref, useAuthAction } from '@/hooks/use-auth-action';
+import { AuthorizedFetchAuthError, authorizedFetch } from '@/lib/api/authorized-fetch';
 import type {
     NotificationPreferencesInfo,
     NotificationPreferencesUpdateInput,
 } from '@/lib/bid/profile-types';
+import { createClient } from '@/lib/supabase/client';
 
 interface NotificationPreferencesCardProps {
     initialPreferences: NotificationPreferencesInfo;
@@ -68,6 +70,7 @@ function ToggleRow({
 
 export function NotificationPreferencesCard({ initialPreferences }: NotificationPreferencesCardProps) {
     const { runWithAuth } = useAuthAction();
+    const supabase = useMemo(() => createClient(), []);
     const [preferences, setPreferences] = useState<NotificationPreferencesInfo>(initialPreferences);
     const [isPending, setIsPending] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -93,12 +96,18 @@ export function NotificationPreferencesCard({ initialPreferences }: Notification
         await runWithAuth(async () => {
             setIsPending(true);
             try {
-                const response = await fetch('/api/notification-preferences', {
+                const response = await authorizedFetch('/api/notification-preferences', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ preferences: buildUpdatePayload(preferences) }),
+                }, {
+                    refreshSession: async () => supabase.auth.refreshSession(),
+                    onAuthFailure: () => {
+                        const search = window.location.search.replace(/^\?/, '');
+                        window.location.assign(buildLoginRedirectHref(window.location.pathname, search));
+                    },
                 });
 
                 const payload = (await response.json()) as PreferenceApiResponse;
@@ -109,7 +118,10 @@ export function NotificationPreferencesCard({ initialPreferences }: Notification
 
                 setPreferences(payload.preferences);
                 setSuccessMessage('알림 설정이 저장되었습니다.');
-            } catch {
+            } catch (error) {
+                if (error instanceof AuthorizedFetchAuthError) {
+                    return;
+                }
                 setErrorMessage('네트워크 오류로 저장하지 못했습니다.');
             } finally {
                 setIsPending(false);

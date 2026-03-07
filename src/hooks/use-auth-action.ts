@@ -12,7 +12,8 @@ export function buildReturnPath(pathname: string, search: string): string {
 }
 
 export function buildLoginRedirectHref(pathname: string | null | undefined, search: string): string {
-    const returnPath = buildReturnPath(pathname || '/', search);
+    const normalizedPathname = pathname && pathname.length > 0 ? pathname : '/dashboard';
+    const returnPath = buildReturnPath(normalizedPathname, search);
     return `/login?returnTo=${encodeURIComponent(returnPath)}`;
 }
 
