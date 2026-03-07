@@ -18,6 +18,55 @@ export interface NoticeDetailSections {
     etc: string;
 }
 
+export type NoticeQualificationCollectionStatus =
+    | 'collected'
+    | 'not_applicable'
+    | 'source_unavailable'
+    | 'collection_failed';
+
+export interface NoticeQualificationRegionRestriction {
+    isRestricted: boolean | null;
+    regionNames: string[];
+    judgementBasisName: string | null;
+}
+
+export interface NoticeQualificationLicenseItem {
+    groupNo: number | null;
+    sequenceNo: number | null;
+    licenseName: string;
+    permittedIndustries: string[];
+    majorFields: string[];
+    businessDivisionName: string | null;
+}
+
+export interface NoticeQualificationLicenseRestriction {
+    isRestricted: boolean | null;
+    items: NoticeQualificationLicenseItem[];
+}
+
+export interface NoticeQualificationPerformanceRequirement {
+    isRequired: boolean | null;
+    receiptMethodName: string | null;
+    receiptDateLabel: string | null;
+}
+
+export interface NoticeQualificationJointContractRequirement {
+    isRegionalDutyRequired: boolean | null;
+    dutyRate: number | null;
+    dutyRegions: string[];
+}
+
+export interface NoticeQualificationDetail {
+    regionRestriction: NoticeQualificationRegionRestriction;
+    licenseRestriction: NoticeQualificationLicenseRestriction;
+    performanceRequirement: NoticeQualificationPerformanceRequirement;
+    jointContractRequirement: NoticeQualificationJointContractRequirement;
+    collectionStatus: {
+        regionStatus: NoticeQualificationCollectionStatus | null;
+        licenseStatus: NoticeQualificationCollectionStatus | null;
+    };
+}
+
 export interface NoticeDetail {
     id: string;
     noticeNumber: string;
@@ -43,6 +92,7 @@ export interface NoticeDetail {
     bidMethod: string;
     contractMethod: string;
     qualificationSummary: string;
+    qualificationDetail: NoticeQualificationDetail;
     views: number;
     sourceUrl: string;
     qualificationRequired: boolean;
