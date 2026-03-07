@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import { MockBidPage } from '@/components/mock-bid/mock-bid-page';
-import { buildMockBidStep1Data } from '@/lib/bid/mock-bid-service';
+import { buildOfficialMockBidStep1Data } from '@/lib/bid/mock-bid-service';
 import { getNoticeDetailById } from '@/lib/bid/notice-detail-query';
 import { createClient } from '@/lib/supabase/server';
 
@@ -13,6 +14,49 @@ interface MockBidBasicAmountRange {
     basicAmount?: number;
     rangeBeginPercent?: number;
     rangeEndPercent?: number;
+}
+
+function hasOfficialMockBidData(args: {
+    lowerLimitRate: number | null | undefined;
+    basicAmountRange: MockBidBasicAmountRange | null;
+}): boolean {
+    return (
+        Number.isFinite(args.lowerLimitRate) &&
+        (args.lowerLimitRate ?? 0) > 0 &&
+        !!args.basicAmountRange &&
+        (args.basicAmountRange.basicAmount ?? 0) > 0 &&
+        args.basicAmountRange.rangeBeginPercent !== undefined &&
+        args.basicAmountRange.rangeEndPercent !== undefined
+    );
+}
+
+function MockBidUnavailableState({ noticeId }: { noticeId: string }) {
+    return (
+        <main className="min-h-[calc(100vh-64px)] bg-slate-50 px-4 py-8 dark:bg-[#0B1121]">
+            <div className="mx-auto flex max-w-2xl justify-center">
+                <section className="w-full rounded-2xl border border-amber-200 bg-white p-6 shadow-sm dark:border-amber-900/50 dark:bg-[#151E32]">
+                    <p className="text-sm font-semibold text-amber-700 dark:text-amber-300">
+                        모의입찰을 진행할 수 없습니다.
+                    </p>
+                    <h1 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-50">
+                        공식 예가범위 정보가 없어 이 공고는 모의입찰을 제공하지 않습니다.
+                    </h1>
+                    <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                        공식 기초금액과 예가범위가 확인된 공고만 모의입찰을 지원합니다. 원문이나 상세 정보를 다시
+                        확인한 뒤 이용해 주세요.
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                        <Link
+                            href={`/bid_notice/detail/${encodeURIComponent(noticeId)}`}
+                            className="inline-flex h-11 items-center justify-center rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 dark:focus-visible:ring-blue-400"
+                        >
+                            공고 상세로 돌아가기
+                        </Link>
+                    </div>
+                </section>
+            </div>
+        </main>
+    );
 }
 
 function asFiniteNumber(value: unknown): number | undefined {
@@ -79,23 +123,29 @@ export default async function MockBidRoutePage({ params }: MockBidRoutePageProps
     const noticeId = resolvedParams.id;
 
     const notice = await getNoticeDetailById(noticeId);
-    const fallbackBasicAmount = notice.estimatedPrice > 0 ? notice.estimatedPrice : notice.budget;
     const basicAmountRange = await getMockBidBasicAmountRange(notice.noticeNumber, notice.noticeOrder);
-    const basicAmount = basicAmountRange?.basicAmount && basicAmountRange.basicAmount > 0
-        ? Math.floor(basicAmountRange.basicAmount)
-        : fallbackBasicAmount;
 
-    const step1Data = buildMockBidStep1Data(
+    if (
+        !hasOfficialMockBidData({
+            lowerLimitRate: notice.lowerLimitRate,
+            basicAmountRange,
+        })
+    ) {
+        return <MockBidUnavailableState noticeId={noticeId} />;
+    }
+
+    const step1Data = buildOfficialMockBidStep1Data(
         {
             id: notice.id,
             noticeNumber: notice.noticeNumber,
             title: notice.title,
             organization: notice.organization,
-            basicAmount,
+            basicAmount: Math.floor(basicAmountRange!.basicAmount!),
+            lowerLimitRate: notice.lowerLimitRate ?? undefined,
         },
         {
-            rangeBeginPercent: basicAmountRange?.rangeBeginPercent,
-            rangeEndPercent: basicAmountRange?.rangeEndPercent,
+            rangeBeginPercent: basicAmountRange!.rangeBeginPercent,
+            rangeEndPercent: basicAmountRange!.rangeEndPercent,
         }
     );
 
