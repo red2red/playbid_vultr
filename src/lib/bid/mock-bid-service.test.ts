@@ -1,4 +1,5 @@
 import {
+    buildOfficialMockBidStep1Data,
     buildMockBidStep1Data,
     calculateBidAmountByAdjustmentRate,
     calculateBidRateAgainstBasic,
@@ -161,5 +162,23 @@ describe('mock-bid-service', () => {
 
         expect(highOutcome.xpGained).toBeLessThanOrEqual(50);
         expect(lowOutcome.xpGained).toBeGreaterThanOrEqual(10);
+    });
+
+    it('운영 경로에서는 공식 예가범위 없이는 step1 데이터를 만들지 않는다', () => {
+        expect(() =>
+            buildOfficialMockBidStep1Data(
+                {
+                    id: 'notice-official-1',
+                    title: '공식 범위 테스트',
+                    organization: '조달청',
+                    basicAmount: 100_000_000,
+                    lowerLimitRate: 89.745,
+                },
+                {
+                    rangeBeginPercent: undefined,
+                    rangeEndPercent: undefined,
+                }
+            )
+        ).toThrow('Official range data is required');
     });
 });

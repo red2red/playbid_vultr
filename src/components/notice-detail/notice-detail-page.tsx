@@ -99,6 +99,8 @@ export function NoticeDetailPage({ noticeId, data, showPrintPreview = false }: N
                                     noticeId={noticeId}
                                     sourceUrl={notice.sourceUrl}
                                     qualificationRequired={notice.qualificationRequired}
+                                    lowerLimitRate={notice.lowerLimitRate}
+                                    mockBidReady={notice.mockBidReady}
                                 />
                                 <NoticeDeadlineCard
                                     bidDeadlineAtIso={notice.bidDeadlineAtIso}

@@ -240,3 +240,18 @@ export function buildMockBidStep1Data(
         estimates,
     };
 }
+
+export function buildOfficialMockBidStep1Data(
+    input: MockBidNoticeInput,
+    options: MockBidStep1Options = {}
+): MockBidStep1Data {
+    if (
+        options.rangeBeginPercent === undefined ||
+        options.rangeEndPercent === undefined ||
+        !Number.isFinite(input.lowerLimitRate ?? Number.NaN)
+    ) {
+        throw new Error('Official range data is required');
+    }
+
+    return buildMockBidStep1Data(input, options);
+}
