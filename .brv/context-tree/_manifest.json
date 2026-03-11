@@ -1,0 +1,91 @@
+{
+  "active_context": [
+    {
+      "order": 3,
+      "path": "_index.md",
+      "tokens": 1016,
+      "type": "summary"
+    },
+    {
+      "order": 2,
+      "path": "architecture/_index.md",
+      "tokens": 670,
+      "type": "summary"
+    },
+    {
+      "order": 2,
+      "path": "project_management/_index.md",
+      "tokens": 169,
+      "type": "summary"
+    },
+    {
+      "order": 1,
+      "path": "architecture/supabase_integration/_index.md",
+      "tokens": 124,
+      "type": "summary"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/api_error_handling/api_error_handling.md",
+      "tokens": 238,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/auth_proxy/authentication_proxy.md",
+      "tokens": 203,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/bid_history/bid_history_module.md",
+      "tokens": 379,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/learning_center/learning_center_architecture.md",
+      "tokens": 368,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/missions/challenge_mission_system.md",
+      "tokens": 366,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/mock_bid_submission/mock_bid_submission_system.md",
+      "tokens": 387,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/paid_features/paid_feature_execution.md",
+      "tokens": 411,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/supabase_integration/supabase_server_integration.md",
+      "tokens": 186,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "project_management/qualification_calculator/qualification_calculator_accuracy.md",
+      "tokens": 222,
+      "type": "context"
+    }
+  ],
+  "generated_at": "2026-03-11T01:36:57.495Z",
+  "lane_tokens": {
+    "contexts": 2760,
+    "stubs": 0,
+    "summaries": 1979
+  },
+  "source_fingerprint": "3f0232977a280b30cc398efe081ee6a176569e30decfc4c1e09e71d65037b29f",
+  "total_tokens": 4739,
+  "version": 1
+}
