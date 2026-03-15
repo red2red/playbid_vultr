@@ -11,6 +11,7 @@ const qualificationDateFormatter = new Intl.DateTimeFormat('ko-KR', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
+    hourCycle: 'h23',
     // Service-facing qualification timestamps are displayed in KST regardless of runner/host locale.
     timeZone: 'Asia/Seoul',
 });
@@ -64,7 +65,8 @@ function formatQualificationDate(value: unknown): string | null {
     if (Number.isNaN(date.getTime())) {
         return text;
     }
-    return qualificationDateFormatter.format(date).replace(/\./g, '.').replace(/\s/g, ' ').trim();
+    const formatted = qualificationDateFormatter.format(date).replace(/\./g, '.').replace(/\s/g, ' ').trim();
+    return formatted.replace(/ 24:(\d{2})$/, ' 00:$1');
 }
 
 function normalizeStatus(value: unknown): NoticeQualificationCollectionStatus | null {
