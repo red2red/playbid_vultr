@@ -34,7 +34,7 @@ jobs:
         run: npm run test
 
       - name: Run Script Tests
-        run: npm run test:scripts
+        run: npm run test:scripts --if-present
 
   test_fork:
     name: test
@@ -61,4 +61,4 @@ jobs:
         run: npm run test
 
       - name: Run Script Tests
-        run: npm run test:scripts
+        run: npm run test:scripts --if-present

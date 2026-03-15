@@ -11,6 +11,8 @@ const qualificationDateFormatter = new Intl.DateTimeFormat('ko-KR', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
+    // Service-facing qualification timestamps are displayed in KST regardless of runner/host locale.
+    timeZone: 'Asia/Seoul',
 });
 
 type QualificationBuildParams = {
