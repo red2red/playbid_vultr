@@ -64,7 +64,8 @@ function formatQualificationDate(value: unknown): string | null {
     if (Number.isNaN(date.getTime())) {
         return text;
     }
-    return qualificationDateFormatter.format(date).replace(/\./g, '.').replace(/\s/g, ' ').trim();
+    const formatted = qualificationDateFormatter.format(date).replace(/\./g, '.').replace(/\s/g, ' ').trim();
+    return formatted.replace(/ 24:(\d{2})$/, ' 00:$1');
 }
 
 function normalizeStatus(value: unknown): NoticeQualificationCollectionStatus | null {
